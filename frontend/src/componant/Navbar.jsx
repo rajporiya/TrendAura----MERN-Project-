@@ -1,0 +1,104 @@
+import React, { useState } from "react";
+import "../componentStyles/Navbar.css";
+import { Link, Links, useNavigate } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import CloseIcon from "@mui/icons-material/Close";
+import MenuIcon from "@mui/icons-material/Menu";
+import "../PageStyles/Search.css";
+
+function Navbar() {
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const [isSearchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const toggleSearch = () => setSearchOpen(!isSearchOpen);
+  const isAuthenticated = false;
+
+  const handleSearchSubmit = (e) => {
+  e.preventDefault();
+  if (searchQuery.trim()) {
+    navigate(`/products?keyword=${encodeURIComponent(searchQuery)}`);
+  } else {
+    navigate(`/products`);
+  }
+};
+  return (
+    <nav className="navbar">
+      <div className="navbar-container">
+        <div className="navbar-logo">
+          <Link to="/" onClick={() => setIsMenuOpen(false)}>
+            TrendAura
+          </Link>
+        </div>
+        <div className={`navbar-links ${isMenuOpen ? "active" : ""}`}>
+          <ul>
+            <li>
+              <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/products">Product</Link>
+            </li>
+            <li>
+              <Link to="/about-us">About Us </Link>
+            </li>
+            <li>
+              <Link to="/contact-us">Contact-us </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="navbar-icons">
+          {/* Search */}
+          <div className="search-container">
+            <form
+              className={`search-form ${isSearchOpen ? "active" : ""}`}
+              onSubmit={handleSearchSubmit}
+            >
+              <input
+                type="text"
+                placeholder="Search Product.."
+                className="search-input"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button
+                type="button"
+                className="search-icon"
+                onClick={toggleSearch}
+              >
+                <SearchIcon />
+              </button>
+            </form>
+          </div>
+          {/* Buttons */}
+          <div className="cart-container">
+            <Link to="/cart">
+              <ShoppingCartIcon className="icon" />
+            </Link>
+          </div>
+
+          {/* User Login or not */}
+          {!isAuthenticated && (
+            <Link to="/register" className="register-icon">
+              <PersonAdd className="icon" />
+            </Link>
+          )}
+          <div className="navbar-hamburger" onClick={toggleMenu}>
+            {isMenuOpen ? (
+              <CloseIcon className="icon" />
+            ) : (
+              <MenuIcon className="icon" />
+            )}
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;

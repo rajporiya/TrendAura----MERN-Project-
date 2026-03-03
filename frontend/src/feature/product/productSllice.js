@@ -1,0 +1,104 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "../../utils/axiosConfig.js";
+
+export const getProduct = createAsyncThunk(
+  "product/getProduct",
+  async ({ keyword, page = 1, category }, { rejectWithValue }) => {
+    try {
+      let link = '/api/v1/products?page=' + page;
+      if(category){
+        link += `&category=${category}`;
+      }
+      if(keyword){
+       link += `&keyword=${keyword}`;
+      }
+      /*
+      const link = `/api/v1/products?keyword=${encodeURIComponent(
+        keyword || "",
+      )}&page=${page}`;
+      */
+      // api from backend same to same
+      // const link = "/api/v1/products";
+      const { data } = await axios.get(link);
+      // console.log("responce", data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An Error Occurred");
+    }
+  },
+);
+
+// Product Details
+export const getProductDetails = createAsyncThunk(
+  "product/getProductDetails",
+  async (id, { rejectWithValue }) => {
+    try {
+      const link = `/api/v1/product/${id}`;
+      const { data } = await axios.get(link);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "No Product");
+    }
+  },
+);
+
+const productSlice = createSlice({
+  name: "product",
+  initialState: {
+    products: [],
+    productCount: 0,
+    loading: false,
+    error: null,
+    product: null,
+    resultPerPage: 10,
+    totalPages: 0,
+  },
+  // when error than call reducer error clear with reducer
+  reducers: {
+    removeError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) =>
+    // lifecycle action implement
+    {
+      builder
+        .addCase(getProduct.pending, (state, action) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(getProduct.fulfilled, (state, action) => {
+          state.loading = false;
+          state.error = null;
+          state.products = action.payload.products;
+          state.productCount = action.payload.productCount;
+          state.totalPages = action.payload.totalPages;
+          state.resultPerPage = action.payload.resultPerPage;
+          // console.log("fulfilledCase", action.payload);
+        })
+        .addCase(getProduct.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload || "something went wrong";
+          state.products = [];
+        });
+
+      builder
+        .addCase(getProductDetails.pending, (state, action) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(getProductDetails.fulfilled, (state, action) => {
+          state.loading = false;
+          state.error = null;
+          state.product = action.payload.product;
+          // console.log("productDetails", action.payload);
+        })
+        .addCase(getProductDetails.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload || "something went wrong";
+        });
+    },
+});
+
+export const { removeError } = productSlice.actions;
+export default productSlice.reducer;
