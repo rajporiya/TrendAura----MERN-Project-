@@ -10,7 +10,8 @@
 import express from "express";
 import { createProduct,deleteProduct,getProductDetails,getAllProduct,updateProduct,
   getAdminProducts,createReviewForProducts,
-  getProductReviews,} from "../controllers/productControllers.js";
+  getProductReviews,
+  deleteProductReview,} from "../controllers/productControllers.js";
 import { roleBaseAccess, verifyUserAuth } from "../middleware/userAuth.js";
 
 const router = express.Router();
@@ -18,10 +19,10 @@ const router = express.Router();
 router
   .route("/products").get(getAllProduct)
 router.route("/review").put( verifyUserAuth,createReviewForProducts);
-router.route("/reviews").get(getProductReviews);
+router.route("/reviews").get(getProductReviews).delete(deleteProductReview);
 
   // admin routes
-router.route("/admin/products")
+router.route("/admin/products") 
   .get(verifyUserAuth, roleBaseAccess('admin'), getAdminProducts);
 
 router.route("/admin/products")

@@ -150,10 +150,63 @@ export const createReviewForProducts= handleAsyncError(async(req,res,next)=>{
   
 })
 
-// get product
 // get product review
 export const getProductReviews = handleAsyncError(async(req,res,next)=>{
-  console.log(req.query.id);
+  const productId = req.query.productId || req.query.id;
+  if(!productId){
+    return next(new HandleErroe("Product Id is required", 400))
+  }
+
+  const product = await Product.findById(productId);
+  if(!product){
+    return next(new HandleErroe("No Product Found", 400))
+  }
+
+  res.status(200).json({
+    success: true,
+    reviews : product.reviews
+  })
+  
+})
+
+// delete product review
+export const deleteProductReview = handleAsyncError(async(req,res,next)=>{
+  const productId = req.query.productId;
+  const reviewId = req.query.reviewId || req.query.id;
+
+  if(!productId || !reviewId){
+    return next(new HandleErroe("Product Id and Review Id are required", 400))
+  }
+
+  const product = await Product.findById(productId);
+  if(!product){
+    return next(new HandleErroe("No Product Found", 400))
+  }
+
+  const reviews = product.reviews.filter(review=>review._id.toString()!==reviewId.toString())
+  if(reviews.length === product.reviews.length){
+    return next(new HandleErroe("Review Not Found", 404))
+  }
+
+  const numOfReview = reviews.length;
+  // after delete avg num of review
+  const ratting = numOfReview
+    ? reviews.reduce((acc, item) => acc + Number(item.rating), 0) / numOfReview
+    : 0;
+
+  await Product.findByIdAndUpdate(productId, {
+    reviews,
+    numOfReview,
+    ratting,
+  }, {
+    new: true,
+    runValidators: true,
+  })
+  
+  res.status(200).json({
+    success: true,
+    message : "Review Deleted Successfully"
+  })
   
 })
 // Admin get all products
