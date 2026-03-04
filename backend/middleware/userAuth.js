@@ -5,20 +5,22 @@ import User from '../model/user.models.js'
 
 
 export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
-  // get token from cookie
-  const { token } = req.cookies  ;
+  // get token from cookie or Authorization header
+  let token = req.cookies.token;
+  
+  if (!token && req.headers.authorization) {
+    token = req.headers.authorization.replace("Bearer ", "");
+  }
+  
   console.log(token);
 
   if (!token) {
-    return next(new HandleErroe("authentication missing plz loggin firse", 400));
+    return next(new HandleErroe("authentication missing plz login first", 400));
   }
 
   try {
     const decodeData = jwt.verify(token, process.env.JWT_SECRET_KEY);
-  //   console.log(decodeData);
-    req.user =await User.findById(decodeData.id);
-  //   console.log(req.user);
-    
+    req.user = await User.findById(decodeData.id);
     next();
   } catch (error) {
     return res.status(401).json({

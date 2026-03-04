@@ -14,6 +14,7 @@
   import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import { v2 as cloudinary} from 'cloudinary'
+import order from "./routes/orderRoutes.js";
   
 dotenv.config({ path: "./config/config.env" });
   
@@ -36,7 +37,9 @@ app.use(fileUpload());
 // Routes
 app.use("/api/v1", productRoutes);
 // user Route
-app.use("/api/v1", userRoute);
+app.use("/api/v1", userRoute)
+// oreder
+app.use("/api/v1", order);
 
 // Error Middleware (Always after routes)
 app.use(errorHandleMiddleware);
