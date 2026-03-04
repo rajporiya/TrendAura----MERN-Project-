@@ -205,12 +205,15 @@ export const updateProfile = handleAsyncError(async (req, res, next) => {
   };
 
   if (avatar) {
+    // find user
     const currentUser = await User.findById(req.user.id);
 
+    // odl image remove-destroy
     if (currentUser?.avatar?.public_id) {
       await cloudinary.uploader.destroy(currentUser.avatar.public_id);
     }
 
+    // new image
     const myCloud = await cloudinary.uploader.upload(avatar, {
       folder: "avatar",
       width: 150,
@@ -231,7 +234,7 @@ export const updateProfile = handleAsyncError(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    message: "profele update s",
+    message: "profele updated",
     user,
   });
 });

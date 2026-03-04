@@ -39,8 +39,8 @@ const Profile = () => {
             </div>
             <div className="profile-details">
                 <div className="profile-detail">
-                    <h2>{user.name}</h2>
-                    <p>Niraj</p>
+                    <h2>Name</h2>
+                    <p>{user.name}</p>
                 </div>
                 <div className="profile-detail">
                     <h2>Email</h2>
