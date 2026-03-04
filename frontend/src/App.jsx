@@ -8,17 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadUser } from "./feature/user/userSlice";
 import UserDashboard from "./User/UserDashboard";
+import Profile from "./User/Profile";
+import ProtectedRoutes from "./componant/ProtectedRoutes";
 
 function App() {
   const {isAuthenticated, user}=useSelector(state=>state.user);
   const dispatch=useDispatch();
 
   useEffect(()=>{
-    if(isAuthenticated){
-      dispatch(loadUser())
-    }
-  },[dispatch, isAuthenticated])
-  console.log(isAuthenticated,user);
+    dispatch(loadUser())
+  },[dispatch])
   
   
   return (
@@ -31,6 +30,8 @@ function App() {
         <Route path="/products/:keyword" element={<Products />}/>
         <Route path="/register" element={<Register />}/>
         <Route path="/login" element={<Login />}/>
+        <Route path="/profile" element={<Profile />}/>
+        <Route path="/profile" element={<ProtectedRoutes element={<Profile />}  />}/>
       </Routes>
       {isAuthenticated && <UserDashboard  user={user}/>}
     </Router>

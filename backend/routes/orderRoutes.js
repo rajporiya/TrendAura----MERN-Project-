@@ -20,4 +20,4 @@ router
 .route("/orders/user").get( verifyUserAuth, allMyOrder)
 
 
-export default router;      
+export default router;

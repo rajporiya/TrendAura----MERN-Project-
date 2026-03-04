@@ -38,10 +38,19 @@ export const login = createAsyncThunk("user/login", async ({email, password}, {r
 // LaodUser Api
 export const loadUser = createAsyncThunk("user/loadUser", async (_, {rejectWithValue}) => {
     try {
-        const {data}   = await axios.get('/api/v1/profile')
+        const {data} = await axios.get('/api/v1/profile')
         return data
     } catch (error) {
         return rejectWithValue(error.response?.data || "Failed to load user");
+    }
+});
+// Logout Api
+export const logout = createAsyncThunk("user/logout", async (_, {rejectWithValue}) => {
+    try {
+        const {data}   = await axios.post('/api/v1/logout', {withCredentials: true})
+        return data
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Logout Failed");
     }
 });
 const userSlice = createSlice({
@@ -122,6 +131,23 @@ const userSlice = createSlice({
         state.user = null,
         state.isAuthenticated=false;
     })
+    // Logout
+    builder
+    .addCase(logout.pending,(state)=>{
+        state.loading=true,
+        state.error=null
+    })
+    .addCase(logout.fulfilled,(state,action)=>{
+        state.loading=false,
+        state.error= null;
+        state.user=null;
+        state.isAuthenticated=false
+        
+    })
+    .addCase(logout.rejected,(state,action)=>{
+        state.loading=false,
+        state.error=action.payload?.message || 'Logout Failed'
+    });
   }
 });
 

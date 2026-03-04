@@ -1,0 +1,62 @@
+import React, { useEffect } from 'react'
+import PageTitle from '../componant/PageTitle'
+import '../UserStyles/Profile.css'
+import Navbar from '../componant/Navbar'
+import Footer from '../componant/Footer'
+import { Link, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import Loader from '../componant/Loader'
+
+
+const Profile = () => {
+    const navigate = useNavigate()
+    const {loading, isAuthenticated,user}= useSelector(state=>state.user)
+    useEffect(()=>{
+        if(isAuthenticated === false){
+            navigate('/login')
+        }
+    })
+  
+  return (
+    <>
+       { loading ? (<Loader />): !user ? (<h1>User not found</h1>) :(<>
+        <PageTitle
+  title={
+    user?.name
+      ? `${user.name.charAt(0).toUpperCase() + user.name.slice(1)} Profile`
+      : "Profile"
+  }
+/>
+        <Navbar />
+        <div className="profile-container">
+            <div className="profile-image">
+                <h1 className="profile-heading">Welcome, {user.name
+    ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
+    : ""}
+</h1>
+                <img src={user.avatar.url || './images/profile.png'} alt="User Profile" className="profile-image" />
+                <Link to='/profile/update'>Edit Profile</Link>
+            </div>
+            <div className="profile-details">
+                <div className="profile-detail">
+                    <h2>{user.name}</h2>
+                    <p>Niraj</p>
+                </div>
+                <div className="profile-detail">
+                    <h2>Email</h2>
+                    <p>{user.email}</p>
+                </div>
+                <div className="profile-detail">
+                    <h2>Join On </h2>
+                    <p>{user.createdAt ?String(user.createdAt).substring(0,10):'N/A'}</p>
+                </div>
+            </div>
+        </div>
+        <Footer />
+        </>)
+    }
+    </>
+  )
+}
+
+export default Profile
