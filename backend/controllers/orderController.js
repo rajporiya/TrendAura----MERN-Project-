@@ -88,6 +88,7 @@ export const updateOrderStatus = handleAsyncError(async (req, res, next)=> {
     if(order.orderStatus === 'Delivered'){
         return next(new HandleErroe("Order already delivered", 400));
     }
+    await Promise.all(order.orderItem.map(item=>updateQuamtity(item.product, item.quantity)))
     order.orderStatus =req.body.status;
     if(order.orderStatus === 'Delivered'){
         order.deliverdAt= Date.now()
@@ -99,3 +100,13 @@ export const updateOrderStatus = handleAsyncError(async (req, res, next)=> {
         order
     })
 });
+
+async function updateQuamtity(id, quantity) {
+    const product = await Product.findById(id);
+    if(!product){
+        return next (new HandleErroe("No Product Found", 400))
+    }
+
+    product.stock = product.stock-quantity;
+    await product.save({validateBeforeSave :false})
+}
