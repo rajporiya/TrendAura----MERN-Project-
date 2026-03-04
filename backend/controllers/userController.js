@@ -198,15 +198,37 @@ export const updatePassword = handleAsyncError(async (req, res, next) => {
 //  Profile Update
 
 export const updateProfile = handleAsyncError(async (req, res, next) => {
-  const { name, email } = req.body;
+  const { name, email, avatar } = req.body;
   const updateUserDetails = {
     name,
     email,
   };
-  const user = await User.findById(req.user.id, updateUserDetails, {
+
+  if (avatar) {
+    const currentUser = await User.findById(req.user.id);
+
+    if (currentUser?.avatar?.public_id) {
+      await cloudinary.uploader.destroy(currentUser.avatar.public_id);
+    }
+
+    const myCloud = await cloudinary.uploader.upload(avatar, {
+      folder: "avatar",
+      width: 150,
+      crop: "scale",
+      resource_type: "auto",
+    });
+
+    updateUserDetails.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
+
+  const user = await User.findByIdAndUpdate(req.user.id, updateUserDetails, {
     new: true,
     runValidators: true,
   });
+
   res.status(200).json({
     success: true,
     message: "profele update s",

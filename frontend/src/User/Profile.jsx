@@ -34,7 +34,7 @@ const Profile = () => {
     ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
     : ""}
 </h1>
-                <img src={user.avatar.url || './images/profile.png'} alt="User Profile" className="profile-image" />
+                <img src={user.avatar?.url || './images/profile.png'} alt="User Profile" className="profile-image" />
                 <Link to='/profile/update'>Edit Profile</Link>
             </div>
             <div className="profile-details">
@@ -50,6 +50,11 @@ const Profile = () => {
                     <h2>Join On </h2>
                     <p>{user.createdAt ?String(user.createdAt).substring(0,10):'N/A'}</p>
                 </div>
+            </div>
+
+            <div className="profile-buttons">
+                <Link to='/orders/user'>My Orders</Link>
+                <Link to='/password/update'>Change Password</Link>
             </div>
         </div>
         <Footer />

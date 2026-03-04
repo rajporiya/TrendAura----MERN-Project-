@@ -10,6 +10,7 @@ import { loadUser } from "./feature/user/userSlice";
 import UserDashboard from "./User/UserDashboard";
 import Profile from "./User/Profile";
 import ProtectedRoutes from "./componant/ProtectedRoutes";
+import UpdateProfile from "./User/UpdateProfile";
 
 function App() {
   const {isAuthenticated, user}=useSelector(state=>state.user);
@@ -32,6 +33,7 @@ function App() {
         <Route path="/login" element={<Login />}/>
         <Route path="/profile" element={<Profile />}/>
         <Route path="/profile" element={<ProtectedRoutes element={<Profile />}  />}/>
+        <Route path="/profile/update" element={<ProtectedRoutes element={<UpdateProfile />}  />}/>
       </Routes>
       {isAuthenticated && <UserDashboard  user={user}/>}
     </Router>

@@ -5,10 +5,14 @@ import { Password } from "@mui/icons-material";
 import PageTitle from "../componant/PageTitle";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { register, removeError, removeSuccess } from "../feature/user/userSlice";
+import {
+  register,
+  removeError,
+  removeSuccess,
+} from "../feature/user/userSlice";
 
 function Register() {
-  const {error, loading, success} = useSelector((state) => state.user);
+  const { error, loading, success } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [user, setUser] = useState({
     name: "",
@@ -18,13 +22,12 @@ function Register() {
   const { name, email, password } = user;
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("./Images/profile.png");
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const registerDataChange = (e) => {
     if (e.target.name === "avatar") {
       // read file asycronsly
       const reader = new FileReader();
-
       reader.onload = () => {
         if (reader.readyState === 2) {
           //   0=unsend/initial stage, 1 = loading, 2 = success
@@ -38,7 +41,7 @@ function Register() {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
-  const registerSubmit = (e) => {
+  /* const registerSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !password || !avatar) {
       toast.error("Please fill all required fields including avatar image");
@@ -51,33 +54,46 @@ function Register() {
       password,
       avatar  // base64 data URL string
     }))
+  }; */
+  const registerSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !email || !password || !avatar) {
+      toast.error("Please fill all required fields including avatar image");
+      return;
+    }
+    // Send JSON with base64 avatar, not FormData
+    const myForm = new FormData();
+    myForm.set("name", name);
+    myForm.set("email", email);
+    myForm.set("password", password);
+    myForm.set("avatar", avatar);
+    for (let pair of myForm.entries()) {
+      console.log(pair[0] + "=" + pair[1]);
+    }
+    // base64 data URL string
+    dispatch(register(myForm));
   };
 
   // Error
   useEffect(() => {
-      if (error) {
-        toast.error(error, {position: "top-right",autoClose: 2000,});
-    
-        dispatch(removeError());
-      }
-    }, [error, dispatch]);
+    if (error) {
+      toast.error(error, { position: "top-right", autoClose: 2000 });
+      dispatch(removeError());
+    }
+  }, [error, dispatch]);
 
-    // Suceess
+  // Suceess
   useEffect(() => {
-      if (success) {
-        toast.success('Registration successful! Redirecting to login...', {
-          position: "top-right",
-          autoClose: 3000,
-        });
-    
-        const timer = setTimeout(() => {
-          dispatch(removeSuccess());
-          navigate('/login')
-        }, );
-        
-        return () => clearTimeout(timer);
-      }
-    }, [success, dispatch, navigate]);
+    if (success) {
+      toast.success("Registration successful! Redirecting to login...", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      dispatch(removeSuccess());
+      navigate("/login");
+    }
+  }, [success, dispatch]);
+
   return (
     <div className="form-container container">
       <PageTitle title="Register User" />
@@ -130,7 +146,9 @@ function Register() {
             />
             <img src={avatarPreview} className="avatar" alt="Preview Image" />
           </div>
-          <button className="authBtn">{loading ? 'Registering...' : "Sign up"}</button>
+          <button className="authBtn">
+            {loading ? "Registering..." : "Sign up"}
+          </button>
           <p className="form-links">
             ALready have an account?<Link to="/login">Sign in here</Link>
           </p>
@@ -140,4 +158,4 @@ function Register() {
   );
 }
 
-export default Register
+export default Register;
