@@ -91,8 +91,7 @@ export const logout = handleAsyncError(async (req, res, next) => {
   });
 });
 
-// Forgit Password Reset Link
-
+// Forgot Password Reset Link
 export const requestPasswordReset = handleAsyncError(async (req, res, next) => {
   const { email } = req.body;
 
@@ -118,8 +117,9 @@ export const requestPasswordReset = handleAsyncError(async (req, res, next) => {
       new HandleErroe("Could not save reset token, try again later", 400),
     );
   }
-  const resetPasswordUrl = `http://localhost:8181/reset/${resetToken}`;
-  const message = `use the link for reset password${resetPasswordUrl}`;
+  const resetPasswordUrl = `${req.protocol}://${req.get("host")}/reset/${resetToken}`;
+  const message = `use the link for reset password ${resetPasswordUrl}. \n\n This link will expire in 30 minute
+  \n\n If you didn't request a password reset, plz ignore this email`;
   try {
     // send email functionality
     await sendMail({
@@ -168,8 +168,8 @@ export const resetPassword = handleAsyncError(async (req, res, next) => {
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
 
-  await user.save(user, 200, res);
-  // getting user detaild
+  await user.save();
+  sendToken(user, 200, res)
 });
 export const getUserDetails = handleAsyncError(async (req, res, next) => {
   const user = await User.findById(req.user.id);

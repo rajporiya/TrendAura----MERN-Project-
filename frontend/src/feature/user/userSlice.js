@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axiosConfig.js";
 
 // registration api
-
 export const register = createAsyncThunk("user/register", async (userData, {rejectWithValue}) => {
     try {
         const config = {
@@ -69,7 +68,35 @@ export const updatePassword = createAsyncThunk("user/updatePassword", async (for
         const {data}   = await axios.put('/api/v1/password/update', formData, config)
         return data
     } catch (error) {
-        return rejectWithValue(error.response?.data || "Profile updat fail");
+        return rejectWithValue(error.response?.data || "Password update fail");
+    }
+});
+// Forgot Password
+export const forgotPassword = createAsyncThunk("user/forgotPassword", async (email, {rejectWithValue}) => {
+    try {
+        const config = {
+            headers :{
+                'Content-Type' : 'aplication/json'
+            }
+        } 
+        const {data}   = await axios.post('/api/v1/forgot/password', email, config)
+        return data
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Email send Failed");
+    }
+});
+// Reset Password
+export const resetPassword = createAsyncThunk("user/resetPassword", async ({uderData,token} ,{rejectWithValue}) => {
+    try {
+        const config = {
+            headers :{
+                'Content-Type' : 'aplication/json'
+            }
+        } 
+        const {data}   = await axios.put(`/api/v1/reset/${token}}`, uderData, config)
+        return data
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Email send Failed");
     }
 });
 // Logout Api
@@ -188,7 +215,7 @@ const userSlice = createSlice({
         state.loading=false,
         state.error= null;
         state.user=action.payload.user || null;
-        state.success = action.payload.success
+        state.success = action.payload?.success
         state.message = action.payload.message
     })
     .addCase(updateProfile.rejected,(state,action)=>{
@@ -204,11 +231,27 @@ const userSlice = createSlice({
     .addCase(updatePassword.fulfilled,(state,action)=>{
         state.loading=false,
         state.error= null;
-        state.success = action.payload.success
+        state.success = action.payload?.success
     })
     .addCase(updatePassword.rejected,(state,action)=>{
         state.loading=false,
-        state.error=action.payload?.message || 'Profile update Failed'
+        state.error=action.payload?.message || 'Password update fail'
+    });
+    // Forgot password
+    builder
+    .addCase(forgotPassword.pending,(state)=>{
+        state.loading=true,
+        state.error=null
+    })
+    .addCase(forgotPassword.fulfilled,(state,action)=>{
+        state.loading=false,
+        state.error= null;
+        state.success = action.payload?.success
+        state.message = action.payload?.message
+    })
+    .addCase(forgotPassword.rejected,(state,action)=>{
+        state.loading=false,
+        state.error=action.payload?.message || 'Email send Failed'
     });
   }
 });
