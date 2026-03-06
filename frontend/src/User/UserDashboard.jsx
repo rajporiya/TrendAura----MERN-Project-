@@ -11,6 +11,9 @@ function UserDashboard({ user }) {
   const toggleMenu =()=>{
     setMenuVisible((prev) => !prev)
   }
+  const closeMenu = () => {
+    setMenuVisible(false)
+  }
   const dispatch = useDispatch()
   const options = [
     { name: "Orders", funcName: orders },
@@ -25,12 +28,15 @@ function UserDashboard({ user }) {
   const navigate = useNavigate()
 
   function orders() {
+    setMenuVisible(false)
     navigate('/orders/user')
   }
   function account() {
-     navigate('/profile')
+    setMenuVisible(false)
+    navigate('/profile')
   }
   function logoutUser() {
+    setMenuVisible(false)
     dispatch(logout())
     .unwrap()
     .then(()=>{
@@ -42,7 +48,9 @@ function UserDashboard({ user }) {
       dispatch(removeError());
     })
   }
-  function dashboard() {}
+  function dashboard() {
+    setMenuVisible(false)
+  }
   return (
     <>
     <div className={`overlay ${menuVisible ? 'show' : ''}`} onClick={toggleMenu}></div>

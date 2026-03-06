@@ -16,16 +16,17 @@ function Navbar() {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const toggleSearch = () => setSearchOpen(!isSearchOpen);
-  const {isAuthenticated} = useSelector(state => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const handleSearchSubmit = (e) => {
-  e.preventDefault();
-  if (searchQuery.trim()) {
-    navigate(`/products?keyword=${encodeURIComponent(searchQuery)}`);
-  } else {
-    navigate(`/products`);
-  }
-};
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/products?keyword=${encodeURIComponent(searchQuery)}`);
+    } else {
+      navigate(`/products`);
+    }
+  };
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -80,6 +81,7 @@ function Navbar() {
           <div className="cart-container">
             <Link to="/cart">
               <ShoppingCartIcon className="icon" />
+              <span className="cart-badge"> {cartItems?.length || 0}</span>
             </Link>
           </div>
 

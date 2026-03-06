@@ -62,7 +62,7 @@ export const updatePassword = createAsyncThunk("user/updatePassword", async (for
     try {
         const config = {
             headers :{
-                'Content-Type' : 'aplication/json'
+                'Content-Type' : 'application/json'
             }
         } 
         const {data}   = await axios.put('/api/v1/password/update', formData, config)
@@ -76,7 +76,7 @@ export const forgotPassword = createAsyncThunk("user/forgotPassword", async (ema
     try {
         const config = {
             headers :{
-                'Content-Type' : 'aplication/json'
+                'Content-Type' : 'application/json'
             }
         } 
         const {data}   = await axios.post('/api/v1/forgot/password', email, config)
@@ -86,14 +86,14 @@ export const forgotPassword = createAsyncThunk("user/forgotPassword", async (ema
     }
 });
 // Reset Password
-export const resetPassword = createAsyncThunk("user/resetPassword", async ({uderData,token} ,{rejectWithValue}) => {
+export const resetPassword = createAsyncThunk("user/resetPassword", async ({token,uderData} ,{rejectWithValue}) => {
     try {
         const config = {
             headers :{
-                'Content-Type' : 'aplication/json'
+                'Content-Type' : 'application/json'
             }
         } 
-        const {data}   = await axios.put(`/api/v1/reset/${token}}`, uderData, config)
+        const {data}   = await axios.put(`/api/v1/reset/${token}`, uderData, config)
         return data
     } catch (error) {
         return rejectWithValue(error.response?.data || "Email send Failed");
@@ -250,6 +250,23 @@ const userSlice = createSlice({
         state.message = action.payload?.message
     })
     .addCase(forgotPassword.rejected,(state,action)=>{
+        state.loading=false,
+        state.error=action.payload?.message || 'Email send Failed'
+    });
+    // reset password
+    builder
+    .addCase(resetPassword.pending,(state)=>{
+        state.loading=true,
+        state.error=null
+    })
+    .addCase(resetPassword.fulfilled,(state,action)=>{
+        state.loading=false,
+        state.error= null;
+        state.success = action.payload?.success
+        state.user=null
+        state.isAuthenticated = false
+    })
+    .addCase(resetPassword.rejected,(state,action)=>{
         state.loading=false,
         state.error=action.payload?.message || 'Email send Failed'
     });

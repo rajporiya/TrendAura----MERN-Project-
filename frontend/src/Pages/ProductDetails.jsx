@@ -12,13 +12,16 @@ import {
 } from "../feature/product/productSllice";
 import { toast } from "react-toastify";
 import Loader from "../componant/Loader";
+import { addItemsToCart, removeMessage } from "../feature/cart/cartSlice.js";
 
 function ProductDetails() {
   const [userRatin, setUserRating] = useState(0);
+  const [quantity , setQuantity] = useState(1)
   const handleRatingChange = (newRating) => {
     setUserRating(newRating);
   };
   const { loading, error, product } = useSelector((state) => state.product);
+  const { loading: cartLoading, error: cartError, cartItem, success, message } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
@@ -36,7 +39,22 @@ function ProductDetails() {
 
       dispatch(removeError());
     }
-  }, [error, dispatch]);
+    if(cartError){
+      toast.error(error?.message || error, {
+        position: "top-right",
+        autoClose: 2000,})
+        dispatch(removeError());
+    }
+  }, [dispatch,error,cartError],);
+
+  useEffect(()=>{
+    if (success){
+      toast.success(message,{
+        position: "top-right",
+        autoClose: 2000,} )
+        dispatch(removeMessage());
+    }
+  },[dispatch,success,message])
 
   if (loading) {
     return (
@@ -56,6 +74,25 @@ function ProductDetails() {
         <Footer />
       </>
     );
+  }
+
+  const decreaseQuantity=()=>{
+     if(quantity <= 1){
+      toast.error("Quantity cannot less than 1", {position: "top-center", autoClose:2000})
+      return;
+    }
+    setQuantity(qty=> qty -1)
+  }
+  // quantity increase by 1
+  const increaseQuantity=()=>{
+    if(product.stock <= quantity){
+      toast.error("Cannot excees available stock", {position: "top-center", autoClose:2000})
+      return;
+    }
+    setQuantity(qty=> qty +1)
+  }
+  const addtoCart=()=>{
+    dispatch(addItemsToCart({id: product._id, name: product.name, price: product.price, quantity: quantity, image: product.images}))
   }
   return (
     <>
@@ -95,25 +132,25 @@ function ProductDetails() {
                 <>
                   <div className="quantity-controls">
                     <span className="quantity-lable">Quantity:</span>
-                    <button className="quantity-button">-</button>
+                    <button className="quantity-button" onClick={decreaseQuantity}>-</button>
 
                     <input
                       type="text"
                       className="quantity-value"
                       readOnly
-                      value={1}
+                      value={quantity} 
                     />
-                    <button className="quantity-button">+</button>
+                    <button className="quantity-button" onClick={increaseQuantity}>+</button>
                   </div>
-                  <button className="add-to-cart-btn">Add To Cart</button>
+                  <button className="add-to-cart-btn" disabled={cartLoading} onClick={addtoCart}>{cartLoading ? 'Adding' :"Add To Cart"}</button>
                 </>
               )}
               <form className="review-form">
                 <h3>Write a Review </h3>
                 <Rating
-                  value={0}
+                  value={userRatin}
                   disabled={false}
-                  onRatingChange={handleRatingChange}
+                  onChange={(e, newValue) => handleRatingChange(newValue)}
                 />
                 <textarea
                   className="review-input"
@@ -129,8 +166,8 @@ function ProductDetails() {
           <h3>Customer Review</h3>
           {product.reviews && product.reviews.length > 0 ? (
             <div className="review-section">
-              {product.review.map((review) => (
-                <div className="review-item">
+              {product.reviews.map((review, i) => (
+                <div className="review-item" key={i}>
                   <div className="view-header">
                     <Rating value={review.ratibg} disabled={true} />
                   </div>

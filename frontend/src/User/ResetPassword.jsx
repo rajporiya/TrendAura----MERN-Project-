@@ -1,23 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../UserStyles/Form.css'
 import PageTitle from '../componant/PageTitle'
 import Navbar from '../componant/Navbar'
 import Footer from '../componant/Footer'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeError, removeSuccess, resetPassword } from '../feature/user/userSlice'
+import { toast } from 'react-toastify'
 
 function ResetPassword() {
+    const {loading, error, success}=useSelector(state=>state.user)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [password, setPassword]=useState("")
     const [confirmPassword, setConfirmPassword]=useState("")
     const {token} = useParams()
     const resetPasswordSubmit=(e)=>{
         e.preventDefault();
         const data={
+            // key and value same that write one time
             password,
             confirmPassword,
         }
-        console.log(data);
-        
+        dispatch(resetPassword({token: token, uderData:data}))
     }
+
+    // Error
+          useEffect(() => {
+            if (error) {
+              toast.error(error, { position: "top-right", autoClose: 2000 });
+              dispatch(removeError());
+            }
+          }, [error, dispatch]);
+        
+          // Suceess
+          useEffect(() => {
+            if (success) {
+              toast.success("Password reset  successfully! plz login to continue", {
+                position: "top-right",
+                autoClose: 3000,
+              });
+              dispatch(removeSuccess());
+              navigate("/login");
+            }
+          }, [success, dispatch]);
   return (
     <>
     <PageTitle title="Reset Password"/>
