@@ -9,13 +9,18 @@ import { Link, useNavigate } from "react-router-dom";
 function Cart() {
   const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const subTotal = cartItems.reduce((acc, item)=> acc+item.price * item.quantity ,0)
   const tax = (subTotal * 0.18)
   const shippngCharges = subTotal >5000 ? 0 :  100;
   const total = subTotal + tax + shippngCharges;
   
   const checkOutHandlier=()=>{
-    navigate(`/login?redirect=/shipping`)
+    if (isAuthenticated) {
+      navigate('/shipping');
+    } else {
+      navigate('/login?redirect=/shipping');
+    }
   }
   return (
     <>
