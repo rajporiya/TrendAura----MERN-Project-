@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../UserStyles/Form.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login, removeError, removeSuccess } from "../feature/user/userSlice";
 import { toast } from "react-toastify";
@@ -10,9 +10,12 @@ function Login() {
     (state) => state.user,
   );
   const dispatch = useDispatch();
+  const location = useLocation()
   const [loginEmail, setLoginEmail] = useState("");
   const [loginpass, setLoginPass] = useState("");
+  const redirect = new URLSearchParams(location.search).get("redirect") ||'/'
   const navigate = useNavigate();
+
 
   const loginSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +28,6 @@ function Login() {
     }
     dispatch(login({ email: loginEmail, password: loginpass }));
   };
-
   // Error
   useEffect(() => {
     if (error) {
@@ -35,7 +37,7 @@ function Login() {
     }
   }, [error, dispatch]);
   
-  // Suceess
+  // Success
   useEffect(() => {
     if (success && isAuthenticated) {
       toast.success("Login successfull! Redirecting...", {
@@ -45,12 +47,12 @@ function Login() {
 
       const timer = setTimeout(() => {
         dispatch(removeSuccess());
-        navigate("/");
-      }, );
+        navigate(redirect);
+      }, 2000);
       
       return () => clearTimeout(timer);
     }
-  }, [success, isAuthenticated, dispatch, navigate]);
+  }, [success, isAuthenticated, dispatch, navigate, redirect]);
 
   return (
     <div className="form-container container">

@@ -84,7 +84,7 @@ function CartItem({ item }) {
         <div className="quantity-controls">
           <button
             disabled={loading}
-            onClick={decreaseQuantity}
+            onClick={decreaseQuantity} 
             className="quantity-button decrease-btn"
           >
             -
@@ -105,7 +105,7 @@ function CartItem({ item }) {
         </div>
 
         <div className="item-total">
-          <span className="item-total-price">{itemTotal}/-</span>
+          <span className="item-total-price">{(item.price * item.quantity).toFixed(2)}/-</span>
         </div>
 
         <div className="item-actions">

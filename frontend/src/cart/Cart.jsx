@@ -5,9 +5,18 @@ import Footer from "../componant/Footer";
 import PageTitle from "../componant/PageTitle";
 import CartItem from "./CartItem";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Cart() {
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
+  const subTotal = cartItems.reduce((acc, item)=> acc+item.price * item.quantity ,0)
+  const tax = (subTotal * 0.18)
+  const shippngCharges = subTotal >5000 ? 0 :  100;
+  const total = subTotal + tax + shippngCharges;
+  
+  const checkOutHandlier=()=>{
+    navigate(`/login?redirect=/shipping`)
+  }
   return (
     <>
       <Navbar />
@@ -47,22 +56,22 @@ function Cart() {
 
           <div className="summary-item">
             <p className="summary-lable">Subtotal</p>
-            <p className="summary-value">200/-</p>
+            <p className="summary-value">{subTotal}</p>
           </div>
           <div className="summary-item">
             <p className="summary-lable">Tax(18%)</p>
-            <p className="summary-value">36</p>
+            <p className="summary-value">{tax}</p>
           </div>
           <div className="summary-item">
             <p className="summary-lable">Shipping Charge</p>
-            <p className="summary-value">50</p>
+            <p className="summary-value">{shippngCharges}</p>
           </div>
           <div className="summary-total">
             <p className="summary-lable">Total : </p>
-            <p className="toal-value">286</p>
+            <p className="toal-value">{total}</p>
           </div>
 
-          <button className="checkout-btn">Proceed to checkout</button>
+          <button className="checkout-btn" onClick={checkOutHandlier}>Proceed to checkout</button>
         </div>
       </div>)}
       <Footer />
