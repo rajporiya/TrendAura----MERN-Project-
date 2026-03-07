@@ -114,8 +114,8 @@ const userSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    user: null,
-    isAuthenticated: false,
+    user:  localStorage.getItem("User")?JSON.parse(localStorage.getItem("User")): null,
+    isAuthenticated: localStorage.getItem('isAuthenticated') === "true",
     success: false,
     message : null
   },
@@ -140,6 +140,9 @@ const userSlice = createSlice({
         state.user=action.payload?.user || null;
         state.success= true,
         state.isAuthenticated=Boolean(action.payload?.user)
+        // Save data in localstoreg
+        localStorage.setItem("User", JSON.stringify(state.user))
+        localStorage.setItem("isAuthenticated", JSON.stringify(state.isAuthenticated))
     })
     .addCase(register.rejected,(state,action)=>{
         state.loading=false,
@@ -160,8 +163,9 @@ const userSlice = createSlice({
         state.user=action.payload?.user || null;
         state.success= true,
         state.isAuthenticated=Boolean(action.payload?.user)
-        console.log(state.user);
-        
+        // Save data in localstoreg
+        localStorage.setItem("User", JSON.stringify(state.user))
+        localStorage.setItem("isAuthenticated", JSON.stringify(state.isAuthenticated))
     })
     .addCase(login.rejected,(state,action)=>{
         state.loading=false,
@@ -180,6 +184,9 @@ const userSlice = createSlice({
         state.error= null;
         state.user=action.payload?.user || null;
         state.isAuthenticated=Boolean(action.payload?.user)
+        // Save data in localstoreg
+        localStorage.setItem("User", JSON.stringify(state.user))
+        localStorage.setItem('isAuthenticated', 'true')
         
     })
     .addCase(loadUser.rejected,(state,action)=>{
@@ -187,6 +194,13 @@ const userSlice = createSlice({
         state.error=action.payload?.message || 'Failed to load User'
         state.user = null,
         state.isAuthenticated=false;
+        if(action.payload.statusCode === 401){
+            state.user = null,
+            state.isAuthenticated = false
+
+            localStorage.removeItem('user')
+            localStorage.removeItem('isAuthenticated')
+        }
     })
     // Logout
     builder
@@ -199,6 +213,9 @@ const userSlice = createSlice({
         state.error= null;
         state.user=null;
         state.isAuthenticated=false
+
+        localStorage.removeItem('user')
+        localStorage.removeItem('isAuthenticated')
         
     })
     .addCase(logout.rejected,(state,action)=>{
