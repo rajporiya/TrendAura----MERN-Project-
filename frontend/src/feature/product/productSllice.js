@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axiosConfig.js";
+import { removeSuccess } from "../order/orderSlice.js";
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
@@ -27,6 +28,25 @@ export const getProduct = createAsyncThunk(
     }
   },
 );
+// create review
+export const createReview = createAsyncThunk(
+  "product/createReview",
+  async ({ rating,comment,productId }, { rejectWithValue }) => {
+    try {
+      const config = {
+        header:{
+          'Content-Type': 'application/jsoc'
+        }
+      }
+      const { data } = await axios.get('/api/v1/review', rating,comment,productId);
+      // console.log("responce", data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "An Error Occurred");
+    }
+  },
+);
+
 
 // Product Details
 export const getProductDetails = createAsyncThunk(
@@ -52,12 +72,17 @@ const productSlice = createSlice({
     product: null,
     resultPerPage: 10,
     totalPages: 0,
+    reviewSuccess: false,
+    reviewLoading: false
   },
   // when error than call reducer error clear with reducer
   reducers: {
     removeError: (state) => {
       state.error = null;
     },
+    removeSuccess:(state)=>{
+      state.reviewSuccess = false
+    }
   },
   extraReducers: (builder) =>
     // lifecycle action implement
@@ -97,8 +122,24 @@ const productSlice = createSlice({
           state.loading = false;
           state.error = action.payload || "something went wrong";
         });
+
+        // createReview
+      builder
+        .addCase(createReview.pending, (state) => {
+          state.reviewLoading = true;
+          state.error = null;
+        })
+        .addCase(createReview.fulfilled, (state) => {
+                   state.reviewLoading = false;
+                   state.reviewSuccess=true
+
+        })
+        .addCase(createReview.rejected, (state, action) => {
+                   state.reviewLoading = false;
+          state.error = action.payload?.message || "something went wrong";
+        });
     },
 });
 
-export const { removeError } = productSlice.actions;
+export const { removeError, removeSuccess} = productSlice.actions;
 export default productSlice.reducer;

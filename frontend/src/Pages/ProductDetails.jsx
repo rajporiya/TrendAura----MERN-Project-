@@ -15,6 +15,7 @@ import Loader from "../componant/Loader";
 import { addItemsToCart, removeMessage } from "../feature/cart/cartSlice.js";
 
 function ProductDetails() {
+  const [commernt, setComment]= useState("")
   const [userRatin, setUserRating] = useState(0);
   const [quantity , setQuantity] = useState(1)
   const handleRatingChange = (newRating) => {
@@ -153,7 +154,7 @@ function ProductDetails() {
                   onChange={(e, newValue) => handleRatingChange(newValue)}
                 />
                 <textarea
-                  className="review-input"
+                  className="review-input" required value={commernt}
                   placeholder="Write  your review here"
                 ></textarea>
                 <button className="submit-review-btn">submit review</button>
