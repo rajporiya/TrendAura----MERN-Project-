@@ -17,6 +17,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); 
 // fileupload
 app.use(fileUpload())
+// payment
+app.use(express.urlencoded({extended:true}))
 
 // mount routes product route
 app.use("/api/v1", product);

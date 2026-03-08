@@ -12,7 +12,7 @@ function Cart() {
   const { isAuthenticated } = useSelector((state) => state.user);
   const subTotal = cartItems.reduce((acc, item)=> acc+item.price * item.quantity ,0)
   const tax = (subTotal * 0.18)
-  const shippngCharges = subTotal >5000 ? 0 :  100;
+  const shippngCharges = subTotal >500 ? 0 :  100;
   const total = subTotal + tax + shippngCharges;
   
   const checkOutHandlier=()=>{
@@ -73,7 +73,7 @@ function Cart() {
           </div>
           <div className="summary-total">
             <p className="summary-lable">Total : </p>
-            <p className="toal-value">{total}</p>
+            <p className="toal-value">{total.toFixed(2)}</p>
           </div>
 
           <button className="checkout-btn" onClick={checkOutHandlier}>Proceed to checkout</button>

@@ -8,28 +8,31 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function OrderConfirm() {
-    const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const subTotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
+
   const tax = subTotal * 0.18;
-  const shippngCharges = subTotal > 5000 ? 0 : 100;
-  const total = subTotal + tax + shippngCharges;
-  const navigate = useNavigate()
+
+  const shippingCharges = subTotal > 500 ? 0 : 100;
+
+  const total = subTotal + tax + shippingCharges;
+  const navigate = useNavigate();
   const { user = {} } = useSelector((state) => state.user);
 
   const proceedToPayment = () => {
     const data = {
-        subTotal,
-        tax, 
-        shippngCharges,
-        total
-    }
+      subTotal,
+      tax,
+      shippingCharges,
+      total,
+    };
     // save in session storeg
-    sessionStorage.setItem('orderItem', JSON.stringify(data))
-    navigate('/process/payment')
-  }
+    sessionStorage.setItem("orderItem", JSON.stringify(data));
+    navigate("/process/payment");
+  };
   return (
     <>
       <PageTitle title="Order Confirm" />
@@ -81,9 +84,9 @@ function OrderConfirm() {
                     />
                   </td>
                   <td>{item.name}</td>
-                  <td>{item.price}</td>
+                  <td>₹{Number(item.price).toFixed(2)}</td>
                   <td>{item.quantity}</td>
-                  <td>{item.price * item.quantity}</td>
+                  <td>₹{(Number(item.price) * item.quantity).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -100,15 +103,17 @@ function OrderConfirm() {
             </thead>
             <tbody>
               <tr>
-                <td>{subTotal}</td>
-                <td>{shippngCharges}</td>
-                <td>{tax}</td>
-                <td>{total}</td>
+                <td>₹{subTotal.toFixed(2)}</td>
+                <td>₹{shippingCharges.toFixed(2)}</td>
+                <td>₹{tax.toFixed(2)}</td>
+                <td>₹{total.toFixed(2)}</td>
               </tr>
             </tbody>
           </table>
         </div>
-        <button className="proceed-button" onClick={proceedToPayment}>Proceed To Payment</button>
+        <button className="proceed-button" onClick={proceedToPayment}>
+          Proceed To Payment
+        </button>
       </div>
       <Footer />
     </>
