@@ -20,6 +20,7 @@ import OrderConfirm from "./cart/OrderConfirm";
 import Payment from "./cart/Payment";
 import PaymentSuccess from "./cart/PaymentSuccess";
 import MyOrder from "./order/Myorder";
+import OrderDetails from "./order/OrderDetails";
 
 function App() {
   const {isAuthenticated, user}=useSelector(state=>state.user);
@@ -52,6 +53,7 @@ function App() {
         <Route path="/process/payment" element={<ProtectedRoutes element={<Payment />}  />}/>
         <Route path="/paymentSuccess" element={<ProtectedRoutes element={<PaymentSuccess  />}  />}/>
         <Route path="/orders/user" element={<ProtectedRoutes element={<MyOrder  />}  />}/>
+        <Route path="/order/:orderId" element={<ProtectedRoutes element={<OrderDetails  />}  />}/>
 
 
       </Routes>
