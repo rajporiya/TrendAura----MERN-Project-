@@ -42,7 +42,7 @@ const orderSchema = new mongoose.Schema({
       },
       image: {
         type: String,
-        required: true,
+        default: "",
       },
       product: {
         type: mongoose.Schema.ObjectId,

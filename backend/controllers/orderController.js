@@ -25,7 +25,10 @@ export const createNewOrder = handleAsyncError(async (req, res, next) => {
     totalPrice,
   } = req.body;
 
+  console.log("Order creation request:", { shipingInfo, orderItem, paymentInfo, itemPrice, taxPrice, shippingPrice, totalPrice, userId: req.user?._id });
+
   if (!shipingInfo || !orderItem || !paymentInfo) {
+    console.error("Missing required fields:", { hasShipingInfo: !!shipingInfo, hasOrderItem: !!orderItem, hasPaymentInfo: !!paymentInfo });
     return next(
       new HandleErroe(
         "shipingInfo, orderItem and paymentInfo are required",
@@ -34,21 +37,31 @@ export const createNewOrder = handleAsyncError(async (req, res, next) => {
     );
   }
 
-  const newOrder = await Order.create({
-    shipingInfo,
-    orderItem,
-    paymentInfo,
-    itemPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    paidAt: Date.now(),
-    user: req.user._id,
-  });
-  res.status(201).json({
-    success: true,
-    newOrder,
-  });
+  try {
+    const newOrder = await Order.create({
+      shipingInfo,
+      orderItem,
+      paymentInfo,
+      itemPrice,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+      paidAt: Date.now(),
+      user: req.user._id,
+    });
+    console.log("Order created successfully:", newOrder._id);
+    res.status(201).json({
+      success: true,
+      newOrder,
+    });
+  } catch (error) {
+    console.error("Order creation error:", error.message);
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map(e => e.message).join(", ");
+      return next(new HandleErroe(`Validation Error: ${messages}`, 400));
+    }
+    throw error;
+  }
 });
 
 // get single product
