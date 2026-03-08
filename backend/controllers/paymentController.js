@@ -41,20 +41,20 @@ export const paymentVerification = handleAsyncError(async (req, res) => {
     req.body;
   const body = razorpay_order_id + "|" + razorpay_payment_id;
   const expectedSignature = crypto
-    .createHash("sha256", process.env.RAZORPAY_API_KEY)
+    .createHmac("sha256", process.env.RAZORPAY_API_SECRET)
     .update(body.toString())
     .digest("hex");
   const isAuthentic = expectedSignature === razorpay_signature;
   if (isAuthentic) {
     res.status(200).json({
       success: true,
-      message: "Payment verifyed successfully",
+      message: "Payment verified successfully",
       reference: razorpay_payment_id,
     });
   } else {
-    res.status(404).json({
-      success: true,
-      message: "Payment not verifyed ",
+    res.status(400).json({
+      success: false,
+      message: "Payment verification failed",
     });
   }
 });
