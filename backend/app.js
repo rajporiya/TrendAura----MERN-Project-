@@ -5,6 +5,8 @@ import user from './routes/userRoute.js'
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import order from './routes/orderRoutes.js'
+import dotenv from "dotenv";
+import payment from './routes/paymentRoutes.js'
 // import authRoutes from "./routes/userRoute.js"
 const app = express();
 
@@ -25,10 +27,15 @@ app.use("/api/v1", user);
 // order route
 app.use("/api/v1", order);
 
+// payment route
+app.use("/api/v1", payment);
+
 // auth route
 // app.use("/api/v1", authRoutes);
 
 
 app.use(errorHandleMiddleware)
+
+dotenv.config({path:'backend/config/config.env'})
 
 export default app;
