@@ -7,21 +7,23 @@ import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
+  createReview,
   getProductDetails,
   removeError,
+  removeSuccess,
 } from "../feature/product/productSllice";
 import { toast } from "react-toastify";
 import Loader from "../componant/Loader";
 import { addItemsToCart, removeMessage } from "../feature/cart/cartSlice.js";
 
 function ProductDetails() {
-  const [commernt, setComment]= useState("")
+  const [comment, setComment]= useState("")
   const [userRatin, setUserRating] = useState(0);
   const [quantity , setQuantity] = useState(1)
   const handleRatingChange = (newRating) => {
     setUserRating(newRating);
   };
-  const { loading, error, product } = useSelector((state) => state.product);
+  const { loading, error, product, reviewSuccess, reviewLoading } = useSelector((state) => state.product);
   const { loading: cartLoading, error: cartError, cartItem, success, message } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -57,25 +59,7 @@ function ProductDetails() {
     }
   },[dispatch,success,message])
 
-  if (loading) {
-    return (
-      <>
-        <Navbar />
-        <Loader />
-        <Footer />
-      </>
-    );
-  }
-
-  if (error || !product) {
-    return (
-      <>
-        <PageTitle title="Product-Details" />
-        <Navbar />
-        <Footer />
-      </>
-    );
-  }
+ 
 
   const decreaseQuantity=()=>{
      if(quantity <= 1){
@@ -94,6 +78,47 @@ function ProductDetails() {
   }
   const addtoCart=()=>{
     dispatch(addItemsToCart({id: product._id, name: product.name, price: product.price, quantity: quantity, image: product.images}))
+  }
+  const handleReviewSubmit =(e)=>{
+    e.preventDefault();
+    if(!userRatin){
+      toast.error("Plz give Ratting", {position: 'top-right', autoClose: 2000})
+      return;
+    }
+    dispatch(createReview ({
+      rating: userRatin,
+      comment,
+      productId: id
+
+    }))
+  }
+  useEffect(()=>{
+    if(reviewSuccess){
+       toast.success(" Review Sub,iting successfully", {position: 'top-right', autoClose: 2000})
+       setUserRating(0);
+       setComment("");
+       dispatch(removeSuccess());
+       dispatch(getProductDetails(id))
+    }
+  }, [reviewSuccess, dispatch,id])
+   if (loading) {
+    return (
+      <>
+        <Navbar />
+        <Loader />
+        <Footer />
+      </>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <>
+        <PageTitle title="Product-Details" />
+        <Navbar />
+        <Footer />
+      </>
+    );
   }
   return (
     <>
@@ -146,7 +171,7 @@ function ProductDetails() {
                   <button className="add-to-cart-btn" disabled={cartLoading} onClick={addtoCart}>{cartLoading ? 'Adding' :"Add To Cart"}</button>
                 </>
               )}
-              <form className="review-form">
+              <form className="review-form" onSubmit={handleReviewSubmit}>
                 <h3>Write a Review </h3>
                 <Rating
                   value={userRatin}
@@ -154,10 +179,11 @@ function ProductDetails() {
                   onChange={(e, newValue) => handleRatingChange(newValue)}
                 />
                 <textarea
-                  className="review-input" required value={commernt}
+                  className="review-input"
+                  onChange={(e)=>setComment(e.target.value)} required value={comment}
                   placeholder="Write  your review here"
                 ></textarea>
-                <button className="submit-review-btn">submit review</button>
+                <button disabled={reviewLoading} className="submit-review-btn">{reviewLoading? 'Submiting ...': 'submit review'}</button>
               </form>
             </div>
           </div>

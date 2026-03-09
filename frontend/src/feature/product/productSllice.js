@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../utils/axiosConfig.js";
-import { removeSuccess } from "../order/orderSlice.js";
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
