@@ -61,6 +61,7 @@ function UserDashboard({ user }) {
   }
   function dashboard() {
     setMenuVisible(false);
+    navigate('/admin/dashboard')
   }
   function myCart() {
     navigate("/cart");
