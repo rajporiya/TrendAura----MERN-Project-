@@ -14,8 +14,12 @@ function Product({ product }) {
   return (
     <Link to={`/product/${product._id}`} className="product_id">
       <div className="product-cart">
-        <img
-          src={product?.image?.[0]?.uri?.replace("./public", "") || ""}
+        <img 
+          src={
+            product?.image?.[0]?.url ||
+            product?.image?.[0]?.uri?.replace("./public", "") ||
+            "/images/no-products.png"
+          }
           alt={product?.name}
           className="product-image-card"
         />

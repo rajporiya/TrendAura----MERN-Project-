@@ -3,16 +3,50 @@ import Product from "../model/product.models.js";
 import User from '../model/user.models.js'
 import ApiFunctionality from "../utils/apiFunctioanality.js";
 import HandleErroe from "../utils/handleError.js";
+import {v2 as cloudinary  } from 'cloudinary'
 
 /* send products details by POST request
 / req = data send by client is received and access.  res= served send is accessed 
  send data from databe and hold in variable product ||  data fetch from Product
 */
 export const createProduct = handleAsyncError (async (req, res,next) => {
+  let image = [];
+  if (req.files?.image) {
+    if (Array.isArray(req.files.image)) {
+      image = req.files.image.map((file) => {
+        if (file.tempFilePath) return file.tempFilePath;
+        return `data:${file.mimetype};base64,${file.data.toString("base64")}`;
+      });
+    } else {
+      const file = req.files.image;
+      image = [file.tempFilePath || `data:${file.mimetype};base64,${file.data.toString("base64")}`];
+    }
+  } else if (typeof req.body.image === 'string') {
+    image = [req.body.image];
+  } else if (Array.isArray(req.body.image)) {
+    image = req.body.image;
+  }
+
+  if (!image || image.length === 0) {
+    return next(new HandleErroe("At least one product image is required", 400));
+  }
+
+  const imageLinks=[]
+  for(let i = 0; i < image.length; i++){
+    const result = await cloudinary.uploader.upload(image[i],{
+      folder : 'products'
+    })
+    // store in database
+    imageLinks.push({
+      public_id : result.public_id,
+      url: result.secure_url
+    })
+  }
+  req.body.image = imageLinks;
   req.body.user = req.user.id;
   const product = await Product.create(req.body);
   res.status(201).json({
-    succes: true,
+    success: true,
     product,
   });
 

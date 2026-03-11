@@ -25,7 +25,7 @@ router.route("/reviews").get(getProductReviews).delete(deleteProductReview);
 router.route("/admin/products") 
   .get(verifyUserAuth, roleBaseAccess('admin'), getAdminProducts);
 
-router.route("/admin/products")
+router.route("/admin/dashboard/create")
   .post(verifyUserAuth,roleBaseAccess('admin'), createProduct);
 // router.route("/products/:id")
 //   .get(getSingleProduct);

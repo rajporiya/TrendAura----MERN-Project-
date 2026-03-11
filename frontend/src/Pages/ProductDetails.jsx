@@ -77,7 +77,7 @@ function ProductDetails() {
     setQuantity(qty=> qty +1)
   }
   const addtoCart=()=>{
-    dispatch(addItemsToCart({id: product._id, name: product.name, price: product.price, quantity: quantity, image: product.images}))
+    dispatch(addItemsToCart({id: product._id, name: product.name, price: product.price, quantity: quantity, image: product.image}))
   }
   const handleReviewSubmit =(e)=>{
     e.preventDefault();
@@ -127,9 +127,8 @@ function ProductDetails() {
       <div className="product-details-container">
         <div className="product-detail-container">
           <div className="product-image-container">
-            {/* src={product.image[0].url.replace('./', '/')} */}
             <img
-              src={"./public/Images/05.jpg"}
+              src={product?.image?.[0]?.url || product?.image?.[0]?.uri || "/images/no-products.png"}
               alt={product.name}
               className="product-detail-image"
             />

@@ -119,14 +119,14 @@ const userSlice = createSlice({
     success: false,
     message : null
   },
-  reducers: {
-    removeError: (state) => {
-      state.error = null;
+    reducers: {
+        removeError: (state) => {
+        state.error = null;
+        },
+        removeSuccess: (state) => {
+        state.success = null;
+        },
     },
-    removeSuccess: (state) => {
-      state.success = false;
-    },
-  },
   extraReducers:(builder)=>{
     // Registration Process
     builder

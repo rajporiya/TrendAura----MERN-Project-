@@ -22,6 +22,8 @@ import PaymentSuccess from "./cart/PaymentSuccess";
 import MyOrder from "./order/Myorder";
 import OrderDetails from "./order/OrderDetails";
 import Dashboard from "./Admin/Dashboard";
+import ProductList from "./Admin/ProductList";
+import CreateProduct from "./Admin/CreateProduct";
 
 function App() {
   const {isAuthenticated, user}=useSelector(state=>state.user);
@@ -58,6 +60,8 @@ function App() {
 
 {/* Admin Routes */}
         <Route path="/admin/dashboard" element={<ProtectedRoutes element={<Dashboard  />}  adminOnly={true} />}/>
+        <Route path="/admin/products" element={<ProtectedRoutes element={<ProductList  />}  adminOnly={true} />}/>
+        <Route path="/admin/dashboard/create" element={<ProtectedRoutes element={<CreateProduct  />}  adminOnly={true} />}/>
 
       </Routes>
       {isAuthenticated && <UserDashboard  user={user}/>}
