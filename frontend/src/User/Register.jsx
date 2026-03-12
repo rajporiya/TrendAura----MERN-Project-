@@ -92,7 +92,7 @@ function Register() {
       dispatch(removeSuccess());
       navigate("/login");
     }
-  }, [success, dispatch]);
+  }, [success, dispatch, navigate]);
 
   return (
     <div className="form-container container">

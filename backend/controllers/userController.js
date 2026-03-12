@@ -16,6 +16,11 @@ export const registerUser = handleAsyncError(async (req, res, next) => {
   if (!avatar) {
     return next(new HandleErroe("Avatar is required", 400));
   }
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return next(new HandleErroe("Email already registered", 400));
+  }
   
   try {
     console.log("Uploading to Cloudinary...");
@@ -40,13 +45,17 @@ export const registerUser = handleAsyncError(async (req, res, next) => {
     
     console.log("User created successfully:", user._id);
     sendToken(user, 201, res);
-  } catch (cloudinaryError) {
-    console.error("Cloudinary upload error:", {
-      message: cloudinaryError.message,
-      status: cloudinaryError.http_code,
-      error: cloudinaryError.error?.message || cloudinaryError.error
+  } catch (error) {
+    if (error?.code === 11000) {
+      return next(new HandleErroe("Email already registered", 400));
+    }
+
+    console.error("Registration error:", {
+      message: error.message,
+      status: error.http_code,
+      error: error.error?.message || error.error
     });
-    return next(new HandleErroe("Failed to upload avatar: " + cloudinaryError.message, 500));
+    return next(new HandleErroe("Registration failed, please try again", 500));
   }
 });
 
@@ -257,10 +266,11 @@ export const getSingleUser = handleAsyncError(async (req, res, next) => {
     return next(new HandleErroe("User doesnot exist", 400));
     
   }
-    res.status(200).json({
-      success: true,
-      user,
-    });
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
 });
 
 // Admin Update user role

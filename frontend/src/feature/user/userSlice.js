@@ -102,7 +102,7 @@ export const resetPassword = createAsyncThunk("user/resetPassword", async ({toke
 // Logout Api
 export const logout = createAsyncThunk("user/logout", async (_, {rejectWithValue}) => {
     try {
-        const {data}   = await axios.post('/api/v1/logout', {withCredentials: true})
+        const {data}   = await axios.post('/api/v1/logout', {}, { withCredentials: true })
         return data
     } catch (error) {
         return rejectWithValue(error.response?.data || "Logout Failed");
@@ -124,7 +124,7 @@ const userSlice = createSlice({
         state.error = null;
         },
         removeSuccess: (state) => {
-        state.success = null;
+        state.success = false;
         },
     },
   extraReducers:(builder)=>{
@@ -194,11 +194,11 @@ const userSlice = createSlice({
         state.error=action.payload?.message || 'Failed to load User'
         state.user = null,
         state.isAuthenticated=false;
-        if(action.payload.statusCode === 401){
+        if(action.payload?.statusCode === 401){
             state.user = null,
             state.isAuthenticated = false
 
-            localStorage.removeItem('user')
+            localStorage.removeItem('User')
             localStorage.removeItem('isAuthenticated')
         }
     })
@@ -214,7 +214,7 @@ const userSlice = createSlice({
         state.user=null;
         state.isAuthenticated=false
 
-        localStorage.removeItem('user')
+        localStorage.removeItem('User')
         localStorage.removeItem('isAuthenticated')
         
     })

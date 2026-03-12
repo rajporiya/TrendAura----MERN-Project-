@@ -11,7 +11,7 @@ function ProtectedRoutes({element, adminOnly = false}) {
     if (!isAuthenticated){
         return <Navigate to='/login' />
     }
-    if(adminOnly && user.role != 'admin'){
+    if(adminOnly && user?.role !== 'admin'){
         return <Navigate to='/login' />
     }
   return element

@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from './Pages/Home';
 import ProductDetails from "./Pages/ProductDetails";
 import Products from "./Pages/Products";
-import Registers from "./User/Registers";
-import Logins from "./User/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { loadUser } from "./feature/user/userSlice";
@@ -26,6 +24,10 @@ import ProductList from "./Admin/ProductList";
 import CreateProduct from "./Admin/CreateProduct";
 import UpdateProducts from "./Admin/UpdateProducts";
 import UserList from "./Admin/UserList";
+import UpdateRole from "./Admin/UpdateRole";
+import Register from "./User/Register";
+import Login from "./User/Login";
+
 
 function App() {
   const {isAuthenticated, user}=useSelector(state=>state.user);
@@ -44,12 +46,11 @@ function App() {
         <Route path="/product/:id" element={<ProductDetails />}/>
         <Route path="/products" element={<Products />}/>
         <Route path="/products/:keyword" element={<Products />}/>
-        {/* <Route path="/register" element={<Register />}/> */}
-        <Route path="/register" element={<Registers />}/>
-        {/* <Route path="/login" element={<Login />}/> */}
-        <Route path="/login" element={<Logins />}/>
+        <Route path="/register" element={<Register />}/>
+        {/* <Route path="/register" element={<Registers />}/> */}
+        <Route path="/login" element={<Login />}/>
+        {/* <Route path="/login" element={<Logins />}/> */}
         <Route path="/forgot/password" element={<ForgotPassword />}/>
-        <Route path="/profile" element={<Profile />}/>
         <Route path="/profile" element={<ProtectedRoutes element={<Profile />}  />}/>
         <Route path="/profile/update" element={<ProtectedRoutes element={<UpdateProfile />}  />}/>
         <Route path="/password/update" element={<ProtectedRoutes element={<UpdatePassword />}  />}/>
@@ -68,6 +69,7 @@ function App() {
         <Route path="/admin/product/create" element={<ProtectedRoutes element={<CreateProduct  />}  adminOnly={true} />}/>
         <Route path="/admin/product/:updateId" element={<ProtectedRoutes element={<UpdateProducts  />}  adminOnly={true} />}/>
         <Route path="/admin/users" element={<ProtectedRoutes element={<UserList  />}  adminOnly={true} />}/>
+        <Route path="/admin/user/:id" element={<ProtectedRoutes element={<UpdateRole  />}  adminOnly={true} />}/>
 
       </Routes>
       {isAuthenticated && <UserDashboard  user={user}/>}

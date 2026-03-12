@@ -61,10 +61,28 @@ export const fetchUser = createAsyncThunk("admin/fetchUser", async (_, {rejectWi
 // getSingleUser for edit user
 export const getSingleUser = createAsyncThunk("admin/getSingleUser", async (id, {rejectWithValue}) => {
     try {
-        const {data}= await axios.get(`/api/v1/admin/user/:id`)
+        const {data}= await axios.get(`/api/v1/admin/user/${id}`)
         return data;
     } catch (error) {
         return rejectWithValue(error.response?.data || "Failed To fetch single users ");
+    }
+});
+// update user role
+export const updateUserRole = createAsyncThunk("admin/updateUserRole", async ({userId, role}, {rejectWithValue}) => {
+    try {
+        const {data}= await axios.put(`/api/v1/admin/user/${userId}`,{role})
+        return data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Failed To update single users ");
+    }
+});
+// update user role
+export const deleteUser = createAsyncThunk("admin/deleteUser", async (userId,  {rejectWithValue}) => {
+    try {
+        const {data}= await axios.delete(`/api/v1/admin/user/${userId}`)
+        return { ...data, userId };
+    } catch (error) {
+        return rejectWithValue(error.response?.data || "Failed To delete single users ");
     }
 });
 
@@ -78,7 +96,8 @@ const adminSlice = createSlice({
         product: {},
         deleting:{},
         users : [],
-        user: {}
+        user: {},
+        message : null,
     },
     reducers: {
     removeError: (state) => {
@@ -86,6 +105,9 @@ const adminSlice = createSlice({
     },
     removeSuccess: (state) => {
       state.success = false;
+    },
+    clearMessage:(state)=>{
+        state.message = null
     },
   },
   extraReducers : (builder)=>{
@@ -189,8 +211,41 @@ const adminSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Failed to fetch single users"
     })
+    // single user fetch User
+    builder
+        .addCase(updateUserRole.pending,(state, action)=>{
+            state.loading = true;
+        state.error = null;
+    })
+    .addCase(updateUserRole.fulfilled,(state, action)=>{
+        state.loading = false;
+        state.success = action.payload.success;
+        state.message = action.payload.message;
+      
+    })
+    .addCase(updateUserRole.rejected,(state, action)=>{
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to update single users role"
+    })
+    // delete user  User
+    builder
+        .addCase(deleteUser.pending,(state, action)=>{
+            state.loading = true;
+        state.error = null;
+    })
+    .addCase(deleteUser.fulfilled,(state, action)=>{
+        state.loading = false;
+        state.success = action.payload.success;
+        state.message = action.payload.message;
+        state.users = state.users.filter((user) => user._id !== action.payload.userId);
+      
+    })
+    .addCase(deleteUser.rejected,(state, action)=>{
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to delete single users role"
+    })
   }
 })
 
-export const { removeError, removeSuccess} =adminSlice.actions
+export const { removeError, removeSuccess, clearMessage} =adminSlice.actions
 export default adminSlice.reducer

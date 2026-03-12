@@ -21,6 +21,11 @@ export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
   try {
     const decodeData = jwt.verify(token, process.env.JWT_SECRET_KEY);
     req.user = await User.findById(decodeData.id);
+
+    if (!req.user) {
+      return next(new HandleErroe("User no longer exists, please login again", 401));
+    }
+
     next();
   } catch (error) {
     return res.status(401).json({
@@ -32,8 +37,12 @@ export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
 
 export const roleBaseAccess = (...roles) => {
     return (req, res, next) => {
-        if(!roles.includes(req.user.role)){
-            return next(new HandleErroe(`Role ${req.user.role} is not allowed to  access the resourse`, 400))
+    if(!req.user){
+      return next(new HandleErroe("Unauthorized access", 401))
+    }
+
+    if(!roles.includes(req.user.role)){
+      return next(new HandleErroe(`Role ${req.user.role} is not allowed to  access the resourse`, 403))
         }
         next();
     }
