@@ -70,6 +70,7 @@ export default function CreateProduct() {
     }
   }, [error, dispatch, success]);
 
+  // images 
   const createProductImag = (e) => {
     const files = Array.from(e.target.files);
     console.log(files);

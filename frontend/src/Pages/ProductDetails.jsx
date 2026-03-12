@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../PageStyles/ProductDetails.css";
 import PageTitle from "../componant/PageTitle";
 import Navbar from "../componant/Navbar";
@@ -17,6 +17,7 @@ import Loader from "../componant/Loader";
 import { addItemsToCart, removeMessage } from "../feature/cart/cartSlice.js";
 
 function ProductDetails() {
+  const [selectImage, setSelectImage]=useState("")
   const [comment, setComment]= useState("")
   const [userRatin, setUserRating] = useState(0);
   const [quantity , setQuantity] = useState(1)
@@ -27,6 +28,12 @@ function ProductDetails() {
   const { loading: cartLoading, error: cartError, cartItem, success, message } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
+  const imageList = useMemo(() => {
+    const urls = (product?.image || [])
+      .map((img) => img?.url || img?.uri)
+      .filter(Boolean);
+    return [...new Set(urls)];
+  }, [product]);
   useEffect(() => {
     if (id) {
       dispatch(getProductDetails(id));
@@ -101,6 +108,15 @@ function ProductDetails() {
        dispatch(getProductDetails(id))
     }
   }, [reviewSuccess, dispatch,id])
+
+  useEffect(()=>{
+    if(imageList.length > 0){
+      setSelectImage(imageList[0])
+    } else {
+      setSelectImage("")
+    }
+  },[imageList])
+
    if (loading) {
     return (
       <>
@@ -128,10 +144,23 @@ function ProductDetails() {
         <div className="product-detail-container">
           <div className="product-image-container">
             <img
-              src={product?.image?.[0]?.url || product?.image?.[0]?.uri || "/images/no-products.png"}
-              alt={product.name}
+              src={selectImage || "/images/no-products.png"}
+              alt={product.name} 
               className="product-detail-image"
             />
+            {imageList.length > 1 &&( <div className="product-thumbnails">
+              {imageList
+                .filter((imgSrc) => imgSrc !== selectImage)
+                .map((imgSrc,index)=>(
+                <img
+                  src={imgSrc || "/images/no-products.png"}
+                  alt="Thumnails"
+                  key={index}
+                  onClick={()=>setSelectImage(imgSrc || "/images/no-products.png")}
+                  className="thumbnail-image"
+                />
+              ))}
+            </div>)}
           </div>
           <div className="product-info">
             <h2>{product.name}</h2>

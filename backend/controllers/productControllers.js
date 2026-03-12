@@ -84,29 +84,79 @@ export const getAllProduct = handleAsyncError(async (req, res, next) => {
 // updata products
 export const updateProduct = handleAsyncError (async (req, res, next) => {
   
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-    new : true,
-    runValidators : true,
-  })
+    let product = await Product.findById(req.params.id, req.body)
 // // product not available
    if (!product) {
     return next(new HandleErroe("Product Not Found", 404))
   }
+  // Handle
+
+  let images= [];
+  if (req.files?.image) {
+    if (Array.isArray(req.files.image)) {
+      images = req.files.image.map((file) => {
+        if (file.tempFilePath) return file.tempFilePath;
+        return `data:${file.mimetype};base64,${file.data.toString("base64")}`;
+      });
+    } else {
+      const file = req.files.image;
+      images = [file.tempFilePath || `data:${file.mimetype};base64,${file.data.toString("base64")}`];
+    }
+  } else if (typeof req.body.image === 'string') {
+    images = [req.body.image];
+  } else if (Array.isArray(req.body.image)) {
+    images = req.body.image;
+  }
+
+  if (!images || images.length === 0) {
+    // No new images uploaded — use the remaining old images sent from frontend
+    let oldImages = [];
+    if (req.body.oldImages) {
+      const raw = Array.isArray(req.body.oldImages) ? req.body.oldImages : [req.body.oldImages];
+      oldImages = raw.map((img) => (typeof img === 'string' ? JSON.parse(img) : img));
+    }
+    if (oldImages.length === 0) {
+      return next(new HandleErroe("At least one product image is required", 400));
+    }
+    req.body.image = oldImages;
+  } else {
+    // New images uploaded — delete old ones from Cloudinary and upload new
+    if (product.image && product.image.length > 0) {
+      for (let i = 0; i < product.image.length; i++) {
+        await cloudinary.uploader.destroy(product.image[i].public_id);
+      }
+    }
+    const imageLinks = [];
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.uploader.upload(images[i], { folder: 'products' });
+      imageLinks.push({ public_id: result.public_id, url: result.secure_url });
+    }
+    req.body.image = imageLinks;
+  }
+  delete req.body.oldImages;
+   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new : true,
+    runValidators : true,
+  })
    res.status(200).json({
     success: true,
     product,
   });
 
 });
-// delete product
 
+// delete product
 export const deleteProduct = handleAsyncError(async (req, res, next)=>{
-  const product = await Product.findByIdAndDelete(req.params.id);
+  let product = await Product.findById(req.params.id);
 
   if(!product){
      return next(new HandleErroe("Product Not Found", 404))
   }
-
+  // delete image
+  for(let i = 0; i<product.image.length; i++){
+    await cloudinary.uploader.destroy(product.image[i].public_id)
+  }
+product = await Product.findByIdAndDelete(req.params.id);
   res.status(200).json({
     success:true,
     message : " Product Deleted Successfully"
