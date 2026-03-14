@@ -44,6 +44,7 @@ useEffect(() => {
           });
           dispatch(removeSuccess());
           dispatch(clearMessage());
+          dispatch(fetchUser());
         }
       }, [ dispatch, success, message]); 
 

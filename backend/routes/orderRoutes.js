@@ -12,7 +12,7 @@ router.route('/admin/order/:id')
 .delete(verifyUserAuth,roleBaseAccess("admin"),deleteOrder)
 
 router
-.route("/admin/orderds")
+.route("/admin/orders")
 .get( verifyUserAuth,roleBaseAccess("admin"),getAllOrders)
 
 
