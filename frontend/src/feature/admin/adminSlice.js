@@ -180,11 +180,22 @@ export const fetchProductReview = createAsyncThunk(
   "admin/fetchProductReview",
   async (productId, { rejectWithValue }) => {
     try {
-      
       const { data } = await axios.get(`/api/v1/admin/reviews?id=${productId}`);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed To fetch productreview");
+    }
+  },
+);
+// delete  reviwe by admin
+export const deleteReview = createAsyncThunk(
+  "admin/deleteReview",
+  async ({productId, reviewId}, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`/api/v1/admin/reviews?productId=${productId}&reviewId=${reviewId}`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed To delete product review");
     }
   },
 );
@@ -413,6 +424,22 @@ const adminSlice = createSlice({
         state.loading = false;
         state.reviews = [];
         state.error = action.payload?.message || "Failed to fetch product review";
+      });
+    // delete review
+    builder
+      .addCase(deleteReview.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.reviews = [];
+      })
+      .addCase(deleteReview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = action.payload.success;
+        state.message = action.payload.message;
+      })
+      .addCase(deleteReview.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to product review";
       });
   },
 });
