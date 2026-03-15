@@ -87,6 +87,14 @@ function ProductDetails() {
     setQuantity(qty=> qty +1)
   }
   const addtoCart=()=>{
+    if (!isAuthenticated) {
+      toast.error("Please login to add product to cart", {
+        position: "top-right",
+        autoClose: 2000,
+      })
+      navigate('/login')
+      return
+    }
     if (!product?._id) {
       toast.error("Product is not available", {
         position: "top-right",
