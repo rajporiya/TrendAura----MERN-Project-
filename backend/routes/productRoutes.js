@@ -19,7 +19,7 @@ const router = express.Router();
 router
   .route("/products").get(getAllProduct)
 router.route("/review").put( verifyUserAuth,createReviewForProducts);
-router.route("/reviews").get(getProductReviews).delete(deleteProductReview);
+router.route("/admin/reviews").get(getProductReviews).delete(deleteProductReview);
 
   // admin routes
 router.route("/admin/products") 

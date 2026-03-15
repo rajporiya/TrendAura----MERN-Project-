@@ -5,7 +5,7 @@ import Navbar from "../componant/Navbar";
 import Footer from "../componant/Footer";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   createReview,
   getProductDetails,
@@ -26,7 +26,9 @@ function ProductDetails() {
   };
   const { loading, error, product, reviewSuccess, reviewLoading } = useSelector((state) => state.product);
   const { loading: cartLoading, error: cartError, success, message } = useSelector((state) => state.cart);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
   const imageList = useMemo(() => {
     const urls = (product?.image || [])
@@ -96,6 +98,11 @@ function ProductDetails() {
   }
   const handleReviewSubmit =(e)=>{
     e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error("Please login to submit review", { position: 'top-right', autoClose: 2000 })
+      navigate('/login')
+      return
+    }
     if(!userRatin){
       toast.error("Plz give Ratting", {position: 'top-right', autoClose: 2000})
       return;
@@ -232,7 +239,7 @@ function ProductDetails() {
               {product.reviews.map((review, i) => (
                 <div className="review-item" key={i}>
                   <div className="view-header">
-                    <Rating value={review.ratibg} disabled={true} />
+                    <Rating value={Number(review.rating) || 0} disabled={true} />
                   </div>
                   <p className="review-comment">{review.comment}</p>
                   <p className="review-name">By{review.name}</p>

@@ -33,7 +33,7 @@ export default function Dashboard() {
                 </div>
                 <div className='nav-section'>
                 <h3>Reviews</h3>
-                <Link to='/reviews'><Star className='nav-icon'/>All Reviews</Link>
+                <Link to='/admin/reviews'><Star className='nav-icon'/>All Reviews</Link>
                 </div>
             </nav>
         </div>

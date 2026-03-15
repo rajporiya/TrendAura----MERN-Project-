@@ -33,12 +33,11 @@ export const createReview = createAsyncThunk(
   async ({ rating,comment,productId }, { rejectWithValue }) => {
     try {
       const config = {
-        header:{
-          'Content-Type': 'application/jsoc'
+        headers:{
+          'Content-Type': 'application/json'
         }
       }
-      const { data } = await axios.get('/api/v1/review', rating,comment,productId);
-      // console.log("responce", data);
+      const { data } = await axios.put('/api/v1/review', { rating, comment, productId }, config);
       return data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "An Error Occurred");

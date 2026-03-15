@@ -403,13 +403,15 @@ const adminSlice = createSlice({
       .addCase(fetchProductReview.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.reviews = [];
       })
       .addCase(fetchProductReview.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = action.payload.success;
+        state.reviews = action.payload.reviews || [];
       })
       .addCase(fetchProductReview.rejected, (state, action) => {
         state.loading = false;
+        state.reviews = [];
         state.error = action.payload?.message || "Failed to fetch product review";
       });
   },
