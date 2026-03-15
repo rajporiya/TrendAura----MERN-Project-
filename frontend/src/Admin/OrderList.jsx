@@ -87,7 +87,7 @@ function OrderList() {
                         <td>{order.orderItem.length}</td>
                         <td>
                           <Link
-                            to={`/admin/order/${order._id}}`}
+                            to={`/admin/order/${order._id}`}
                             className="action-icon edit-icon"
                           >
                             <Edit />

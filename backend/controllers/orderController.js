@@ -108,28 +108,47 @@ export const updateOrderStatus = handleAsyncError(async (req, res, next) => {
   if (!order) {
     return next(new HandleErroe("Order Not found ", 400));
   }
+
+  if (!req.body?.status) {
+    return next(new HandleErroe("Order status is required", 400));
+  }
+
   if (order.orderStatus === "Delivered") {
     return next(new HandleErroe("Order already delivered", 400));
   }
-  await Promise.all(
-    order.orderItem.map((item) => updateQuamtity(item.product, item.quantity)),
-  );
-  order.orderStatus = req.body.status;
-  if (order.orderStatus === "Delivered") {
-    order.deliverdAt = Date.now();
+
+  const nextStatus = req.body.status;
+  const updateData = {
+    orderStatus: nextStatus,
+  };
+
+  if (nextStatus === "Delivered") {
+    await Promise.all(
+      order.orderItem.map((item) => updateQuamtity(item.product, item.quantity)),
+    );
+    updateData.deliverdAt = Date.now();
   }
-  await order.save({ validateBeforeSave: false });
+
+  const updatedOrder = await Order.findByIdAndUpdate(
+    req.params.id,
+    { $set: updateData },
+    {
+      new: true,
+      runValidators: false,
+    },
+  );
 
   res.status(200).json({
     success: true,
-    order,
+    message: "Order status updated successfully",
+    order: updatedOrder,
   });
 });
 
 async function updateQuamtity(id, quantity) {
   const product = await Product.findById(id);
   if (!product) {
-    return next(new HandleErroe("No Product Found", 400));
+     throw new HandleErroe("No Product Found", 400);
   }
 
   product.stock = product.stock - quantity;

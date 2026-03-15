@@ -41,7 +41,7 @@ function CartItem({ item }) {
   };
 
   useEffect(() => {
-    if (success) {
+    if (success && message) {
       toast.success(message, {
         position: "top-right",
         autoClose: 2000, toastId:'cart-update'
@@ -55,15 +55,6 @@ function CartItem({ item }) {
     dispatch(removeItemFromCart(item.product));
 
   }
-    useEffect(() => {
-    if (success) {
-      toast.success("Item remove from from cart successfully", {
-        position: "top-right",
-        autoClose: 2000, toastId:'cart-update'
-      });
-      dispatch(removeMessage());
-    }
-  }, [dispatch, success, message]);
   return (
     <div>
       {/* cart item */}

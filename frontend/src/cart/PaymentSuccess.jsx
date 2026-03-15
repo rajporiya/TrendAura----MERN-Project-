@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../CartStyles/PaymentSuccess.css";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PageTitle from "../componant/PageTitle";
 import Navbar from "../componant/Navbar";
 import Footer from "../componant/Footer";
@@ -21,17 +21,39 @@ function PaymentSuccess() {
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { loading, error, success } = useSelector((state) => state.order);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const orderCreatedRef = useRef(false);
 
   useEffect(() => {
     const createOrderData = async () => {
       try {
+        if (orderCreatedRef.current) {
+          return;
+        }
+
+        if (!reference) {
+          toast.error("Payment reference not found", {
+            position: "top-right",
+            autoClose: 3000,
+          });
+          return;
+        }
+
         const orderItem = JSON.parse(sessionStorage.getItem("orderItem"));
         if (!orderItem) {
           console.log("Order item not found in sessionStorage");
+          toast.error("Order summary missing. Please try checkout again.", {
+            position: "top-left",
+            autoClose: 3000,
+          });
           return;
         }
         if (!cartItems || cartItems.length === 0) {
           console.log("Cart items empty", cartItems);
+          toast.error("Cart items missing. Please try checkout again.", {
+            position: "top-left",
+            autoClose: 3000,
+          });
           return;
         }
         // Validate all cart items have required fields
@@ -51,10 +73,15 @@ function PaymentSuccess() {
           "Cart items with images:",
           cartItems.map((item) => ({ ...item, hasImage: !!item.image })),
         );
-        if (!shippingInfo) {
+        if (!shippingInfo?.address || !shippingInfo?.city || !shippingInfo?.state || !shippingInfo?.country || !shippingInfo?.pincode || !shippingInfo?.phoneNumber) {
           console.log("Shipping info missing", shippingInfo);
+          toast.error("Shipping information is incomplete.", {
+            position: "top-left",
+            autoClose: 3000,
+          });
           return;
         }
+
         const orderData = {
           shipingInfo: {
             country: shippingInfo.country,
@@ -80,13 +107,16 @@ function PaymentSuccess() {
           shippingPrice: orderItem.shippingCharges,
           totalPrice: orderItem.total,
         };
+
         console.log("Creating order with data:", orderData);
-        dispatch(createOder(orderData));
+        orderCreatedRef.current = true;
+        await dispatch(createOder(orderData)).unwrap();
         dispatch(clearCart());
         sessionStorage.removeItem("orderItem");
       } catch (error) {
+        orderCreatedRef.current = false;
         console.error("Order creation error:", error);
-        toast.error(error?.message || "order creation error", {
+        toast.error(error?.message || "Order creation failed", {
           position: "top-left",
           autoClose: 2000,
         });
@@ -94,13 +124,14 @@ function PaymentSuccess() {
     };
     createOrderData();
   }, [dispatch, reference, cartItems, shippingInfo]);
+
   useEffect(() => {
     if (success) {
       toast.success("Order Placed", { position: "top-right", autoClose: 2000 });
-      dispatch(clearCart());
       dispatch(removeSuccess());
+      navigate("/orders/user");
     }
-  }, [dispatch, success]);
+  }, [dispatch, success, navigate]);
   useEffect(() => {
     if (error) {
       toast.error(error, { position: "top-right", autoClose: 2000 });

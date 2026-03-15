@@ -14,7 +14,7 @@ import {
 } from "../feature/product/productSllice";
 import { toast } from "react-toastify";
 import Loader from "../componant/Loader";
-import { addItemsToCart, removeMessage } from "../feature/cart/cartSlice.js";
+import { addItemsToCart, removeError as removeCartError, removeMessage } from "../feature/cart/cartSlice.js";
 
 function ProductDetails() {
   const [selectImage, setSelectImage]=useState("")
@@ -25,7 +25,7 @@ function ProductDetails() {
     setUserRating(newRating);
   };
   const { loading, error, product, reviewSuccess, reviewLoading } = useSelector((state) => state.product);
-  const { loading: cartLoading, error: cartError, cartItem, success, message } = useSelector((state) => state.cart);
+  const { loading: cartLoading, error: cartError, success, message } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
   const imageList = useMemo(() => {
@@ -38,7 +38,7 @@ function ProductDetails() {
     if (id) {
       dispatch(getProductDetails(id));
     }
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (error) {
@@ -49,13 +49,14 @@ function ProductDetails() {
 
       dispatch(removeError());
     }
-    if(cartError){
-      toast.error(error?.message || error, {
+    if (cartError) {
+      toast.error(cartError?.message || cartError, {
         position: "top-right",
-        autoClose: 2000,})
-        dispatch(removeError());
+        autoClose: 2000,
+      })
+      dispatch(removeCartError());
     }
-  }, [dispatch,error,cartError],);
+  }, [dispatch, error, cartError]);
 
   useEffect(()=>{
     if (success){
@@ -84,6 +85,13 @@ function ProductDetails() {
     setQuantity(qty=> qty +1)
   }
   const addtoCart=()=>{
+    if (!product?._id) {
+      toast.error("Product is not available", {
+        position: "top-right",
+        autoClose: 2000,
+      })
+      return
+    }
     dispatch(addItemsToCart({id: product._id, name: product.name, price: product.price, quantity: quantity, image: product.image}))
   }
   const handleReviewSubmit =(e)=>{

@@ -28,6 +28,8 @@ import UpdateRole from "./Admin/UpdateRole";
 import Register from "./User/Register";
 import Login from "./User/Login";
 import OrderList from "./Admin/OrderList";
+import UpdateOrderStatus from "./Admin/UpdateOrderStatus";
+import UpdateOrder from "./Admin/UpdateOrder";
 
 
 function App() {
@@ -72,6 +74,7 @@ function App() {
         <Route path="/admin/users" element={<ProtectedRoutes element={<UserList  />}  adminOnly={true} />}/>
         <Route path="/admin/user/:id" element={<ProtectedRoutes element={<UpdateRole  />}  adminOnly={true} />}/>
         <Route path="/admin/orders" element={<ProtectedRoutes element={<OrderList  />}  adminOnly={true} />}/>
+        <Route path="/admin/order/:orderId" element={<ProtectedRoutes element={<UpdateOrderStatus  />}  adminOnly={true} />}/>
 
       </Routes>
       {isAuthenticated && <UserDashboard  user={user}/>}

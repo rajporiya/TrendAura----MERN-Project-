@@ -1,16 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../../utils/axiosConfig";
 
 // Add to cart
 export const addItemsToCart = createAsyncThunk("cart/addItemsToCart", async ({id,quantity}, {rejectWithValue}) => {
     try {
         const {data} = await axios.get(`/api/v1/product/${id}`)
+        const image = data?.product?.image?.[0]?.url || "/images/no-products.png"
         return {
-            product : data.product._id,
-            name: data.product.name,
-            price: data.product.price,
-            image: data.product.image[0].url,
-            stock: data.product.stock,
+            product : data?.product?._id,
+            name: data?.product?.name,
+            price: data?.product?.price,
+            image,
+            stock: Number(data?.product?.stock || 0),
             quantity
         }
     } catch (error) {
@@ -35,10 +36,13 @@ const cartSlice = createSlice({
         },
         removeMessage :(state)=>{
             state.message=null
+            state.success = false
         },
         removeItemFromCart: (state, action)=>{
             state.removingId = action.payload
             state.cartItems = state.cartItems.filter((item)=>item.product !== action.payload)
+            state.message = 'Item removed from cart successfully'
+            state.success = true
             localStorage.setItem('cartItem',JSON.stringify(state.cartItems))
             state.removingId = null
         },
@@ -58,6 +62,7 @@ const cartSlice = createSlice({
         .addCase(addItemsToCart.pending,(state)=>{
             state.loading =true;
             state.error = null;
+            state.success = false;
         }) 
         .addCase(addItemsToCart.fulfilled,(state, action)=>{
             const item = action.payload
@@ -76,6 +81,7 @@ const cartSlice = createSlice({
         }) 
         .addCase(addItemsToCart.rejected,(state, action)=>{
             state.loading = false;
+            state.success = false;
             state.error = action.payload?.message || " An error occured"
         }) 
     }
