@@ -71,14 +71,49 @@ function Payment() {
     }
     
   return (
-    <>
+<>
     <PageTitle title="Payment Processing"/>
     <Navbar />
-    <CheckoutPath activePath={2}/> 
-    <div className='payment-container'>
-        <Link to='/order/confirm' className='payment-go-back'>Go Back</Link>
-        <button className='payment-btn' onClick={()=>compltePayment(OrderItem?.total)}>Pay ({OrderItem?.total})</button>
+    <CheckoutPath activePath={2}/>
+
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-sm bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+
+        {/* Header */}
+        <div className="px-6 py-5 border-b border-slate-700/50 flex items-center gap-2">
+          <div className="w-1 h-5 rounded-full bg-amber-400" />
+          <h2 className="text-lg font-bold text-white tracking-tight">Payment</h2>
+        </div>
+
+        {/* Body */}
+        <div className="px-6 py-8 flex flex-col gap-4">
+
+          {/* Total Amount Display */}
+          <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-5 py-4 flex items-center justify-between">
+            <span className="text-sm text-slate-400 font-medium">Amount to Pay</span>
+            <span className="text-2xl font-extrabold text-amber-400">₹{OrderItem?.total}</span>
+          </div>
+
+          {/* Pay Button */}
+          <button
+            onClick={() => compltePayment(OrderItem?.total)}
+            className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+          >
+            Pay ₹{OrderItem?.total}
+          </button>
+
+          {/* Go Back Link */}
+          <Link
+            to="/order/confirm"
+            className="w-full py-3 rounded-xl font-bold text-sm tracking-widest uppercase text-center border border-slate-600 text-slate-400 hover:border-slate-500 hover:text-slate-300 transition-all duration-200"
+          >
+            Go Back
+          </Link>
+
+        </div>
+      </div>
     </div>
+
     <Footer />
     </>
   )

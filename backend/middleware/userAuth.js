@@ -12,22 +12,26 @@ export const verifyUserAuth = handleAsyncError(async (req, res, next) => {
     token = req.headers.authorization.replace("Bearer ", "");
   }
   
-  console.log(token);
-
   if (!token) {
+    console.error("❌ No authentication token found in cookies or headers");
     return next(new HandleErroe("authentication missing plz login first", 400));
   }
 
   try {
+    console.log("🔐 Verifying token...");
     const decodeData = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    console.log("✅ Token verified for user:", decodeData.id);
     req.user = await User.findById(decodeData.id);
 
     if (!req.user) {
+      console.error("❌ User not found for decoded id:", decodeData.id);
       return next(new HandleErroe("User no longer exists, please login again", 401));
     }
 
+    console.log("✅ User authenticated:", req.user._id);
     next();
   } catch (error) {
+    console.error("❌ Token verification failed:", error.message);
     return res.status(401).json({
       success: false,
       message: "Invalid or expired token",

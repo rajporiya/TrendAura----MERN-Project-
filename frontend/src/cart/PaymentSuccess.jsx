@@ -32,7 +32,8 @@ function PaymentSuccess() {
         }
 
         if (!reference) {
-          toast.error("Payment reference not found", {
+          console.error("❌ Payment reference not found");
+          toast.error("Payment reference not found. Please contact support.", {
             position: "top-right",
             autoClose: 3000,
           });
@@ -41,7 +42,7 @@ function PaymentSuccess() {
 
         const orderItem = JSON.parse(sessionStorage.getItem("orderItem"));
         if (!orderItem) {
-          console.log("Order item not found in sessionStorage");
+          console.error("❌ Order item not found in sessionStorage");
           toast.error("Order summary missing. Please try checkout again.", {
             position: "top-left",
             autoClose: 3000,
@@ -49,7 +50,7 @@ function PaymentSuccess() {
           return;
         }
         if (!cartItems || cartItems.length === 0) {
-          console.log("Cart items empty", cartItems);
+          console.error("❌ Cart items empty:", cartItems);
           toast.error("Cart items missing. Please try checkout again.", {
             position: "top-left",
             autoClose: 3000,
@@ -108,17 +109,19 @@ function PaymentSuccess() {
           totalPrice: orderItem.total,
         };
 
-        console.log("Creating order with data:", orderData);
+        console.log("✅ Creating order with data:", orderData);
         orderCreatedRef.current = true;
-        await dispatch(createOder(orderData)).unwrap();
+        const result = await dispatch(createOder(orderData)).unwrap();
+        console.log("✅ Order created successfully:", result);
         dispatch(clearCart());
         sessionStorage.removeItem("orderItem");
       } catch (error) {
         orderCreatedRef.current = false;
-        console.error("Order creation error:", error);
-        toast.error(error?.message || "Order creation failed", {
+        console.error("❌ Order creation error:", error);
+        const errorMsg = error?.message || error?.error || "Order creation failed. Please try again.";
+        toast.error(errorMsg, {
           position: "top-left",
-          autoClose: 2000,
+          autoClose: 4000,
         });
       }
     };
@@ -134,30 +137,56 @@ function PaymentSuccess() {
   }, [dispatch, success, navigate]);
   useEffect(() => {
     if (error) {
-      toast.error(error, { position: "top-right", autoClose: 2000 });
+      console.error("❌ Redux error state:", error);
+      toast.error(error || "Something went wrong", { position: "top-right", autoClose: 3000 });
       dispatch(removeError());
     }
   }, [dispatch, error]);
   return (
-    <>
-      <PageTitle title="Payment Statud" />
+ <>
+      <PageTitle title="Payment Status" />
       <Navbar />
       {loading ? (
         <Loader />
       ) : (
-        <div className="payment-success-container">
-          <div className="success">
-            <div className="success-icon">
-              <div className="checkmark"></div>
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-16">
+          <div className="w-full max-w-md bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+
+            {/* Success Icon */}
+            <div className="flex flex-col items-center px-8 pt-10 pb-8 gap-5">
+
+              <div className="w-20 h-20 rounded-full bg-emerald-500/15 border-2 border-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <svg className="w-9 h-9 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+
+              {/* Title */}
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-white tracking-tight mb-2">Order Confirmed!</h1>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  Your payment was successful.
+                </p>
+              </div>
+
+              {/* Reference ID */}
+              <div className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-5 py-4 flex flex-col gap-1 text-center">
+                <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Reference ID</span>
+                <span className="text-amber-400 font-bold text-base tracking-wide">{reference}</span>
+              </div>
+
+              {/* Divider */}
+              <div className="w-full h-px bg-slate-700/50" />
+
+              {/* View Orders Button */}
+              <Link
+                to="/orders/user"
+                className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase text-center transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+              >
+                View Orders
+              </Link>
+
             </div>
-            <h1>Order Confirmation</h1>
-            <p>
-              Your Payment was successfull. referemce ID :
-              <strong>{reference}</strong>{" "}
-            </p>
-            <Link to="/orders/user" className="explore-btn">
-              View Orders
-            </Link>
           </div>
         </div>
       )}

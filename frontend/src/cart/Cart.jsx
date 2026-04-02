@@ -23,62 +23,106 @@ function Cart() {
     }
   }
   return (
-    <>
+   <>
       <Navbar />
-      <PageTitle title=" Your Cart" />
-      {cartItems.length === 0? (
-        <div className="empty-cart-container">
-            <p className="empty-cart-message">Your cart is empty</p>
-            <Link to='/products' className="viewProducts">Go TO Products</Link>
-        </div>
-      ) : (<div className="cart-page">
-        {/* first section */}
+      <PageTitle title="Your Cart" />
 
-        <div className="cat-items">
-          <h2 className="cart-items-heading">Your Cart</h2>
-          <div className="cart-table">
-            <div className="cart-table-header">
-              <div>Product</div>
-              <div>Quantity</div>
-              <div>Item Total</div>
-              <div>Actions</div>
+      {cartItems.length === 0 ? (
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col items-center justify-center gap-5">
+          <div className="w-16 h-16 rounded-2xl bg-slate-700/30 border border-slate-600/50 flex items-center justify-center">
+            <svg className="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+            </svg>
+          </div>
+          <p className="text-slate-400 text-lg font-medium">Your cart is empty</p>
+          <Link
+            to="/products"
+            className="px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-sm tracking-widest uppercase transition-all duration-200 shadow-lg shadow-amber-400/20"
+          >
+            Go To Products
+          </Link>
+        </div>
+      ) : (
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 pt-6 pb-12">
+          <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 items-start">
+
+            {/* ── Cart Items ── */}
+            <div className="mt-20 flex-1 bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+
+              {/* Heading */}
+              <div className="px-6 py-5 border-b border-slate-700/50 flex items-center gap-2">
+                <div className="w-1 h-5 rounded-full bg-amber-400" />
+                <h2 className="text-lg font-bold text-white tracking-tight">Your Cart</h2>
+              </div>
+
+              {/* Table Header */}
+              <div className="hidden md:grid grid-cols-4 px-6 py-3 text-xs font-bold uppercase tracking-widest text-slate-500 border-b border-slate-700/50">
+                <div>Product</div>
+                <div className="text-center">Quantity</div>
+                <div className="text-center">Item Total</div>
+                <div className="text-center">Actions</div>
+              </div>
+
+              {/* Cart Items */}
+              <div className="divide-y divide-slate-700/50">
+                {cartItems && cartItems.map((item) => (
+                  <CartItem item={item} key={item.name} />
+                ))}
+              </div>
             </div>
 
-            {/* <div className="header-product">Product</div>
-                    <div className="header-quantity">Quantity</div>
-                    <div className="header-total-item item-total-heading">Item Total</div>
-                    <div className="header-product item-total-heading">Aactions</div> */}
+            {/* ── Price Summary ── */}
+            <div className="mt-20 w-full lg:w-80 shrink-0 bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden sticky top-6">
 
-            {/* cart item */}
-            {cartItems &&
-              cartItems.map((item) => <CartItem item={item} key={item.name} />)}
+              {/* Heading */}
+              <div className="px-6 py-5 border-b border-slate-700/50 flex items-center gap-2">
+                <div className="w-1 h-5 rounded-full bg-amber-400" />
+                <h3 className="text-lg font-bold text-white tracking-tight">Price Summary</h3>
+              </div>
+
+              <div className="px-6 py-5 flex flex-col gap-3">
+
+                {/* Subtotal */}
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Subtotal</span>
+                  <span className="text-white font-medium">₹{subTotal}</span>
+                </div>
+
+                {/* Tax */}
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Tax (18%)</span>
+                  <span className="text-white font-medium">₹{tax}</span>
+                </div>
+
+                {/* Shipping */}
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Shipping Charge</span>
+                  <span className="text-white font-medium">₹{shippngCharges}</span>
+                </div>
+
+                {/* Divider */}
+                <div className="h-px bg-slate-700/50 my-1" />
+
+                {/* Total */}
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-bold text-base">Total</span>
+                  <span className="text-amber-400 font-extrabold text-xl">₹{total.toFixed(2)}</span>
+                </div>
+
+                {/* Checkout Button */}
+                <button
+                  onClick={checkOutHandlier}
+                  className="w-full mt-2 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+                >
+                  Proceed to Checkout
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
+      )}
 
-        {/* second */}
-        <div className="price-summary">
-          <h3 className="price-summary-heading">Price Summary</h3>
-
-          <div className="summary-item">
-            <p className="summary-lable">Subtotal</p>
-            <p className="summary-value">{subTotal}</p>
-          </div>
-          <div className="summary-item">
-            <p className="summary-lable">Tax(18%)</p>
-            <p className="summary-value">{tax}</p>
-          </div>
-          <div className="summary-item">
-            <p className="summary-lable">Shipping Charge</p>
-            <p className="summary-value">{shippngCharges}</p>
-          </div>
-          <div className="summary-total">
-            <p className="summary-lable">Total : </p>
-            <p className="toal-value">{total.toFixed(2)}</p>
-          </div>
-
-          <button className="checkout-btn" onClick={checkOutHandlier}>Proceed to checkout</button>
-        </div>
-      </div>)}
       <Footer />
     </>
   );

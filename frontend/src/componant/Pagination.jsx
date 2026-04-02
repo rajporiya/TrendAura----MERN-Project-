@@ -31,43 +31,55 @@ function Pagination({
     return PageNumbers;
   };
   return (
-    <div className="pagination">
-      {currentPage > 1 && (
-        <>
-          <button className="pagination-btn" onClick={() => onPageChange(1)}>{firstPageText}</button>
-          <button className="pagination-btn"
-            onClick={() => onPageChange(currentPage - 1)}
-          >{prevPageText}</button>
-        </>
-      )}
+   <div className="flex items-center justify-center gap-2 my-8 font-sans">
+  {currentPage > 1 && (
+    <>
+      <button 
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200" 
+        onClick={() => onPageChange(1)}
+      >
+        {firstPageText}
+      </button>
+      <button 
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        onClick={() => onPageChange(currentPage - 1)}
+      >
+        {prevPageText}
+      </button>
+    </>
+  )}
 
-      {/* Page Number */}
-      { getPageNumbers().map((number) => (
-        <button
-          className={`pagination-btn ${currentPage === number ? ' ' + activeClass : ''}`}
-          key={number}
-          onClick={() => onPageChange(number)}
-        >
-          {number}
-        </button>
-      ))}
+  {/* Page Number */}
+  {getPageNumbers().map((number) => (
+    <button
+      className={`flex items-center justify-center min-w-[2.5rem] h-10 px-2 rounded-xl font-bold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 ${
+        currentPage === number ? ' ' + activeClass : ''
+      }`}
+      key={number}
+      onClick={() => onPageChange(number)}
+    >
+      {number}
+    </button>
+  ))}
 
-      {/* next and last btn */}
-      {currentPage < totalPages && (
-        <>
-          <button  className="pagination-btn"
-            onClick={() => onPageChange(currentPage + 1)}
-          >{ nextPageteText}</button>
-          <button
-            className="pagination-btn"
-            onClick={() => onPageChange(totalPages)}
-          > {lastPageText} </button>
-        </>
-      )}
-      
-      
-
-    </div>
+  {/* next and last btn */}
+  {currentPage < totalPages && (
+    <>
+      <button 
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        onClick={() => onPageChange(currentPage + 1)}
+      >
+        {nextPageteText}
+      </button>
+      <button
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        onClick={() => onPageChange(totalPages)}
+      >
+        {lastPageText}
+      </button>
+    </>
+  )}
+</div>
   );
 }
 

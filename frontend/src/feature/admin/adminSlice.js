@@ -145,6 +145,20 @@ export const fetchAllOrders = createAsyncThunk(
     }
   },
 );
+
+// confirm order cancellation
+export const confirmOrderCancellation = createAsyncThunk(
+  "admin/confirmOrderCancellation",
+  async (orderId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(`/api/v1/admin/order/${orderId}/confirm-cancel`);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || "Failed to confirm cancellation");
+    }
+  },
+);
+
 // delete order
 export const deleteOrder = createAsyncThunk(
   "admin/deleteOrder",
@@ -377,6 +391,21 @@ const adminSlice = createSlice({
       .addCase(fetchAllOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Failed to fetch order";
+      });
+    // confirm order cancellation
+    builder
+      .addCase(confirmOrderCancellation.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(confirmOrderCancellation.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.message = action.payload.message;
+      })
+      .addCase(confirmOrderCancellation.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to confirm cancellation";
       });
     // deleteOrder order
     builder

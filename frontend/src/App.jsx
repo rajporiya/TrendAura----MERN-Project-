@@ -2,10 +2,9 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from './Pages/Home';
 import ProductDetails from "./Pages/ProductDetails";
 import Products from "./Pages/Products";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loadUser } from "./feature/user/userSlice";
-import UserDashboard from "./User/UserDashboard";
 import Profile from "./User/Profile";
 import ProtectedRoutes from "./componant/ProtectedRoutes";
 import UpdateProfile from "./User/UpdateProfile";
@@ -31,10 +30,11 @@ import OrderList from "./Admin/OrderList";
 import UpdateOrderStatus from "./Admin/UpdateOrderStatus";
 import UpdateOrder from "./Admin/UpdateOrder";
 import ReviewsList from "./Admin/ReviewsList";
+import AboutUs from "./componant/AboutU";
+import ContactUs from "./componant/ContactUs";
 
 
 function App() {
-  const {isAuthenticated, user}=useSelector(state=>state.user);
   const dispatch=useDispatch();
 
   useEffect(()=>{
@@ -49,6 +49,8 @@ function App() {
         <Route path="/" element={<Home />}/>
         <Route path="/product/:id" element={<ProductDetails />}/>
         <Route path="/products" element={<Products />}/>
+        <Route path="/about-us" element={<AboutUs />}/>
+        <Route path="/contact-us" element={<ContactUs />}/>
         <Route path="/products/:keyword" element={<Products />}/>
         <Route path="/register" element={<Register />}/>
         {/* <Route path="/register" element={<Registers />}/> */}
@@ -71,15 +73,17 @@ function App() {
         <Route path="/admin/dashboard" element={<ProtectedRoutes element={<Dashboard  />}  adminOnly={true} />}/>
         <Route path="/admin/products" element={<ProtectedRoutes element={<ProductList  />}  adminOnly={true} />}/>
         <Route path="/admin/product/create" element={<ProtectedRoutes element={<CreateProduct  />}  adminOnly={true} />}/>
+        <Route path="/admin/create" element={<ProtectedRoutes element={<CreateProduct  />}  adminOnly={true} />}/>
         <Route path="/admin/product/:updateId" element={<ProtectedRoutes element={<UpdateProducts  />}  adminOnly={true} />}/>
         <Route path="/admin/users" element={<ProtectedRoutes element={<UserList  />}  adminOnly={true} />}/>
         <Route path="/admin/user/:id" element={<ProtectedRoutes element={<UpdateRole  />}  adminOnly={true} />}/>
         <Route path="/admin/orders" element={<ProtectedRoutes element={<OrderList  />}  adminOnly={true} />}/>
-        <Route path="/admin/orders" element={<ProtectedRoutes element={<OrderList  />}  adminOnly={true} />}/>
+        <Route path="/admin/orders/confirmed" element={<ProtectedRoutes element={<OrderList  />}  adminOnly={true} />}/>
+        <Route path="/admin/orders/cancelled" element={<ProtectedRoutes element={<OrderList  />}  adminOnly={true} />}/>
+        <Route path="/admin/order/:orderId" element={<ProtectedRoutes element={<UpdateOrderStatus />} adminOnly={true} />}/>
         <Route path="/admin/reviews" element={<ProtectedRoutes element={<ReviewsList  />}  adminOnly={true} />}/>
 
       </Routes>
-      {isAuthenticated && <UserDashboard  user={user}/>}
     </Router>
     </>
   )

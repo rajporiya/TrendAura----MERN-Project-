@@ -96,6 +96,16 @@ const orderSchema = new mongoose.Schema({
      default : "Processing",
   },
   deliverdAt :Date,
+  isCancelled: {
+    type: Boolean,
+    default: false,
+  },
+  cancelledBy: {
+    type: String,
+    enum: ["user", "admin"],
+    default: null,
+  },
+  cancelledAt: Date,
   createdAt :{
     type: Date,
     default: Date.now

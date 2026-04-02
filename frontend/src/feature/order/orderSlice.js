@@ -3,16 +3,18 @@ import axios from '../../utils/axiosConfig'
 // create Order
 export const createOder = createAsyncThunk("order/createOrder", async (order, {rejectWithValue}) => {
     try {
-        console.log("Sending order to backend:", order);
+        console.log("📝 Sending order to backend:", order);
         const config = {
             headers :{
                 'Content-Type' : 'application/json'
             }
         } 
         const {data}   = await axios.post('/api/v1/new/order', order, config)
+        console.log("✅ Order created successfully:", data);
         return data
     } catch (error) {
-        return rejectWithValue(error.response?.data || {message: "Failer to create order"});
+        console.error("❌ Order creation failed:", error.response?.data || error.message);
+        return rejectWithValue(error.response?.data || {message: "Failed to create order"});
     }
 });
 // Get All orders
@@ -32,6 +34,17 @@ export const getOrderDetails = createAsyncThunk("order/getOrderDetails", async (
         return data
     } catch (error) {
         console.error("failed to fetch oder details:", error.response?.data || error.message);
+        return rejectWithValue(error.response?.data || {message: error.message});
+    }
+});
+
+// Delete Order
+export const deleteUserOrder = createAsyncThunk("order/deleteUserOrder", async (orderId, {rejectWithValue}) => {
+    try {
+        const {data} = await axios.delete(`/api/v1/order/${orderId}/delete`)
+        return data
+    } catch (error) {
+        console.error("Delete order failed:", error.response?.data || error.message);
         return rejectWithValue(error.response?.data || {message: error.message});
     }
 });
@@ -67,7 +80,7 @@ const orderSlice = createSlice({
         })
         .addCase(createOder.rejected,(state, action)=>{
             state.loading = false,
-            state.error = action.payload?.message || "Failer to create order"
+            state.error = action.payload?.message || "Failed to create order"
         })
         // fetch all  order
         builder
@@ -81,7 +94,7 @@ const orderSlice = createSlice({
         })
         .addCase(getMyAllOrders.rejected,(state, action)=>{
             state.loading = false,
-            state.error = action.payload?.message || "Failer to fetch All Orders"
+            state.error = action.payload?.message || "Failed to fetch all orders"
         })
         // getOrderDetails
         builder
@@ -99,6 +112,21 @@ const orderSlice = createSlice({
             state.loading = false;
             state.order = {};
             state.error = action.payload?.message || action.payload || "failed to fetch order details";
+        })
+        // deleteUserOrder
+        builder
+        .addCase(deleteUserOrder.pending,(state)=>{
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(deleteUserOrder.fulfilled,(state, action)=>{
+            state.loading = false;
+            state.success = true;
+            state.error = null;
+        })
+        .addCase(deleteUserOrder.rejected,(state, action)=>{
+            state.loading = false;
+            state.error = action.payload?.message || action.payload || "failed to delete order";
         })
     } 
 })

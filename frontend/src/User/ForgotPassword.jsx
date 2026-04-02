@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { forgotPassword, removeError, removeSuccess } from '../feature/user/userSlice'
 import { toast } from 'react-toastify'
 import Loader from '../componant/Loader'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function ForgotPassword() {
     const {loading, error, success, message}= useSelector(state=>state.user)
@@ -39,24 +39,81 @@ function ForgotPassword() {
       }, [success, dispatch]);
   return (
     <>
- { loading?(<Loader />): 
-     (<>
-    <PageTitle title="Forgot Password"/>
-    <Navbar />
-    <div className="container forgot-container">
-        <div className="form-content email-group">
-            <form action="" className='form' onSubmit={forgotPasswordEmail}>
-                <h2 >Forgot Password</h2>
-                <div className="input-group">
-                    <input type="email" placeholder='Enter Your Registered Email' value={email} onChange={(e)=> setEmail(e.target.value)} name="name"/>
+  {loading ? (
+    <Loader />
+  ) : (
+    <>
+      <PageTitle title="Forgot Password" />
+      <Navbar />
+
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-md">
+
+          {/* Icon */}
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shadow-lg shadow-amber-400/10">
+              <svg className="w-8 h-8 text-amber-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Card */}
+          <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl px-8 py-10">
+
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white tracking-tight">Forgot Password</h2>
+              <p className="mt-2 text-slate-400 text-sm leading-relaxed">
+                Enter your registered email and we'll send you a reset link.
+              </p>
+            </div>
+
+            <form action="" className="space-y-5" onSubmit={forgotPasswordEmail}>
+
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                    </svg>
+                  </span>
+                  <input
+                    type="email"
+                    placeholder="Enter Your Registered Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    name="name"
+                    className="w-full bg-slate-900/70 border border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 text-white placeholder-slate-500 rounded-xl pl-10 pr-4 py-3 text-sm outline-none transition-all duration-200"
+                  />
                 </div>
-                <button className='authBtn'>Send</button>
+              </div>
+
+              <div className="pt-1">
+                <button className="w-full py-3.5 px-6 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]">
+                  Send Reset Link
+                </button>
+              </div>
+
             </form>
+
+            <p className="text-center text-slate-500 text-xs mt-6">
+              Remember your password?{" "}
+              <Link to="/login" className="text-amber-400 hover:text-amber-300 font-semibold transition-colors duration-150">
+                Back to Login
+              </Link>
+            </p>
+
+          </div>
         </div>
-    </div>
-    <Footer />
-    </>)}
+      </div>
+
+      <Footer />
     </>
+  )}
+</>
   )
 }   
 

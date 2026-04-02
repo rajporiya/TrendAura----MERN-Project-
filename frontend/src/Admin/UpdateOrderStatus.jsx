@@ -4,7 +4,7 @@ import Navbar from '../componant/Navbar';
 import PageTitle from '../componant/PageTitle';
 import Footer from '../componant/Footer';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getOrderDetails, removeError } from '../feature/order/orderSlice';
 import { toast } from 'react-toastify';
 import Loader from '../componant/Loader';
@@ -14,6 +14,7 @@ function UpdateOrderStatus() {
     const {order, loading:orderLoading, error}= useSelector(state=>state.order)
     const {success, loading:adminLoading, error:adminError, message}= useSelector(state=>state.admin)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const {orderId}=useParams()
     const cleanOrderId = orderId?.replace(/[{}]/g, '').trim()
     const loading = orderLoading || adminLoading
@@ -36,6 +37,15 @@ function UpdateOrderStatus() {
 
     const shippingInfo = order?.shipingInfo || order?.shippingInfo || {}
     const orderItems = order?.orderItem || order?.orderItems || []
+    const getOrderItemImage = (item) => {
+      if (!item) return '/images/no-products.png'
+      if (typeof item.image === 'string' && item.image.trim()) return item.image
+      if (typeof item.image === 'object' && item.image?.url) return item.image.url
+      if (typeof item?.product?.image === 'string' && item.product.image.trim()) return item.product.image
+      if (Array.isArray(item?.product?.image) && item.product.image[0]?.url) return item.product.image[0].url
+      if (item?.product?.image?.url) return item.product.image.url
+      return '/images/no-products.png'
+    }
 
     const {
         paymentInfo = {},
@@ -81,67 +91,159 @@ function UpdateOrderStatus() {
                                 autoClose: 2000,
                         })
                         dispatch(removeSuccess())
-                        dispatch(getOrderDetails(cleanOrderId))
+            navigate('/admin/orders')
                 }
-        }, [success, message, dispatch, cleanOrderId])
+        }, [success, message, dispatch, navigate])
 
     
   return (
-    <>
+<>
    { loading ? (<Loader />):( <>
     <Navbar />
     <PageTitle title='Update Order Status' />
 
-    <div className='order-container'> 
-        <h1 className='order-title'> Updata Order</h1>
-        <div className="order-details">
-            <h2>Order Information</h2>
-            <p><strong>Order Id :</strong>{cleanOrderId}</p>
-            <p><strong>Shipping Address : </strong>{shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state}, {shippingInfo.country}</p>
-            <p><strong>Phone :</strong>{shippingInfo.phoneNo}</p>
-            <p><strong>Order Status : </strong>{orderStatus}</p>
-            <p><strong>Payment Status :</strong>{paymentStatus}</p>
-            <p><strong>Total Price : </strong>{totalPrice}</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
+      <div className="max-w-3xl mx-auto flex flex-col gap-6">
+
+        {/* Heading */}
+        <div className="flex items-center gap-2">
+          <div className="w-1 h-6 rounded-full bg-amber-400" />
+          <h1 className="text-2xl font-bold text-white tracking-tight">Update Order</h1>
         </div>
 
-        <div className="order-items">
-            <h2>Order Items</h2>
-            <table className='order-table'>
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {orderItems.map((item)=>(
-                        <tr key={item.product || item._id}>
-                            <td>
-                                <img  src={item.image} alt={item.name} className='order-product-image ' />
-                            </td>
-                            <td>{item.name}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.price}</td>
-                        </tr>
-                    ))}
-                </tbody>
+        {/* ── Order Information ── */}
+        <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-700/50">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Order Information</p>
+          </div>
+          <div className="px-6 py-5 flex flex-col gap-3">
+
+            <div className="flex items-start justify-between py-2 border-b border-slate-700/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Order ID</span>
+              <span className="text-slate-300 font-mono text-xs">{cleanOrderId}</span>
+            </div>
+
+            <div className="flex items-start justify-between py-2 border-b border-slate-700/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Shipping Address</span>
+              <span className="text-slate-300 text-sm text-right max-w-xs">
+                {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.state}, {shippingInfo.country}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Phone</span>
+              <span className="text-slate-300 text-sm">{shippingInfo.phoneNo}</span>
+            </div>
+
+            <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Order Status</span>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
+                ${orderStatus?.toLowerCase() === 'delivered'
+                  ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+                  : orderStatus?.toLowerCase() === 'processing'
+                    ? 'bg-amber-400/10 border border-amber-400/20 text-amber-400'
+                    : orderStatus?.toLowerCase() === 'shipped'
+                      ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
+                      : 'bg-slate-700/50 border border-slate-600/50 text-slate-300'
+                }`}>
+                <span className={`w-1.5 h-1.5 rounded-full
+                  ${orderStatus?.toLowerCase() === 'delivered' ? 'bg-emerald-400'
+                    : orderStatus?.toLowerCase() === 'processing' ? 'bg-amber-400 animate-pulse'
+                    : orderStatus?.toLowerCase() === 'shipped' ? 'bg-blue-400'
+                    : 'bg-slate-400'}`}
+                />
+                {orderStatus}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Payment Status</span>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
+                ${paymentStatus?.toLowerCase() === 'paid'
+                  ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
+                  : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                }`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${paymentStatus?.toLowerCase() === 'paid' ? 'bg-emerald-400' : 'bg-red-400'}`} />
+                {paymentStatus}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between py-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Total Price</span>
+              <span className="text-amber-400 font-bold text-base">₹{totalPrice}</span>
+            </div>
+
+          </div>
+        </div>
+
+        {/* ── Order Items ── */}
+        <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-700/50">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Order Items</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-700/50">
+                  <th className="text-left px-6 py-3 text-xs font-bold uppercase tracking-widest text-slate-500">Image</th>
+                  <th className="text-left px-6 py-3 text-xs font-bold uppercase tracking-widest text-slate-500">Name</th>
+                  <th className="text-left px-6 py-3 text-xs font-bold uppercase tracking-widest text-slate-500">Quantity</th>
+                  <th className="text-left px-6 py-3 text-xs font-bold uppercase tracking-widest text-slate-500">Price</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-700/50">
+                {orderItems.map((item) => (
+                  <tr key={item.product || item._id} className="hover:bg-slate-700/20 transition-all duration-150">
+                    <td className="px-6 py-4">
+                      <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-700/50 bg-slate-900/50">
+                        <img
+                          src={getOrderItemImage(item)}
+                          alt={item.name || 'Order Item'}
+                          className="w-full h-full object-cover object-center"
+                          onError={(e) => {
+                            e.currentTarget.src = '/images/no-products.png'
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-white font-medium">{item.name}</td>
+                    <td className="px-6 py-4 text-slate-300">{item.quantity}</td>
+                    <td className="px-6 py-4 text-amber-400 font-bold">₹{item.price}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
+          </div>
         </div>
 
-        <div className="order-status">
-            <h2>Update Order Status</h2>
-            <select disabled={loading || orderStatus === 'Delivered'} value={status} onChange={(e)=> setStatus(e.target.value)}  className='status-select'>
-                <option value="">Select Status</option>
-                <option value="Shipped">Shipped</option>
-                <option value="On the way">On the way</option>
-                <option value="Delivered">Delivered</option>
+        {/* ── Update Status ── */}
+        <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-700/50">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Update Order Status</p>
+          </div>
+          <div className="px-6 py-5 flex flex-col sm:flex-row gap-4">
+            <select
+              disabled={loading || orderStatus === 'Delivered'}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              <option value="">Select Status</option>
+              <option value="Shipped">Shipped</option>
+              <option value="On the way">On the way</option>
+              <option value="Delivered">Delivered</option>
             </select>
-            <button disabled={loading || orderStatus === 'Delivered'}  onClick={handleStatusUpdate} className="update-button">{loading ? 'Updating...': 'Update Status'}</button>
+            <button
+              disabled={loading || orderStatus === 'Delivered'}
+              onClick={handleStatusUpdate}
+              className="px-8 py-2.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Updating...' : 'Update Status'}
+            </button>
+          </div>
         </div>
 
-      
+      </div>
     </div>
 
     <Footer />

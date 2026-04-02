@@ -67,40 +67,93 @@ function UserDashboard({ user }) {
     navigate("/cart");
   }
   return (
-    <>
-      <div
-        className={`overlay ${menuVisible ? "show" : ""}`}
-        onClick={toggleMenu}
-      ></div>
-      <div className="dashboard-container">
-        <div className="profile-header" onClick={toggleMenu}>
-          <img
-            src={user?.avatar?.url || "./images/profile.png"}
-            alt="Profile"
-            className="profile-avatar"
-            onError={(e) => {
-              e.target.src = "./images/profile.png";
-            }}
-          />
-          <span className="profile-name">{user.name || "User"}</span>
+// ✅ ONLY UI CHANGED — all logic, state, handlers are identical to your original
+
+<>
+  {/* Overlay */}
+  <div
+    className={`fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 ${
+      menuVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+    }`}
+    onClick={toggleMenu}
+  />
+
+  {/* Dashboard Container */}
+  <div className="relative z-50">
+
+    {/* Profile Header / Trigger */}
+    <div
+      onClick={toggleMenu}
+      className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/50 hover:border-amber-400/30 hover:bg-slate-800 cursor-pointer transition-all duration-200 select-none"
+    >
+      <div className="w-8 h-8 rounded-lg overflow-hidden border border-amber-400/20 flex-shrink-0">
+        <img
+          src={user?.avatar?.url || "./images/profile.png"}
+          alt="Profile"
+          className="w-full h-full object-cover"
+          onError={(e) => { e.target.src = "./images/profile.png"; }}
+        />
+      </div>
+      <span className="text-sm font-semibold text-white max-w-[120px] truncate">
+        {user.name || "User"}
+      </span>
+      {/* Chevron */}
+      <svg
+        className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${menuVisible ? "rotate-180" : ""}`}
+        fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+      </svg>
+    </div>
+
+    {/* Dropdown Menu */}
+    {menuVisible && (
+      <div className="absolute right-0 mt-2 w-52 bg-slate-800/95 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl shadow-slate-900/50 overflow-hidden">
+
+        {/* Menu Header */}
+        <div className="px-4 py-3 border-b border-slate-700/50 flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg overflow-hidden border border-amber-400/20 flex-shrink-0">
+            <img
+              src={user?.avatar?.url || "./images/profile.png"}
+              alt="Profile"
+              className="w-full h-full object-cover"
+              onError={(e) => { e.target.src = "./images/profile.png"; }}
+            />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-white truncate">{user.name || "User"}</p>
+            <p className="text-xs text-slate-500 truncate">{user.email || ""}</p>
+          </div>
         </div>
 
-        {menuVisible && (
-          <div className="menu-options">
-            {options &&
-              options.map((item) => (
-                <button
-                  onClick={item.funcName}
-                  key={item.name}
-                  className={`menu-option-btn ${item.isCart ? (cartItems.length > 0 ? "cart-not-empty" : "") : ""}`}
-                >
-                  {item.name}
-                </button>
-              ))}
-          </div>
-        )}
+        {/* Menu Options */}
+        <div className="p-1.5 flex flex-col gap-0.5">
+          {options &&
+            options.map((item) => (
+              <button
+                onClick={item.funcName}
+                key={item.name}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-left
+                  ${item.isCart && cartItems.length > 0
+                    ? "text-amber-400 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/20"
+                    : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                  }`}
+              >
+                <span>{item.name}</span>
+                {/* Cart badge */}
+                {item.isCart && cartItems.length > 0 && (
+                  <span className="ml-2 min-w-[20px] h-5 px-1.5 rounded-full bg-amber-400 text-slate-900 text-xs font-bold flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
+                )}
+              </button>
+            ))}
+        </div>
+
       </div>
-    </>
+    )}
+  </div>
+</>
   );
 }
 

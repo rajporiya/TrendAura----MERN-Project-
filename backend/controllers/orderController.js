@@ -15,6 +15,11 @@ export const createNewOrder = handleAsyncError(async (req, res, next) => {
     );
   }
 
+  if (!req.user || !req.user._id) {
+    console.error("❌ User not authenticated");
+    return next(new HandleErroe("User authentication required", 401));
+  }
+
   const {
     shipingInfo,
     orderItem,
@@ -25,16 +30,26 @@ export const createNewOrder = handleAsyncError(async (req, res, next) => {
     totalPrice,
   } = req.body;
 
-  console.log("Order creation request:", { shipingInfo, orderItem, paymentInfo, itemPrice, taxPrice, shippingPrice, totalPrice, userId: req.user?._id });
+  console.log("📝 Order creation request from user:", req.user._id, { 
+    hasShipingInfo: !!shipingInfo, 
+    hasOrderItem: !!orderItem, 
+    hasPaymentInfo: !!paymentInfo,
+    orderItemCount: orderItem?.length || 0
+  });
 
   if (!shipingInfo || !orderItem || !paymentInfo) {
-    console.error("Missing required fields:", { hasShipingInfo: !!shipingInfo, hasOrderItem: !!orderItem, hasPaymentInfo: !!paymentInfo });
+    console.error("❌ Missing required fields:", { hasShipingInfo: !!shipingInfo, hasOrderItem: !!orderItem, hasPaymentInfo: !!paymentInfo });
     return next(
       new HandleErroe(
         "shipingInfo, orderItem and paymentInfo are required",
         400,
       ),
     );
+  }
+
+  if (!Array.isArray(orderItem) || orderItem.length === 0) {
+    console.error("❌ orderItem must be a non-empty array");
+    return next(new HandleErroe("Order must contain at least one item", 400));
   }
 
   try {
@@ -49,15 +64,16 @@ export const createNewOrder = handleAsyncError(async (req, res, next) => {
       paidAt: Date.now(),
       user: req.user._id,
     });
-    console.log("Order created successfully:", newOrder._id);
+    console.log("✅ Order created successfully:", newOrder._id);
     res.status(201).json({
       success: true,
       newOrder,
     });
   } catch (error) {
-    console.error("Order creation error:", error.message);
+    console.error("❌ Order creation error:", error.message, error);
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors).map(e => e.message).join(", ");
+      return next(new HandleErroe(`Validation Error: ${messages}`, 400));
       return next(new HandleErroe(`Validation Error: ${messages}`, 400));
     }
     throw error;
@@ -66,10 +82,13 @@ export const createNewOrder = handleAsyncError(async (req, res, next) => {
 
 // get single product
 export const getSingleOrder = handleAsyncError(async (req, res, next) => {
+  console.log("📝 Fetching order:", req.params.id, "for user:", req.user?._id);
   const order = await Order.findById(req.params.id);
   if (!order) {
+    console.error("❌ Order Not found:", req.params.id);
     return next(new HandleErroe("Order Not found ", 400));
   }
+  console.log("✅ Order found:", order._id);
   res.status(201).json({
     success: true,
     order,
@@ -78,7 +97,14 @@ export const getSingleOrder = handleAsyncError(async (req, res, next) => {
 
 // All my order find
 export const allMyOrder = handleAsyncError(async (req, res, next) => {
+  console.log("📝 Fetching all orders for user:", req.user?._id);
+  if (!req.user || !req.user._id) {
+    console.error("❌ User not authenticated");
+    return next(new HandleErroe("User authentication required", 401));
+  }
+  
   const orders = await Order.find({ user: req.user._id });
+  console.log("✅ Found", orders.length, "orders for user:", req.user._id);
 
   res.status(201).json({
     success: true,
@@ -161,12 +187,48 @@ export const deleteOrder = handleAsyncError(async (req, res, next) => {
   if (!order) {
     return next(new HandleErroe("No order Found", 400));
   }
-  if(order.orderStatus !== "Delivered"){
-    return next(new HandleErroe("This order is under processing and cannot be deleted", 404));
+
+  // Check if user is trying to delete their own order
+  if (req.user._id.toString() === order.user.toString()) {
+    // Users can only cancel if order is NOT delivered
+    if (order.orderStatus === "Delivered") {
+      return next(new HandleErroe("Cannot delete delivered orders", 400));
+    }
+    // Mark order as cancelled by user instead of deleting
+    order.isCancelled = true;
+    order.cancelledBy = "user";
+    order.cancelledAt = Date.now();
+    await order.save();
+    return res.status(200).json({
+      success: true,
+      message: "Order cancelled successfully"
+    });
   }
-  await Order.deleteOne({ _id: req.params.id });
+
+  // Admin cannot delete - only confirm cancellations
+  return next(new HandleErroe("Unauthorized to delete this order", 403));
+});
+
+// Confirm order cancellation (Admin only)
+export const confirmOrderCancellation = handleAsyncError(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
+  if (!order) {
+    return next(new HandleErroe("No order Found", 400));
+  }
+
+  if (order.orderStatus === "Delivered") {
+    return next(new HandleErroe("Cannot cancel delivered orders", 400));
+  }
+
+  // Confirm the cancellation
+  order.isCancelled = true;
+  order.cancelledBy = "admin";
+  order.cancelledAt = Date.now();
+  await order.save();
+
   res.status(200).json({
     success: true,
-    message: "Order deleted successfully"
+    message: "Order cancellation confirmed",
+    order
   });
 });
