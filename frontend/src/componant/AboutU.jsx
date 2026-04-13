@@ -11,21 +11,21 @@ const stats = [
 
 const team = [
   {
-    name: "Aryan Mehta",
+    name: "Raj Poriya",
     role: "Founder & CEO",
-    img: "https://api.dicebear.com/7.x/adventurer/svg?seed=aryan&backgroundColor=b6e3f4",
+    img: "https://img.freepik.com/premium-vector/boy-character-white-background_995281-5601.jpg?semt=ais_incoming&w=740&q=80",
     bio: "Visionary behind TrendAura. Passionate about democratising fashion for everyone.",
   },
   {
-    name: "Sana Kapoor",
+    name: "Jay Kacha",
     role: "Head of Design",
-    img: "https://api.dicebear.com/7.x/adventurer/svg?seed=sana&backgroundColor=ffd5dc",
+    img: "https://static.vecteezy.com/system/resources/thumbnails/024/183/502/small/male-avatar-portrait-of-a-young-man-with-a-beard-illustration-of-male-character-in-modern-color-style-vector.jpg",
     bio: "Crafts every pixel with intention. Lover of bold palettes and clean whitespace.",
   },
   {
-    name: "Dev Patel",
+    name: "Dhruv Moliya",
     role: "Lead Engineer",
-    img: "https://api.dicebear.com/7.x/adventurer/svg?seed=dev&backgroundColor=c0aede",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiXytU5aIWpLg4Bi7jvcJiVhF8D0N3eFtq3w&s",
     bio: "Keeps the platform blazing-fast and the codebase elegant. Coffee-powered.",
   },
 ];
@@ -78,18 +78,22 @@ function StatCard({ value, label, delay }) {
   const v = useCountUp(value);
   return (
     <div
-      className="flex flex-col items-center gap-1 px-6 py-5 rounded-2xl border border-slate-700/50 bg-slate-800/50 backdrop-blur-sm"
-      style={{ animationDelay: `${delay}ms` }}
+      className="flex flex-col items-center gap-1 px-4 sm:px-6 py-5 rounded-2xl border"
+      style={{
+        animationDelay: `${delay}ms`,
+        borderColor: "var(--border)",
+        backgroundColor: "var(--card-bg)",
+      }}
     >
-      <span className="text-4xl font-black text-amber-400 tracking-tight tabular-nums">{v}</span>
-      <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">{label}</span>
+      <span className="text-3xl sm:text-4xl font-black tabular-nums" style={{ color: "var(--primary)" }}>{v}</span>
+      <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--text-light)" }}>{label}</span>
     </div>
   );
 }
 
 export default function AboutUs() {
   return (
-    <div className="min-h-screen bg-slate-900 text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen" style={{ backgroundColor: "var(--background)", color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif" }}>
 
       {/* Google font injection */}
       <style>{`
@@ -131,7 +135,7 @@ export default function AboutUs() {
         .card-hover:hover {
           transform: translateY(-4px);
           border-color: rgba(251,191,36,0.35);
-          box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+          box-shadow: 0 20px 50px var(--shadow);
         }
 
         .glow-dot {
@@ -141,27 +145,46 @@ export default function AboutUs() {
           box-shadow: 0 0 8px 2px rgba(245,158,11,0.6);
           display: inline-block;
         }
+
+        .about-card {
+          background-color: var(--card-bg);
+          border-color: var(--border);
+        }
+
+        .about-divider {
+          background-color: var(--border);
+        }
+
+        .about-muted {
+          color: var(--text-secondary);
+        }
+
+        .about-light {
+          color: var(--text-light);
+        }
       `}</style>
-      {/* Mavbar */}<Navbar />
+
+      {/* Navbar */}
+      <Navbar />
 
       {/* ── HERO ── */}
-      <section className="relative pt-28 pb-24 overflow-hidden grain">
+      <section className="relative pt-28 pb-16 sm:pb-24 overflow-hidden grain">
 
         {/* ambient blobs */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-amber-400/8 rounded-full blur-3xl translate-y-1/3 pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-64 sm:w-96 h-64 sm:h-96 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.08)" }} />
+        <div className="absolute bottom-0 right-1/4 w-56 sm:w-80 h-56 sm:h-80 rounded-full blur-3xl translate-y-1/3 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.06)" }} />
 
-        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
 
           {/* eyebrow */}
-          <div className="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-8"
-            style={{ animationDelay: "0ms" }}>
+          <div className="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold uppercase tracking-widest mb-6 sm:mb-8"
+            style={{ backgroundColor: "rgba(245,158,11,0.1)", borderColor: "rgba(245,158,11,0.2)", color: "#f59e0b", animationDelay: "0ms" }}>
             <span className="glow-dot" />
             Our Story
           </div>
 
           <h1
-            className="playfair fade-up text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.08] mb-6"
+            className="playfair fade-up text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.08] mb-4 sm:mb-6"
             style={{ animationDelay: "120ms" }}
           >
             Style is not a&nbsp;
@@ -171,24 +194,26 @@ export default function AboutUs() {
           </h1>
 
           <p
-            className="fade-up text-slate-400 text-lg leading-relaxed max-w-2xl mx-auto mb-10"
+            className="fade-up text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-8 sm:mb-10 about-muted"
             style={{ animationDelay: "220ms" }}
           >
             TrendAura was born from a single belief — that everyone deserves access to
-            fashion that feels <em className="text-slate-300 not-italic font-medium">intentional</em>.
+            fashion that feels <em style={{ color: "var(--text-primary)" }} className="not-italic font-medium">intentional</em>.
             We bridge the gap between cutting-edge trends and everyday wardrobes.
           </p>
 
           <div className="fade-up flex flex-wrap justify-center gap-3" style={{ animationDelay: "320ms" }}>
             <Link
               to="/products"
-              className="px-6 py-3 rounded-xl bg-amber-400 text-slate-900 text-sm font-bold hover:bg-amber-300 transition-colors duration-200 shadow-lg shadow-amber-400/20"
+              className="px-5 sm:px-6 py-3 rounded-xl text-sm font-bold transition-colors duration-200 shadow-lg"
+              style={{ backgroundColor: "#f59e0b", color: "#0f172a", boxShadow: "0 8px 24px rgba(245,158,11,0.2)" }}
             >
               Shop the Collection
             </Link>
             <Link
               to="/contact-us"
-              className="px-6 py-3 rounded-xl border border-slate-700 text-slate-300 text-sm font-medium hover:border-amber-400/50 hover:text-white transition-all duration-200"
+              className="px-5 sm:px-6 py-3 rounded-xl border text-sm font-medium transition-all duration-200"
+              style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
             >
               Get in Touch
             </Link>
@@ -197,13 +222,13 @@ export default function AboutUs() {
       </section>
 
       {/* ── DIVIDER ── */}
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="h-px" style={{ background: "linear-gradient(to right, transparent, var(--border), transparent)" }} />
       </div>
 
       {/* ── STATS ── */}
-      <section className="py-16">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {stats.map((s, i) => (
             <StatCard key={s.label} value={s.value} label={s.label} delay={i * 80} />
           ))}
@@ -211,63 +236,66 @@ export default function AboutUs() {
       </section>
 
       {/* ── MISSION ── */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 sm:gap-12 items-center">
 
           {/* visual block */}
           <div className="relative">
-            <div className="aspect-[4/3] rounded-3xl bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700/50 overflow-hidden flex items-center justify-center relative">
+            <div className="aspect-[4/3] rounded-3xl border overflow-hidden flex items-center justify-center relative"
+              style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)" }}>
               {/* decorative grid */}
               <div className="absolute inset-0 opacity-10"
                 style={{ backgroundImage: "linear-gradient(#f59e0b 1px, transparent 1px), linear-gradient(90deg, #f59e0b 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
               {/* big letter */}
-              <span className="playfair text-[180px] font-black text-amber-400/10 leading-none select-none">T</span>
+              <span className="playfair text-[120px] sm:text-[180px] font-black leading-none select-none" style={{ color: "rgba(245,158,11,0.1)" }}>T</span>
               {/* floating badge */}
-              <div className="absolute bottom-5 left-5 right-5 bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-2xl px-5 py-4">
-                <p className="text-slate-400 text-xs uppercase tracking-widest mb-1 font-semibold">Our Mission</p>
-                <p className="text-white text-sm font-medium leading-relaxed">
+              <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 right-4 sm:right-5 backdrop-blur-sm border rounded-2xl px-4 sm:px-5 py-3 sm:py-4"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)", opacity: 0.95 }}>
+                <p className="text-xs uppercase tracking-widest mb-1 font-semibold about-light" style={{ color: "var(--text-light)" }}>Our Mission</p>
+                <p className="text-sm font-medium leading-relaxed" style={{ color: "var(--text-primary)" }}>
                   To make trend-forward fashion radically accessible — one curated piece at a time.
                 </p>
               </div>
             </div>
             {/* accent dot */}
-            <div className="absolute -top-4 -right-4 w-16 h-16 rounded-2xl bg-amber-400/15 border border-amber-400/20 flex items-center justify-center text-amber-400 text-2xl">
+            <div className="absolute -top-4 -right-4 w-12 sm:w-16 h-12 sm:h-16 rounded-2xl flex items-center justify-center text-xl sm:text-2xl"
+              style={{ backgroundColor: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.2)", color: "#f59e0b" }}>
               ✦
             </div>
           </div>
 
           {/* text */}
-          <div className="flex flex-col gap-6">
-            <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest">
+          <div className="flex flex-col gap-5 sm:gap-6">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "#f59e0b" }}>
               <span className="glow-dot" /> Who We Are
             </div>
-            <h2 className="playfair text-4xl lg:text-5xl font-black leading-tight">
+            <h2 className="playfair text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
               Built by fashion lovers,<br />
-              <span className="text-amber-400">for fashion lovers.</span>
+              <span style={{ color: "#f59e0b" }}>for fashion lovers.</span>
             </h2>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="leading-relaxed about-muted" style={{ color: "var(--text-secondary)" }}>
               Founded in 2021, TrendAura started as a passion project in a small apartment.
               Three years and 50,000 happy customers later, we're one of India's fastest-growing
               fashion destinations — but we've never lost that boutique soul.
             </p>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               Every product on our platform is handpicked by our curation team. We don't chase
-              algorithms — we chase <span className="text-white font-medium">genuine style</span>.
+              algorithms — we chase <span style={{ color: "var(--text-primary)" }} className="font-medium">genuine style</span>.
             </p>
-            <div className="flex gap-4 pt-2">
+            <div className="flex flex-wrap gap-4 pt-2">
               <div className="flex flex-col">
-                <span className="text-amber-400 text-2xl font-black">2021</span>
-                <span className="text-slate-500 text-xs uppercase tracking-wider">Founded</span>
+                <span className="text-xl sm:text-2xl font-black" style={{ color: "#f59e0b" }}>2021</span>
+                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-light)" }}>Founded</span>
               </div>
-              <div className="w-px bg-slate-700" />
+              <div className="w-px" style={{ backgroundColor: "var(--border)" }} />
               <div className="flex flex-col">
-                <span className="text-amber-400 text-2xl font-black">India</span>
-                <span className="text-slate-500 text-xs uppercase tracking-wider">Headquarters</span>
+                <span className="text-xl sm:text-2xl font-black" style={{ color: "#f59e0b" }}>India</span>
+                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-light)" }}>Headquarters</span>
               </div>
-              <div className="w-px bg-slate-700" />
+              <div className="w-px" style={{ backgroundColor: "var(--border)" }} />
               <div className="flex flex-col">
-                <span className="text-amber-400 text-2xl font-black">28+</span>
-                <span className="text-slate-500 text-xs uppercase tracking-wider">Brand Partners</span>
+                <span className="text-xl sm:text-2xl font-black" style={{ color: "#f59e0b" }}>28+</span>
+                <span className="text-xs uppercase tracking-wider" style={{ color: "var(--text-light)" }}>Brand Partners</span>
               </div>
             </div>
           </div>
@@ -275,29 +303,32 @@ export default function AboutUs() {
       </section>
 
       {/* ── VALUES ── */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-4">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10 sm:mb-12">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#f59e0b" }}>
               <span className="glow-dot" /> What We Stand For
             </div>
-            <h2 className="playfair text-4xl lg:text-5xl font-black">Our Core Values</h2>
+            <h2 className="playfair text-3xl sm:text-4xl lg:text-5xl font-black">Our Core Values</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {values.map((v) => (
               <div
                 key={v.title}
-                className="card-hover relative p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm flex flex-col gap-4 overflow-hidden"
+                className="card-hover relative p-5 sm:p-6 rounded-2xl border backdrop-blur-sm flex flex-col gap-4 overflow-hidden about-card"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)" }}
               >
-                <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 text-lg font-bold">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold"
+                  style={{ backgroundColor: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)", color: "#f59e0b" }}>
                   {v.icon}
                 </div>
                 <div>
-                  <h3 className="text-white font-bold mb-2">{v.title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{v.desc}</p>
+                  <h3 className="font-bold mb-2" style={{ color: "var(--text-primary)" }}>{v.title}</h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{v.desc}</p>
                 </div>
                 {/* corner accent */}
-                <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-full bg-amber-400/5 border border-amber-400/10" />
+                <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-full"
+                  style={{ backgroundColor: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.1)" }} />
               </div>
             ))}
           </div>
@@ -305,27 +336,29 @@ export default function AboutUs() {
       </section>
 
       {/* ── TEAM ── */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-4">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-10 sm:mb-12">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: "#f59e0b" }}>
               <span className="glow-dot" /> The Faces Behind TrendAura
             </div>
-            <h2 className="playfair text-4xl lg:text-5xl font-black">Meet the Team</h2>
+            <h2 className="playfair text-3xl sm:text-4xl lg:text-5xl font-black">Meet the Team</h2>
           </div>
-          <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6 max-w-3xl mx-auto">
             {team.map((m) => (
               <div
                 key={m.name}
-                className="card-hover group relative p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm text-center flex flex-col items-center gap-4"
+                className="card-hover group relative p-5 sm:p-6 rounded-2xl border backdrop-blur-sm text-center flex flex-col items-center gap-4"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)" }}
               >
-                <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-amber-400/30 bg-slate-700 group-hover:border-amber-400/60 transition-colors duration-300">
+                <div className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 bg-[var(--border)]"
+                  style={{ borderColor: "rgba(245,158,11,0.3)" }}>
                   <img src={m.img} alt={m.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                  <p className="text-white font-bold">{m.name}</p>
-                  <p className="text-amber-400 text-xs font-semibold uppercase tracking-widest mt-0.5">{m.role}</p>
-                  <p className="text-slate-400 text-sm mt-3 leading-relaxed">{m.bio}</p>
+                  <p className="font-bold" style={{ color: "var(--text-primary)" }}>{m.name}</p>
+                  <p className="text-xs font-semibold uppercase tracking-widest mt-0.5" style={{ color: "#f59e0b" }}>{m.role}</p>
+                  <p className="text-sm mt-3 leading-relaxed" style={{ color: "var(--text-secondary)" }}>{m.bio}</p>
                 </div>
               </div>
             ))}
@@ -334,33 +367,36 @@ export default function AboutUs() {
       </section>
 
       {/* ── CTA BANNER ── */}
-      <section className="py-16">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="relative overflow-hidden rounded-3xl border border-amber-400/20 bg-gradient-to-br from-slate-800 to-slate-900 p-12 text-center grain">
+      <section className="py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="relative overflow-hidden rounded-3xl border p-8 sm:p-12 text-center grain"
+            style={{ borderColor: "rgba(245,158,11,0.2)", backgroundColor: "var(--card-bg)" }}>
             {/* blobs */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-amber-400/8 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-amber-400/8 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-48 sm:w-64 h-48 sm:h-64 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.07)" }} />
+            <div className="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.07)" }} />
 
-            <div className="relative z-10 flex flex-col items-center gap-6">
-              <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest">
+            <div className="relative z-10 flex flex-col items-center gap-5 sm:gap-6">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "#f59e0b" }}>
                 <span className="glow-dot" /> Ready to Elevate Your Style?
               </div>
-              <h2 className="playfair text-4xl lg:text-5xl font-black leading-tight max-w-xl">
+              <h2 className="playfair text-3xl sm:text-4xl lg:text-5xl font-black leading-tight max-w-xl">
                 Your next favourite outfit is one click away.
               </h2>
-              <p className="text-slate-400 max-w-md">
+              <p className="max-w-md" style={{ color: "var(--text-secondary)" }}>
                 Browse thousands of curated pieces and discover what TrendAura means for your wardrobe.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <Link
                   to="/products"
-                  className="px-8 py-3 rounded-xl bg-amber-400 text-slate-900 text-sm font-bold hover:bg-amber-300 transition-colors duration-200 shadow-lg shadow-amber-400/20"
+                  className="px-6 sm:px-8 py-3 rounded-xl text-sm font-bold transition-colors duration-200 shadow-lg"
+                  style={{ backgroundColor: "#f59e0b", color: "#0f172a", boxShadow: "0 8px 24px rgba(245,158,11,0.2)" }}
                 >
                   Explore Products
                 </Link>
                 <Link
                   to="/contact-us"
-                  className="px-8 py-3 rounded-xl border border-slate-600 text-slate-300 text-sm font-medium hover:border-amber-400/50 hover:text-white transition-all duration-200"
+                  className="px-6 sm:px-8 py-3 rounded-xl border text-sm font-medium transition-all duration-200"
+                  style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
                 >
                   Contact Us
                 </Link>

@@ -172,7 +172,7 @@ function PaymentSuccess() {
               {/* Reference ID */}
               <div className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-5 py-4 flex flex-col gap-1 text-center">
                 <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Reference ID</span>
-                <span className="text-amber-400 font-bold text-base tracking-wide">{reference}</span>
+                <span className="text-amber-500 font-bold text-base tracking-wide">{reference}</span>
               </div>
 
               {/* Divider */}
@@ -181,7 +181,7 @@ function PaymentSuccess() {
               {/* View Orders Button */}
               <Link
                 to="/orders/user"
-                className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase text-center transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+                className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase text-center transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
               >
                 View Orders
               </Link>

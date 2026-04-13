@@ -76,7 +76,7 @@ function CartItem({ item }) {
           <button
             disabled={loading}
             onClick={decreaseQuantity}
-            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-slate-700/50 transition-all duration-150 text-lg font-bold disabled:opacity-40"
+            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-amber-500 hover:bg-slate-700/50 transition-all duration-150 text-lg font-bold disabled:opacity-40"
           >
             −
           </button>
@@ -89,7 +89,7 @@ function CartItem({ item }) {
           <button
             disabled={loading}
             onClick={increaseQuantity}
-            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-amber-400 hover:bg-slate-700/50 transition-all duration-150 text-lg font-bold disabled:opacity-40"
+            className="w-9 h-9 flex items-center justify-center text-slate-300 hover:text-amber-500 hover:bg-slate-700/50 transition-all duration-150 text-lg font-bold disabled:opacity-40"
           >
             +
           </button>
@@ -98,7 +98,7 @@ function CartItem({ item }) {
 
       {/* Item Total */}
       <div className="flex items-center justify-center">
-        <span className="text-amber-400 font-bold text-base">₹{(item.price * item.quantity).toFixed(2)}</span>
+        <span className="text-amber-500 font-bold text-base">₹{(item.price * item.quantity).toFixed(2)}</span>
       </div>
 
       {/* Actions */}

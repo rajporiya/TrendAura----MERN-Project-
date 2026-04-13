@@ -109,205 +109,205 @@ function Register() {
       ? "border-red-500 focus:border-red-400 focus:ring-2 focus:ring-red-400/20"
       : isValid(field)
         ? "border-emerald-500 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20"
-        : "border-slate-700 focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20"
+        : "border-slate-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20"
     }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 py-16">
-      <PageTitle title="Register" />
-      <div className="w-full max-w-md">
+   <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center px-4 py-16">
+  <PageTitle title="Register" />
+  <div className="w-full max-w-md">
 
-        {/* Logo */}
-        <div className="flex justify-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shadow-lg shadow-amber-400/10">
-            <svg className="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-            </svg>
-          </div>
-        </div>
-
-        {/* Card */}
-        <div className="bg-slate-800/60 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl px-8 py-10">
-
-          {/* Avatar Preview */}
-          <div className="flex justify-center mb-6">
-            <div className={`w-20 h-20 rounded-full overflow-hidden border-2 shadow-lg transition-all duration-200
-              ${isValid('avatar') ? 'border-emerald-400/60 shadow-emerald-400/10' : 'border-amber-400/30 shadow-amber-400/10'}`}>
-              <img src={avatarPreview} className="w-full h-full object-cover" alt="Preview" />
-            </div>
-          </div>
-
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white tracking-tight">Sign Up</h2>
-            <p className="mt-2 text-slate-400 text-sm">Create your account to get started.</p>
-          </div>
-
-          <form onSubmit={registerSubmit} encType="multipart/form-data" className="space-y-5" noValidate>
-
-            {/* Name */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5">Username</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <svg className={`w-4 h-4 ${showError('name') ? 'text-red-400' : isValid('name') ? 'text-emerald-400' : 'text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                  </svg>
-                </span>
-                <input
-                  type="text" placeholder="Enter your username"
-                  name="name" value={name} onChange={registerDataChange}
-                  onBlur={() => setTouched(p => ({ ...p, name: true }))}
-                  className={inputClass('name')}
-                />
-                {isValid('name') && (
-                  <span className="absolute inset-y-0 right-3 flex items-center">
-                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </span>
-                )}
-              </div>
-              {showError('name') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.name}</p>}
-              {isValid('name') && <p className="mt-1.5 text-xs text-emerald-400 flex items-center gap-1"><span>✓</span>Name looks good!</p>}
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5">Email</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <svg className={`w-4 h-4 ${showError('email') ? 'text-red-400' : isValid('email') ? 'text-emerald-400' : 'text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                  </svg>
-                </span>
-                <input
-                  type="email" placeholder="Enter your email"
-                  name="email" value={email} onChange={registerDataChange}
-                  onBlur={() => setTouched(p => ({ ...p, email: true }))}
-                  className={inputClass('email')}
-                />
-                {isValid('email') && (
-                  <span className="absolute inset-y-0 right-3 flex items-center">
-                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </span>
-                )}
-              </div>
-              {showError('email') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.email}</p>}
-              {isValid('email') && <p className="mt-1.5 text-xs text-emerald-400 flex items-center gap-1"><span>✓</span>Email looks good!</p>}
-            </div>
-
-            {/* Password */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5">Password</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <svg className={`w-4 h-4 ${showError('password') ? 'text-red-400' : isValid('password') ? 'text-emerald-400' : 'text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                  </svg>
-                </span>
-                <input
-                  type="password" placeholder="Enter your password"
-                  name="password" value={password} onChange={registerDataChange}
-                  onBlur={() => setTouched(p => ({ ...p, password: true }))}
-                  className={inputClass('password')}
-                />
-              </div>
-              {/* Password strength checklist */}
-              {(touched.password || submitAttempted) && password && (
-                <div className="mt-2 flex flex-col gap-1">
-                  <p className={`text-xs flex items-center gap-1.5 ${pwChecks.length ? 'text-emerald-400' : 'text-red-400'}`}>
-                    <span>{pwChecks.length ? '✓' : '✕'}</span> At least 8 characters
-                  </p>
-                  <p className={`text-xs flex items-center gap-1.5 ${pwChecks.capital ? 'text-emerald-400' : 'text-red-400'}`}>
-                    <span>{pwChecks.capital ? '✓' : '✕'}</span> At least one capital letter
-                  </p>
-                  <p className={`text-xs flex items-center gap-1.5 ${pwChecks.special ? 'text-emerald-400' : 'text-red-400'}`}>
-                    <span>{pwChecks.special ? '✓' : '✕'}</span> At least one special character
-                  </p>
-                </div>
-              )}
-              {showError('password') && !password && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.password}</p>}
-            </div>
-
-            {/* Confirm Password */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5">Confirm Password</label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                  <svg className={`w-4 h-4 ${showError('confirmPassword') ? 'text-red-400' : isValid('confirmPassword') ? 'text-emerald-400' : 'text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                  </svg>
-                </span>
-                <input
-                  type="password" placeholder="Confirm your password"
-                  name="confirmPassword" value={confirmPassword} onChange={registerDataChange}
-                  onBlur={() => setTouched(p => ({ ...p, confirmPassword: true }))}
-                  className={inputClass('confirmPassword')}
-                />
-                {isValid('confirmPassword') && (
-                  <span className="absolute inset-y-0 right-3 flex items-center">
-                    <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </span>
-                )}
-              </div>
-              {showError('confirmPassword') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.confirmPassword}</p>}
-              {isValid('confirmPassword') && <p className="mt-1.5 text-xs text-emerald-400 flex items-center gap-1"><span>✓</span>Passwords match!</p>}
-            </div>
-
-            {/* Avatar Upload */}
-            <div>
-              <label className="block text-xs font-semibold uppercase tracking-widest text-slate-400 mb-1.5">Avatar</label>
-              <label className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-slate-900/70 border border-dashed cursor-pointer transition-all duration-200 text-xs font-semibold uppercase tracking-widest
-                ${showError('avatar')
-                  ? 'border-red-500 text-red-400 hover:border-red-400'
-                  : isValid('avatar')
-                    ? 'border-emerald-500/60 text-emerald-400 hover:border-emerald-400'
-                    : 'border-amber-400/30 text-amber-400/60 hover:border-amber-400/60 hover:text-amber-400'
-                }`}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                </svg>
-                {isValid('avatar') ? 'Photo uploaded!' : 'Upload Profile Photo'}
-                <input type="file" accept="image/*" className="hidden" name="avatar" onChange={registerDataChange} />
-              </label>
-              {showError('avatar') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.avatar}</p>}
-            </div>
-
-            {/* Submit */}
-            <div className="pt-1">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3.5 px-6 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                    </svg>
-                    Registering...
-                  </span>
-                ) : "Sign Up"}
-              </button>
-            </div>
-
-          </form>
-
-          <p className="text-center text-slate-500 text-xs mt-6">
-            Already have an account?{" "}
-            <Link to="/login" className="text-amber-400 hover:text-amber-300 font-semibold transition-colors duration-150">
-              Sign in here
-            </Link>
-          </p>
-
-        </div>
+    {/* Logo */}
+    <div className="flex justify-center mb-8">
+      <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shadow-lg shadow-amber-500/10">
+        <svg className="w-7 h-7 text-amber-500" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+        </svg>
       </div>
     </div>
+
+    {/* Card */}
+    <div className="bg-white dark:bg-slate-800/60 backdrop-blur-sm border border-gray-200 dark:border-slate-700/50 rounded-2xl shadow-2xl px-8 py-10">
+
+      {/* Avatar Preview */}
+      <div className="flex justify-center mb-6">
+        <div className={`w-20 h-20 rounded-full overflow-hidden border-2 shadow-lg transition-all duration-200
+          ${isValid('avatar') ? 'border-emerald-400/60 shadow-emerald-400/10' : 'border-amber-500/30 shadow-amber-500/10'}`}>
+          <img src={avatarPreview} className="w-full h-full object-cover" alt="Preview" />
+        </div>
+      </div>
+
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Sign Up</h2>
+        <p className="mt-2 text-gray-500 dark:text-slate-400 text-sm">Create your account to get started.</p>
+      </div>
+
+      <form onSubmit={registerSubmit} encType="multipart/form-data" className="space-y-5" noValidate>
+
+        {/* Name */}
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-1.5">Username</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <svg className={`w-4 h-4 ${showError('name') ? 'text-red-400' : isValid('name') ? 'text-emerald-400' : 'text-gray-400 dark:text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </span>
+            <input
+              type="text" placeholder="Enter your username"
+              name="name" value={name} onChange={registerDataChange}
+              onBlur={() => setTouched(p => ({ ...p, name: true }))}
+              className={inputClass('name')}
+            />
+            {isValid('name') && (
+              <span className="absolute inset-y-0 right-3 flex items-center">
+                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </span>
+            )}
+          </div>
+          {showError('name') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.name}</p>}
+          {isValid('name') && <p className="mt-1.5 text-xs text-emerald-400 flex items-center gap-1"><span>✓</span>Name looks good!</p>}
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-1.5">Email</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <svg className={`w-4 h-4 ${showError('email') ? 'text-red-400' : isValid('email') ? 'text-emerald-400' : 'text-gray-400 dark:text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+              </svg>
+            </span>
+            <input
+              type="email" placeholder="Enter your email"
+              name="email" value={email} onChange={registerDataChange}
+              onBlur={() => setTouched(p => ({ ...p, email: true }))}
+              className={inputClass('email')}
+            />
+            {isValid('email') && (
+              <span className="absolute inset-y-0 right-3 flex items-center">
+                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </span>
+            )}
+          </div>
+          {showError('email') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.email}</p>}
+          {isValid('email') && <p className="mt-1.5 text-xs text-emerald-400 flex items-center gap-1"><span>✓</span>Email looks good!</p>}
+        </div>
+
+        {/* Password */}
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-1.5">Password</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <svg className={`w-4 h-4 ${showError('password') ? 'text-red-400' : isValid('password') ? 'text-emerald-400' : 'text-gray-400 dark:text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </span>
+            <input
+              type="password" placeholder="Enter your password"
+              name="password" value={password} onChange={registerDataChange}
+              onBlur={() => setTouched(p => ({ ...p, password: true }))}
+              className={inputClass('password')}
+            />
+          </div>
+          {/* Password strength checklist */}
+          {(touched.password || submitAttempted) && password && (
+            <div className="mt-2 flex flex-col gap-1">
+              <p className={`text-xs flex items-center gap-1.5 ${pwChecks.length ? 'text-emerald-400' : 'text-red-400'}`}>
+                <span>{pwChecks.length ? '✓' : '✕'}</span> At least 8 characters
+              </p>
+              <p className={`text-xs flex items-center gap-1.5 ${pwChecks.capital ? 'text-emerald-400' : 'text-red-400'}`}>
+                <span>{pwChecks.capital ? '✓' : '✕'}</span> At least one capital letter
+              </p>
+              <p className={`text-xs flex items-center gap-1.5 ${pwChecks.special ? 'text-emerald-400' : 'text-red-400'}`}>
+                <span>{pwChecks.special ? '✓' : '✕'}</span> At least one special character
+              </p>
+            </div>
+          )}
+          {showError('password') && !password && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.password}</p>}
+        </div>
+
+        {/* Confirm Password */}
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-1.5">Confirm Password</label>
+          <div className="relative">
+            <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+              <svg className={`w-4 h-4 ${showError('confirmPassword') ? 'text-red-400' : isValid('confirmPassword') ? 'text-emerald-400' : 'text-gray-400 dark:text-slate-500'}`} fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            </span>
+            <input
+              type="password" placeholder="Confirm your password"
+              name="confirmPassword" value={confirmPassword} onChange={registerDataChange}
+              onBlur={() => setTouched(p => ({ ...p, confirmPassword: true }))}
+              className={inputClass('confirmPassword')}
+            />
+            {isValid('confirmPassword') && (
+              <span className="absolute inset-y-0 right-3 flex items-center">
+                <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </span>
+            )}
+          </div>
+          {showError('confirmPassword') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.confirmPassword}</p>}
+          {isValid('confirmPassword') && <p className="mt-1.5 text-xs text-emerald-400 flex items-center gap-1"><span>✓</span>Passwords match!</p>}
+        </div>
+
+        {/* Avatar Upload */}
+        <div>
+          <label className="block text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-slate-400 mb-1.5">Avatar</label>
+          <label className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-gray-50 dark:bg-slate-900/70 border border-dashed cursor-pointer transition-all duration-200 text-xs font-semibold uppercase tracking-widest
+            ${showError('avatar')
+              ? 'border-red-500 text-red-400 hover:border-red-400'
+              : isValid('avatar')
+                ? 'border-emerald-500/60 text-emerald-400 hover:border-emerald-400'
+                : 'border-amber-500/30 text-amber-500/60 hover:border-amber-500/60 hover:text-amber-500'
+            }`}>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+            </svg>
+            {isValid('avatar') ? 'Photo uploaded!' : 'Upload Profile Photo'}
+            <input type="file" accept="image/*" className="hidden" name="avatar" onChange={registerDataChange} />
+          </label>
+          {showError('avatar') && <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1"><span>✕</span>{errors.avatar}</p>}
+        </div>
+
+        {/* Submit */}
+        <div className="pt-1">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 px-6 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-400 dark:hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+                Registering...
+              </span>
+            ) : "Sign Up"}
+          </button>
+        </div>
+
+      </form>
+
+      <p className="text-center text-gray-400 dark:text-slate-500 text-xs mt-6">
+        Already have an account?{" "}
+        <Link to="/login" className="text-amber-500 hover:text-amber-400 dark:hover:text-amber-300 font-semibold transition-colors duration-150">
+          Sign in here
+        </Link>
+      </p>
+
+    </div>
+  </div>
+</div>
   );
 }
 

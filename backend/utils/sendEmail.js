@@ -2,6 +2,8 @@ import nodeMailer from 'nodemailer'
 
 export const sendMail = async(option)=>{
     try {
+        const fromName = process.env.SMTP_FROM_NAME || "TrendAura";
+
         const transporter = nodeMailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
@@ -13,10 +15,11 @@ export const sendMail = async(option)=>{
         })
 
         const mailOption = {
-            from :process.env.SMTP_USER,
+            from :`\"${fromName}\" <${process.env.SMTP_USER}>`,
             to : option.email,
             subject :option.subject,
-            text: option.message
+            text: option.message,
+            html: option.html
         }
         
         const info = await transporter.sendMail(mailOption);

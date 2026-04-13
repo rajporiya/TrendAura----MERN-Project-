@@ -51,11 +51,11 @@ function MyOrder() {
         {/* Page Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-1">
-            <div className="w-1 h-6 rounded-full bg-amber-400" />
+            <div className="w-1 h-6 rounded-full bg-amber-500" />
             <h1 className="text-2xl font-bold text-white tracking-tight">My Orders</h1>
           </div>
           <p className="text-slate-400 text-sm ml-4">
-            You have <span className="text-amber-400 font-semibold">{orders.length}</span> order{orders.length !== 1 ? "s" : ""}
+            You have <span className="text-amber-500 font-semibold">{orders.length}</span> order{orders.length !== 1 ? "s" : ""}
           </p>
         </div>
 
@@ -69,11 +69,11 @@ function MyOrder() {
               {/* Head */}
               <thead>
                 <tr className="border-b border-slate-700/50">
-                  <th className="text-left px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-400/70">Order ID</th>
-                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-400/70">Items</th>
-                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-400/70">Status</th>
-                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-400/70">Total Price</th>
-                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-400/70">Actions</th>
+                  <th className="text-left px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-500/70">Order ID</th>
+                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-500/70">Items</th>
+                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-500/70">Status</th>
+                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-500/70">Total Price</th>
+                  <th className="text-center px-5 py-4 text-xs font-bold uppercase tracking-widest text-amber-500/70">Actions</th>
                 </tr>
               </thead>
 
@@ -108,13 +108,13 @@ function MyOrder() {
                           : order.orderStatus === "Shipped"
                           ? "bg-blue-400/10 border border-blue-400/20 text-blue-400"
                           : order.orderStatus === "Processing"
-                          ? "bg-amber-400/10 border border-amber-400/20 text-amber-400"
+                          ? "bg-amber-500/10 border border-amber-500/20 text-amber-500"
                           : "bg-slate-700/50 border border-slate-600/50 text-slate-400"
                         }`}>
                         <span className={`w-1.5 h-1.5 rounded-full
                           ${order.orderStatus === "Delivered" ? "bg-green-400"
                           : order.orderStatus === "Shipped" ? "bg-blue-400"
-                          : order.orderStatus === "Processing" ? "bg-amber-400 animate-pulse"
+                          : order.orderStatus === "Processing" ? "bg-amber-500 animate-pulse"
                           : "bg-slate-400"}`}
                         />
                         {order.orderStatus}
@@ -123,7 +123,7 @@ function MyOrder() {
 
                     {/* Total Price */}
                     <td className="px-5 py-4 text-center">
-                      <span className="text-amber-400 font-bold text-sm">
+                      <span className="text-amber-500 font-bold text-sm">
                         ₹{order.totalPrice}
                       </span>
                     </td>
@@ -134,7 +134,7 @@ function MyOrder() {
                         {/* View Button */}
                         <Link
                           to={`/order/${order._id}`}
-                          className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-400 hover:bg-amber-400/20 hover:border-amber-400/40 hover:text-amber-300 transition-all duration-200"
+                          className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 hover:bg-amber-500/20 hover:border-amber-500/40 hover:text-amber-300 transition-all duration-200"
                           title="View order details"
                         >
                           <LaunchOutlined style={{ fontSize: 15 }} />
@@ -167,30 +167,30 @@ function MyOrder() {
   ) : (
 
     /* No Orders */
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4">
-      <div className="flex flex-col items-center gap-5 text-center max-w-sm">
-        <div className="w-20 h-20 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shadow-lg shadow-amber-400/10">
-          <svg className="w-9 h-9 text-amber-400/60" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
-          </svg>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-bold text-white tracking-tight">No Orders Found</h3>
-          <p className="text-sm text-slate-400">You haven't placed any orders yet.</p>
-        </div>
-        <div className="flex items-center gap-3 w-full">
-          <div className="flex-1 h-px bg-slate-700/50" />
-          <div className="w-1.5 h-1.5 rotate-45 bg-amber-400/30 flex-shrink-0" />
-          <div className="flex-1 h-px bg-slate-700/50" />
-        </div>
-        <Link
-          to="/products"
-          className="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98] transition-all duration-200"
-        >
-          Browse Products
-        </Link>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center px-4">
+  <div className="flex flex-col items-center gap-5 text-center max-w-sm">
+    <div className="w-20 h-20 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shadow-lg shadow-amber-500/10">
+      <svg className="w-9 h-9 text-amber-500/60" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+      </svg>
     </div>
+    <div className="flex flex-col gap-2">
+      <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">No Orders Found</h3>
+      <p className="text-sm text-gray-500 dark:text-slate-400">You haven't placed any orders yet.</p>
+    </div>
+    <div className="flex items-center gap-3 w-full">
+      <div className="flex-1 h-px bg-gray-300/50 dark:bg-slate-700/50" />
+      <div className="w-1.5 h-1.5 rotate-45 bg-amber-500/30 flex-shrink-0" />
+      <div className="flex-1 h-px bg-gray-300/50 dark:bg-slate-700/50" />
+    </div>
+    <Link
+      to="/products"
+      className="px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest bg-amber-500 hover:bg-amber-400 dark:hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98] transition-all duration-200"
+    >
+      Browse Products
+    </Link>
+  </div>
+</div>
 
   )}
 

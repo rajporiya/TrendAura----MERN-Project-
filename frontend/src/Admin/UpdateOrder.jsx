@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../AdminStyles/UpdateOrder.css";
-import Navbar from "../componant/Navbar";
 import PageTitle from "../componant/PageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -63,7 +62,6 @@ function UpdateOrder() {
   if (!order) {
     return (
       <>
-        <Navbar />
         <div className="order-container">
           <p>Order not found. <Link to="/admin/orders">Go back</Link></p>
         </div>
@@ -77,7 +75,6 @@ function UpdateOrder() {
         <Loader />
       ) : (
         <>
-          <Navbar />
           <PageTitle title="Update Order" />
 
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
@@ -85,7 +82,7 @@ function UpdateOrder() {
 
               {/* Heading */}
               <div className="flex items-center gap-2">
-                <div className="w-1 h-6 rounded-full bg-amber-400" />
+                <div className="w-1 h-6 rounded-full bg-amber-500" />
                 <h1 className="text-2xl font-bold text-white tracking-tight">Update Order</h1>
               </div>
 
@@ -103,7 +100,7 @@ function UpdateOrder() {
 
                   <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
                     <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Total Price</span>
-                    <span className="text-amber-400 font-bold">₹{order.totalPrice?.toFixed(2)}</span>
+                    <span className="text-amber-500 font-bold">₹{order.totalPrice?.toFixed(2)}</span>
                   </div>
 
                   <div className="flex items-center justify-between py-2 border-b border-slate-700/30">
@@ -112,14 +109,14 @@ function UpdateOrder() {
                       ${order.orderStatus?.toLowerCase() === 'delivered'
                         ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
                         : order.orderStatus?.toLowerCase() === 'processing'
-                          ? 'bg-amber-400/10 border border-amber-400/20 text-amber-400'
+                          ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500'
                           : order.orderStatus?.toLowerCase() === 'shipped'
                             ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
                             : 'bg-red-500/10 border border-red-500/20 text-red-400'
                       }`}>
                       <span className={`w-1.5 h-1.5 rounded-full
                         ${order.orderStatus?.toLowerCase() === 'delivered' ? 'bg-emerald-400'
-                          : order.orderStatus?.toLowerCase() === 'processing' ? 'bg-amber-400 animate-pulse'
+                          : order.orderStatus?.toLowerCase() === 'processing' ? 'bg-amber-500 animate-pulse'
                           : order.orderStatus?.toLowerCase() === 'shipped' ? 'bg-blue-400'
                           : 'bg-red-400'}`}
                       />
@@ -146,7 +143,7 @@ function UpdateOrder() {
                       <span className="text-white font-medium text-sm">{item.name}</span>
                       <div className="flex items-center gap-4">
                         <span className="text-xs text-slate-400">× {item.quantity}</span>
-                        <span className="text-amber-400 font-bold text-sm">₹{item.price}</span>
+                        <span className="text-amber-500 font-bold text-sm">₹{item.price}</span>
                       </div>
                     </div>
                   ))}
@@ -162,7 +159,7 @@ function UpdateOrder() {
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer"
+                    className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer"
                   >
                     <option value="Processing">Processing</option>
                     <option value="Shipped">Shipped</option>
@@ -170,7 +167,7 @@ function UpdateOrder() {
                   </select>
                   <button
                     type="submit"
-                    className="px-8 py-2.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+                    className="px-8 py-2.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
                   >
                     Update Status
                   </button>

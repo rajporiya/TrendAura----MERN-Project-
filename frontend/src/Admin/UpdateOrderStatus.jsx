@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import "../AdminStyles/UpdateOrder.css";
-import Navbar from '../componant/Navbar';
 import PageTitle from '../componant/PageTitle';
 import Footer from '../componant/Footer';
 import { useDispatch, useSelector } from 'react-redux';
@@ -99,7 +98,6 @@ function UpdateOrderStatus() {
   return (
 <>
    { loading ? (<Loader />):( <>
-    <Navbar />
     <PageTitle title='Update Order Status' />
 
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
@@ -107,7 +105,7 @@ function UpdateOrderStatus() {
 
         {/* Heading */}
         <div className="flex items-center gap-2">
-          <div className="w-1 h-6 rounded-full bg-amber-400" />
+          <div className="w-1 h-6 rounded-full bg-amber-500" />
           <h1 className="text-2xl font-bold text-white tracking-tight">Update Order</h1>
         </div>
 
@@ -141,14 +139,14 @@ function UpdateOrderStatus() {
                 ${orderStatus?.toLowerCase() === 'delivered'
                   ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
                   : orderStatus?.toLowerCase() === 'processing'
-                    ? 'bg-amber-400/10 border border-amber-400/20 text-amber-400'
+                    ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500'
                     : orderStatus?.toLowerCase() === 'shipped'
                       ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
                       : 'bg-slate-700/50 border border-slate-600/50 text-slate-300'
                 }`}>
                 <span className={`w-1.5 h-1.5 rounded-full
                   ${orderStatus?.toLowerCase() === 'delivered' ? 'bg-emerald-400'
-                    : orderStatus?.toLowerCase() === 'processing' ? 'bg-amber-400 animate-pulse'
+                    : orderStatus?.toLowerCase() === 'processing' ? 'bg-amber-500 animate-pulse'
                     : orderStatus?.toLowerCase() === 'shipped' ? 'bg-blue-400'
                     : 'bg-slate-400'}`}
                 />
@@ -170,7 +168,7 @@ function UpdateOrderStatus() {
 
             <div className="flex items-center justify-between py-2">
               <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Total Price</span>
-              <span className="text-amber-400 font-bold text-base">₹{totalPrice}</span>
+              <span className="text-amber-500 font-bold text-base">₹{totalPrice}</span>
             </div>
 
           </div>
@@ -208,7 +206,7 @@ function UpdateOrderStatus() {
                     </td>
                     <td className="px-6 py-4 text-white font-medium">{item.name}</td>
                     <td className="px-6 py-4 text-slate-300">{item.quantity}</td>
-                    <td className="px-6 py-4 text-amber-400 font-bold">₹{item.price}</td>
+                    <td className="px-6 py-4 text-amber-500 font-bold">₹{item.price}</td>
                   </tr>
                 ))}
               </tbody>
@@ -226,7 +224,7 @@ function UpdateOrderStatus() {
               disabled={loading || orderStatus === 'Delivered'}
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
             >
               <option value="">Select Status</option>
               <option value="Shipped">Shipped</option>
@@ -236,7 +234,7 @@ function UpdateOrderStatus() {
             <button
               disabled={loading || orderStatus === 'Delivered'}
               onClick={handleStatusUpdate}
-              className="px-8 py-2.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+              className="px-8 py-2.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? 'Updating...' : 'Update Status'}
             </button>

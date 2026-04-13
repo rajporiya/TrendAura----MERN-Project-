@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 // import "../AdminStyles/CreateProduct.css";
-import Navbar from "../componant/Navbar";
 import PageTitle from "../componant/PageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -96,7 +95,6 @@ export default function CreateProduct() {
   };
   return (
 <>
-      <Navbar />
       <PageTitle title="Create Product" />
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 pt-6 pb-12">
@@ -104,7 +102,7 @@ export default function CreateProduct() {
 
           {/* Heading */}
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 rounded-full bg-amber-400" />
+            <div className="w-1 h-6 rounded-full bg-amber-500" />
             <h1 className="text-2xl font-bold text-white tracking-tight">Create Product</h1>
           </div>
 
@@ -129,7 +127,7 @@ export default function CreateProduct() {
                   name="name"
                   placeholder="Enter product name"
                   required
-                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                 />
               </div>
 
@@ -141,7 +139,7 @@ export default function CreateProduct() {
                   type="number"
                   placeholder="Enter product price"
                   required
-                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                 />
               </div>
 
@@ -153,7 +151,7 @@ export default function CreateProduct() {
                   type="text"
                   placeholder="Enter product description"
                   required
-                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                 />
               </div>
 
@@ -165,7 +163,7 @@ export default function CreateProduct() {
                   onChange={(e) => setCategory(e.target.value)}
                   name="category"
                   required
-                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer"
+                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer"
                 >
                   <option value="">Select a category</option>
                   {categories.map((item, index) => (
@@ -184,14 +182,14 @@ export default function CreateProduct() {
                   name="stock"
                   placeholder="Enter product stock"
                   required
-                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                  className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                 />
               </div>
 
               {/* File Upload */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Product Images</label>
-                <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 transition-all duration-200 hover:border-amber-400/30">
+                <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 transition-all duration-200 hover:border-amber-500/30">
                   <input
                     type="file"
                     accept="image/*"
@@ -202,8 +200,8 @@ export default function CreateProduct() {
                       file:mr-4 file:py-1.5 file:px-4
                       file:rounded-lg file:border-0
                       file:text-xs file:font-bold file:uppercase file:tracking-wider
-                      file:bg-amber-400/10 file:text-amber-400
-                      hover:file:bg-amber-400/20
+                      file:bg-amber-500/10 file:text-amber-500
+                      hover:file:bg-amber-500/20
                       cursor-pointer transition-all duration-200"
                   />
                 </div>
@@ -240,7 +238,7 @@ export default function CreateProduct() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {loading ? "Creating..." : "Create"}
               </button>

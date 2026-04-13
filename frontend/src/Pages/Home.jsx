@@ -14,6 +14,8 @@ function Home() {
   const { error, loading, products, productCount } = useSelector(
     (state) => state.product,
   );
+  const hasProducts = Array.isArray(products) && products.length > 0;
+  const showInitialLoader = loading && !hasProducts;
 
   const dispatch = useDispatch();
 
@@ -32,15 +34,13 @@ function Home() {
   }
 }, [error, dispatch]);
   return (
-    // ✅ ONLY UI CHANGED — all logic, state, handlers are identical to your original
-
 <>
-  {loading ? (<Loader />) : (
+  {showInitialLoader ? (<Loader />) : (
     <>
       <Navbar />
       <PageTitle title="TrendAura" />
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="min-h-screen bg-gray-50 dark:bg-[var(--background)]">
 
         {/* Image Slider */}
         <div className="px-4 pt-6 max-w-6xl mx-auto">
@@ -53,13 +53,13 @@ function Home() {
           {/* Section Header */}
           <div className="flex items-center gap-4 mb-10">
             <div className="flex items-center gap-3">
-              <div className="w-1 h-7 rounded-full bg-amber-400" />
-              <h2 className="text-2xl font-bold text-white tracking-tight">
-                Trending <span className="text-amber-400">Now</span>
+              <div className="w-1 h-7 rounded-full bg-amber-500" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-[var(--text-primary)] tracking-tight">
+                Trending <span className="text-amber-500">Now</span>
               </h2>
             </div>
-            <div className="flex-1 h-px bg-gradient-to-r from-amber-400/20 via-slate-700/50 to-transparent" />
-            <div className="w-1.5 h-1.5 rotate-45 bg-amber-400/40 flex-shrink-0" />
+            <div className="flex-1 h-px bg-gradient-to-r from-amber-500/20 via-gray-200 dark:via-[var(--border)] to-transparent" />
+            <div className="w-1.5 h-1.5 rotate-45 bg-amber-500/40 flex-shrink-0" />
           </div>
 
           {/* Products Grid */}

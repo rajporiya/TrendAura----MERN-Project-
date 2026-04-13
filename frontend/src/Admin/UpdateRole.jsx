@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import '../AdminStyles/UpdateRole.css'
-import Navbar from '../componant/Navbar'
 import PageTitle from '../componant/PageTitle'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -67,15 +66,14 @@ function UpdateRole() {
       return (
 <>
    {loading?(<Loader />): (<>
-    <Navbar />
     <PageTitle title='Update Role'/>
 
-    <div className="mt-15 min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 pt-6 pb-12 flex items-start justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 pt-6 pb-12 flex items-start justify-center">
       <div className="w-full max-w-md flex flex-col gap-6 mt-4">
 
         {/* Heading */}
         <div className="flex items-center gap-2">
-          <div className="w-1 h-6 rounded-full bg-amber-400" />
+          <div className="w-1 h-6 rounded-full bg-amber-500" />
           <h1 className="text-2xl font-bold text-white tracking-tight">Update User Role</h1>
         </div>
 
@@ -112,7 +110,7 @@ function UpdateRole() {
               <label htmlFor="role" className="text-xs font-bold uppercase tracking-widest text-slate-400">Role</label>
               <select
                 value={role} onChange={handleChange} name="role" id="role" required
-                className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer"
+                className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer"
               >
                 <option value="">Select Role</option>
                 <option value="admin">Admin</option>
@@ -126,7 +124,7 @@ function UpdateRole() {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+              className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
             >
               Update Role
             </button>

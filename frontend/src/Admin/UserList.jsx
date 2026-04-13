@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import '../AdminStyles/UsersList.css'
-import Navbar from '../componant/Navbar'
 import PageTitle from '../componant/PageTitle'
 import { Link } from 'react-router-dom'
 import { Delete, Edit } from '@mui/icons-material'
@@ -52,7 +51,6 @@ useEffect(() => {
 <>
     {loading ? (<Loader />) : (
     <>
-    <Navbar />
     <PageTitle title="All Users" />
 
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
@@ -60,7 +58,7 @@ useEffect(() => {
 
         {/* Heading */}
         <div className="flex items-center gap-2">
-          <div className="w-1 h-6 rounded-full bg-amber-400" />
+          <div className="w-1 h-6 rounded-full bg-amber-500" />
           <h1 className="text-2xl font-bold text-white tracking-tight">All Users</h1>
         </div>
 
@@ -87,7 +85,7 @@ useEffect(() => {
 
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-xs font-bold text-amber-400 shrink-0">
+                          <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-xs font-bold text-amber-500 shrink-0">
                             {user.name?.charAt(0).toUpperCase()}
                           </div>
                           <span className="text-white font-medium">{user.name}</span>
@@ -99,10 +97,10 @@ useEffect(() => {
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold
                           ${user.role === 'admin'
-                            ? 'bg-amber-400/10 border border-amber-400/20 text-amber-400'
+                            ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500'
                             : 'bg-slate-700/50 border border-slate-600/50 text-slate-300'
                           }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${user.role === 'admin' ? 'bg-amber-400' : 'bg-slate-400'}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${user.role === 'admin' ? 'bg-amber-500' : 'bg-slate-400'}`} />
                           {user.role}
                         </span>
                       </td>

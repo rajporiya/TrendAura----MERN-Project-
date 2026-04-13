@@ -1,5 +1,5 @@
 import express from 'express'
-import { deleteUser, getSingleUser, getUseList, getUserDetails, loginUSer, logout, registerUser, requestPasswordReset, resetPassword, updatePassword, updateProfile, updateUserRole } from '../controllers/userController.js';
+import { addToWishlist, deleteUser, getSingleUser, getUseList, getUserDetails, getWishlist, loginUSer, logout, registerUser, removeFromWishlist, requestPasswordReset, resetPassword, updatePassword, updateProfile, updateUserRole } from '../controllers/userController.js';
 import { roleBaseAccess, verifyUserAuth } from '../middleware/userAuth.js';
 
 
@@ -20,6 +20,10 @@ router.route("/profile").get(verifyUserAuth, getUserDetails);
 router.route("/password/update").put(verifyUserAuth, updatePassword);
 
 router.route("/profile/update").put(verifyUserAuth, updateProfile);
+
+router.route("/wishlist").get(verifyUserAuth, getWishlist);
+
+router.route("/wishlist/:productId").post(verifyUserAuth, addToWishlist).delete(verifyUserAuth, removeFromWishlist);
 
 router.route("/admin/users").get(verifyUserAuth,  roleBaseAccess('admin'), getUseList);
 

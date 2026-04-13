@@ -89,35 +89,39 @@ const socials = [
 ];
 
 function FaqItem({ q, a }) {
-  
   const [open, setOpen] = useState(false);
   return (
     <div
-      className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-        open ? "border-amber-400/30 bg-slate-800/80" : "border-slate-700/50 bg-slate-800/40"
-      }`}
+      className="rounded-2xl border transition-all duration-300 overflow-hidden"
+      style={{
+        borderColor: open ? "rgba(245,158,11,0.3)" : "var(--border)",
+        backgroundColor: open ? "var(--card-bg)" : "var(--background-light)",
+      }}
     >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-6 py-4 text-left gap-4"
+        className="w-full flex items-center justify-between px-5 sm:px-6 py-4 text-left gap-4"
       >
-        <span className={`text-sm font-semibold transition-colors duration-200 ${open ? "text-amber-400" : "text-white"}`}>
+        <span className="text-sm font-semibold transition-colors duration-200"
+          style={{ color: open ? "#f59e0b" : "var(--text-primary)" }}>
           {q}
         </span>
         <span
-          className={`flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center border transition-all duration-300 ${
-            open ? "border-amber-400/40 bg-amber-400/10 text-amber-400 rotate-45" : "border-slate-600 text-slate-400"
-          }`}
+          className="flex-shrink-0 w-6 h-6 rounded-lg flex items-center justify-center border transition-all duration-300"
+          style={{
+            borderColor: open ? "rgba(245,158,11,0.4)" : "var(--border)",
+            backgroundColor: open ? "rgba(245,158,11,0.1)" : "transparent",
+            color: open ? "#f59e0b" : "var(--text-light)",
+            transform: open ? "rotate(45deg)" : "rotate(0deg)",
+          }}
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
         </span>
       </button>
-      <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${open ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}
-      >
-        <p className="px-6 pb-5 text-sm text-slate-400 leading-relaxed">{a}</p>
+      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${open ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
+        <p className="px-5 sm:px-6 pb-5 text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{a}</p>
       </div>
     </div>
   );
@@ -125,7 +129,7 @@ function FaqItem({ q, a }) {
 
 export default function ContactUs() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [status, setStatus] = useState(null); // null | "sending" | "sent" | "error"
+  const [status, setStatus] = useState(null);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -133,409 +137,397 @@ export default function ContactUs() {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
     setStatus("sending");
-    // Simulate API call
     setTimeout(() => setStatus("sent"), 1800);
   };
 
   return (
     <>
-    <Navbar />
-    <div className="min-h-screen bg-slate-900 text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <Navbar />
+      <div className="min-h-screen" style={{ backgroundColor: "var(--background)", color: "var(--text-primary)", fontFamily: "'DM Sans', sans-serif" }}>
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap');
-        .playfair { font-family: 'Playfair Display', serif; }
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700;900&display=swap');
+          .playfair { font-family: 'Playfair Display', serif; }
 
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .fade-up { animation: fadeUp 0.65s cubic-bezier(.22,1,.36,1) both; }
+          @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          .fade-up { animation: fadeUp 0.65s cubic-bezier(.22,1,.36,1) both; }
 
-        @keyframes shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
-        .shimmer-text {
-          background: linear-gradient(90deg, #f59e0b, #fde68a, #f59e0b);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmer 3s linear infinite;
-        }
+          @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position:  200% center; }
+          }
+          .shimmer-text {
+            background: linear-gradient(90deg, #f59e0b, #fde68a, #f59e0b);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+          }
 
-        .input-field {
-          width: 100%;
-          background: rgba(30,41,59,0.7);
-          border: 1px solid rgba(100,116,139,0.35);
-          border-radius: 14px;
-          padding: 12px 16px;
-          color: white;
-          font-size: 14px;
-          outline: none;
-          transition: border-color 0.2s, box-shadow 0.2s;
-          font-family: 'DM Sans', sans-serif;
-        }
-        .input-field::placeholder { color: #64748b; }
-        .input-field:focus {
-          border-color: rgba(251,191,36,0.5);
-          box-shadow: 0 0 0 3px rgba(251,191,36,0.08);
-        }
+          .contact-input {
+            width: 100%;
+            background: var(--background-light);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: 'DM Sans', sans-serif;
+          }
+          .contact-input::placeholder { color: var(--text-light); }
+          .contact-input:focus {
+            border-color: rgba(251,191,36,0.5);
+            box-shadow: 0 0 0 3px rgba(251,191,36,0.08);
+          }
+          .contact-input option {
+            background: var(--card-bg);
+            color: var(--text-primary);
+          }
 
-        .card-hover {
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-        .card-hover:hover {
-          transform: translateY(-3px);
-          border-color: rgba(251,191,36,0.3);
-          box-shadow: 0 16px 40px rgba(0,0,0,0.35);
-        }
+          .card-hover {
+            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+          }
+          .card-hover:hover {
+            transform: translateY(-3px);
+            border-color: rgba(251,191,36,0.3);
+            box-shadow: 0 16px 40px var(--shadow);
+          }
 
-        .glow-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: #f59e0b;
-          box-shadow: 0 0 8px 2px rgba(245,158,11,0.6);
-          display: inline-block;
-        }
+          .glow-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #f59e0b;
+            box-shadow: 0 0 8px 2px rgba(245,158,11,0.6);
+            display: inline-block;
+          }
 
-        @keyframes spin-slow { to { transform: rotate(360deg); } }
-        .spin-slow { animation: spin-slow 12s linear infinite; }
+          @keyframes spin-slow { to { transform: rotate(360deg); } }
+          .spin-slow { animation: spin-slow 12s linear infinite; }
 
-        @keyframes pulse-ring {
-          0%, 100% { transform: scale(1); opacity: 0.4; }
-          50%       { transform: scale(1.12); opacity: 0.15; }
-        }
-        .pulse-ring { animation: pulse-ring 3s ease-in-out infinite; }
+          @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50%       { transform: scale(1.12); opacity: 0.15; }
+          }
+          .pulse-ring { animation: pulse-ring 3s ease-in-out infinite; }
 
-        @keyframes checkPop {
-          0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
-          70%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
-          100% { transform: scale(1) rotate(0deg); opacity: 1; }
-        }
-        .check-pop { animation: checkPop 0.5s cubic-bezier(.22,1,.36,1) both; }
+          @keyframes checkPop {
+            0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+            70%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+          }
+          .check-pop { animation: checkPop 0.5s cubic-bezier(.22,1,.36,1) both; }
 
-        .grain::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-          pointer-events: none;
-          border-radius: inherit;
-        }
-      `}</style>
+          .grain::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            border-radius: inherit;
+          }
+        `}</style>
 
-      {/* ── HERO ── */}
-      <section className="relative pt-28 pb-20 overflow-hidden grain">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-72 h-72 bg-amber-400/8 rounded-full blur-3xl translate-y-1/2 pointer-events-none" />
+        {/* ── HERO ── */}
+        <section className="relative pt-28 pb-16 sm:pb-20 overflow-hidden grain">
+          <div className="absolute top-0 right-1/4 w-72 sm:w-96 h-72 sm:h-96 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.08)" }} />
+          <div className="absolute bottom-0 left-1/4 w-56 sm:w-72 h-56 sm:h-72 rounded-full blur-3xl translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.06)" }} />
 
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <div className="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-8"
-            style={{ animationDelay: "0ms" }}>
-            <span className="glow-dot" />
-            We're Here to Help
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center relative z-10">
+            <div className="fade-up inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-semibold uppercase tracking-widest mb-6 sm:mb-8"
+              style={{ backgroundColor: "rgba(245,158,11,0.1)", borderColor: "rgba(245,158,11,0.2)", color: "#f59e0b", animationDelay: "0ms" }}>
+              <span className="glow-dot" />
+              We're Here to Help
+            </div>
+            <h1 className="playfair fade-up text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.08] mb-4 sm:mb-5"
+              style={{ animationDelay: "100ms" }}>
+              Let's <span className="shimmer-text">Talk.</span>
+            </h1>
+            <p className="fade-up text-base sm:text-lg leading-relaxed max-w-xl mx-auto"
+              style={{ animationDelay: "200ms", color: "var(--text-secondary)" }}>
+              Questions, feedback, or just want to say hi? We'd love to hear from you.
+              Our team is always a message away.
+            </p>
           </div>
-          <h1 className="playfair fade-up text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.08] mb-5"
-            style={{ animationDelay: "100ms" }}>
-            Let's <span className="shimmer-text">Talk.</span>
-          </h1>
-          <p className="fade-up text-slate-400 text-lg leading-relaxed max-w-xl mx-auto"
-            style={{ animationDelay: "200ms" }}>
-            Questions, feedback, or just want to say hi? We'd love to hear from you.
-            Our team is always a message away.
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* ── CONTACT CARDS ── */}
-      <section className="pb-16">
-        <div className="max-w-5xl mx-auto px-6 grid sm:grid-cols-3 gap-4">
-          {contactInfo.map((c, i) => (
-            <a
-              key={c.label}
-              href={c.href}
-              target={c.href.startsWith("http") ? "_blank" : undefined}
-              rel="noreferrer"
-              className="card-hover group relative p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm flex flex-col gap-4 overflow-hidden no-underline"
-              style={{ animationDelay: `${i * 80}ms` }}
-            >
-              <div className="w-11 h-11 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 group-hover:bg-amber-400/20 transition-colors duration-200">
-                {c.icon}
-              </div>
-              <div>
-                <p className="text-slate-500 text-xs uppercase tracking-widest font-semibold mb-1">{c.label}</p>
-                <p className="text-white font-bold text-sm leading-snug">{c.value}</p>
-                <p className="text-slate-500 text-xs mt-1">{c.sub}</p>
-              </div>
-              {/* corner glow */}
-              <div className="absolute -bottom-4 -right-4 w-14 h-14 rounded-full bg-amber-400/5 border border-amber-400/10 group-hover:bg-amber-400/10 transition-colors duration-300" />
-            </a>
-          ))}
-        </div>
-      </section>
-
-      {/* ── MAIN CONTENT: FORM + SIDEBAR ── */}
-      <section className="pb-20">
-        <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-5 gap-8 items-start">
-
-          {/* ── FORM (3/5) ── */}
-          <div className="lg:col-span-3">
-            <div className="relative p-8 rounded-3xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm overflow-hidden">
-              {/* subtle top accent */}
-              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent" />
-
-              <div className="mb-7">
-                <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
-                  <span className="glow-dot" /> Send a Message
+        {/* ── CONTACT CARDS ── */}
+        <section className="pb-12 sm:pb-16">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {contactInfo.map((c, i) => (
+              <a
+                key={c.label}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel="noreferrer"
+                className="card-hover group relative p-5 sm:p-6 rounded-2xl border backdrop-blur-sm flex flex-col gap-4 overflow-hidden no-underline"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)", animationDelay: `${i * 80}ms` }}
+              >
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-200"
+                  style={{ backgroundColor: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)", color: "#f59e0b" }}>
+                  {c.icon}
                 </div>
-                <h2 className="playfair text-3xl font-black">Drop us a line</h2>
-                <p className="text-slate-400 text-sm mt-1">Fill in the form and we'll get back to you within 24 hours.</p>
-              </div>
+                <div>
+                  <p className="text-xs uppercase tracking-widest font-semibold mb-1" style={{ color: "var(--text-light)" }}>{c.label}</p>
+                  <p className="font-bold text-sm leading-snug" style={{ color: "var(--text-primary)" }}>{c.value}</p>
+                  <p className="text-xs mt-1" style={{ color: "var(--text-light)" }}>{c.sub}</p>
+                </div>
+                <div className="absolute -bottom-4 -right-4 w-14 h-14 rounded-full transition-colors duration-300"
+                  style={{ backgroundColor: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.1)" }} />
+              </a>
+            ))}
+          </div>
+        </section>
 
-              {status === "sent" ? (
-                <div className="flex flex-col items-center justify-center py-16 gap-5 text-center">
-                  <div className="check-pop w-16 h-16 rounded-2xl bg-amber-400/15 border border-amber-400/30 flex items-center justify-center text-amber-400">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-8 h-8">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        {/* ── MAIN CONTENT: FORM + SIDEBAR ── */}
+        <section className="pb-16 sm:pb-20">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8 items-start">
+
+            {/* ── FORM (3/5) ── */}
+            <div className="lg:col-span-3">
+              <div className="relative p-6 sm:p-8 rounded-3xl border backdrop-blur-sm overflow-hidden"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)" }}>
+                <div className="absolute top-0 left-8 right-8 h-px"
+                  style={{ background: "linear-gradient(to right, transparent, rgba(245,158,11,0.3), transparent)" }} />
+
+                <div className="mb-6 sm:mb-7">
+                  <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#f59e0b" }}>
+                    <span className="glow-dot" /> Send a Message
+                  </div>
+                  <h2 className="playfair text-2xl sm:text-3xl font-black" style={{ color: "var(--text-primary)" }}>Drop us a line</h2>
+                  <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>Fill in the form and we'll get back to you within 24 hours.</p>
+                </div>
+
+                {status === "sent" ? (
+                  <div className="flex flex-col items-center justify-center py-12 sm:py-16 gap-5 text-center">
+                    <div className="check-pop w-16 h-16 rounded-2xl flex items-center justify-center"
+                      style={{ backgroundColor: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.3)", color: "#f59e0b" }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-8 h-8">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="playfair text-2xl font-black mb-2" style={{ color: "var(--text-primary)" }}>Message Sent!</p>
+                      <p className="text-sm max-w-xs" style={{ color: "var(--text-secondary)" }}>
+                        Thanks for reaching out, <span className="font-medium" style={{ color: "var(--text-primary)" }}>{form.name}</span>. We'll be in touch shortly.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => { setStatus(null); setForm({ name: "", email: "", subject: "", message: "" }); }}
+                      className="mt-2 px-5 py-2 rounded-xl text-sm transition-all duration-200"
+                      style={{ border: "1px solid var(--border)", color: "var(--text-secondary)" }}
+                    >
+                      Send another
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-secondary)" }}>
+                          Your Name <span style={{ color: "#f59e0b" }}>*</span>
+                        </label>
+                        <input name="name" value={form.name} onChange={handleChange} placeholder="Aryan Mehta" required className="contact-input" />
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-secondary)" }}>
+                          Email <span style={{ color: "#f59e0b" }}>*</span>
+                        </label>
+                        <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="aryan@email.com" required className="contact-input" />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-secondary)" }}>Subject</label>
+                      <select
+                        name="subject" value={form.subject} onChange={handleChange} className="contact-input"
+                        style={{ appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' strokeWidth='2'%3E%3Cpath strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center", backgroundSize: "16px" }}
+                      >
+                        <option value="">Select a topic…</option>
+                        <option value="order">Order Issue</option>
+                        <option value="return">Return / Refund</option>
+                        <option value="product">Product Query</option>
+                        <option value="partnership">Brand Partnership</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-secondary)" }}>
+                        Message <span style={{ color: "#f59e0b" }}>*</span>
+                      </label>
+                      <textarea name="message" value={form.message} onChange={handleChange} rows={5} placeholder="Tell us how we can help you…" required className="contact-input resize-none" />
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={status === "sending"}
+                      className="mt-1 w-full py-3.5 rounded-xl text-sm font-bold active:scale-[0.98] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      style={{ backgroundColor: "#f59e0b", color: "#0f172a", boxShadow: "0 8px 24px rgba(245,158,11,0.2)" }}
+                    >
+                      {status === "sending" ? (
+                        <>
+                          <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                          </svg>
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          Send Message
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="w-4 h-4">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+
+            {/* ── SIDEBAR (2/5) ── */}
+            <div className="lg:col-span-2 flex flex-col gap-4 sm:gap-5">
+
+              {/* Business hours */}
+              <div className="p-5 sm:p-6 rounded-2xl border backdrop-blur-sm"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)" }}>
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+                    style={{ backgroundColor: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.2)", color: "#f59e0b" }}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="playfair text-2xl font-black text-white mb-2">Message Sent!</p>
-                    <p className="text-slate-400 text-sm max-w-xs">
-                      Thanks for reaching out, <span className="text-white font-medium">{form.name}</span>. We'll be in touch shortly.
-                    </p>
+                    <p className="font-bold text-sm" style={{ color: "var(--text-primary)" }}>Business Hours</p>
+                    <p className="text-xs" style={{ color: "var(--text-light)" }}>IST (UTC +5:30)</p>
                   </div>
-                  <button
-                    onClick={() => { setStatus(null); setForm({ name: "", email: "", subject: "", message: "" }); }}
-                    className="mt-2 px-5 py-2 rounded-xl border border-slate-700 text-slate-400 text-sm hover:border-amber-400/40 hover:text-white transition-all duration-200"
-                  >
-                    Send another
-                  </button>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                        Your Name <span className="text-amber-400">*</span>
-                      </label>
-                      <input
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        placeholder="Aryan Mehta"
-                        required
-                        className="input-field"
-                      />
+                <div className="flex flex-col gap-2.5">
+                  {[
+                    { day: "Mon – Fri", time: "10:00 AM – 7:00 PM", active: true },
+                    { day: "Saturday", time: "11:00 AM – 5:00 PM", active: true },
+                    { day: "Sunday", time: "Closed", active: false },
+                  ].map((row) => (
+                    <div key={row.day} className="flex items-center justify-between">
+                      <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{row.day}</span>
+                      <span className="text-sm font-semibold" style={{ color: row.active ? "var(--text-primary)" : "var(--text-light)" }}>
+                        {row.time}
+                      </span>
                     </div>
-                    <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                        Email <span className="text-amber-400">*</span>
-                      </label>
-                      <input
-                        name="email"
-                        type="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        placeholder="aryan@email.com"
-                        required
-                        className="input-field"
-                      />
-                    </div>
-                  </div>
+                  ))}
+                </div>
+              </div>
 
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Subject</label>
-                    <select
-                      name="subject"
-                      value={form.subject}
-                      onChange={handleChange}
-                      className="input-field"
-                      style={{ appearance: "none", backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' strokeWidth='2'%3E%3Cpath strokeLinecap='round' strokeLinejoin='round' d='M19.5 8.25l-7.5 7.5-7.5-7.5'/%3E%3C/svg%3E")`, backgroundRepeat: "no-repeat", backgroundPosition: "right 14px center", backgroundSize: "16px" }}
+              {/* Social links */}
+              <div className="p-5 sm:p-6 rounded-2xl border backdrop-blur-sm"
+                style={{ backgroundColor: "var(--card-bg)", borderColor: "var(--border)" }}>
+                <p className="font-bold text-sm mb-4" style={{ color: "var(--text-primary)" }}>Follow TrendAura</p>
+                <div className="flex flex-col gap-2">
+                  {socials.map((s) => (
+                    <a
+                      key={s.name}
+                      href={s.href}
+                      className="flex items-center gap-3 px-4 py-2.5 rounded-xl border transition-all duration-150 group"
+                      style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
                     >
-                      <option value="" style={{ background: "#1e293b" }}>Select a topic…</option>
-                      <option value="order" style={{ background: "#1e293b" }}>Order Issue</option>
-                      <option value="return" style={{ background: "#1e293b" }}>Return / Refund</option>
-                      <option value="product" style={{ background: "#1e293b" }}>Product Query</option>
-                      <option value="partnership" style={{ background: "#1e293b" }}>Brand Partnership</option>
-                      <option value="other" style={{ background: "#1e293b" }}>Other</option>
-                    </select>
-                  </div>
+                      <span>{s.icon}</span>
+                      <span className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>{s.name}</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-150" style={{ color: "#f59e0b" }}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                      </svg>
+                    </a>
+                  ))}
+                </div>
+              </div>
 
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                      Message <span className="text-amber-400">*</span>
-                    </label>
-                    <textarea
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      rows={5}
-                      placeholder="Tell us how we can help you…"
-                      required
-                      className="input-field resize-none"
-                    />
+              {/* Quick response badge */}
+              <div className="relative p-5 rounded-2xl border overflow-hidden grain"
+                style={{ borderColor: "rgba(245,158,11,0.2)", backgroundColor: "rgba(245,158,11,0.05)" }}>
+                <div className="absolute top-3 right-3">
+                  <div className="relative w-8 h-8 flex items-center justify-center">
+                    <div className="pulse-ring absolute inset-0 rounded-full border" style={{ borderColor: "rgba(245,158,11,0.4)" }} />
+                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#f59e0b" }} />
                   </div>
+                </div>
+                <p className="font-bold text-sm mb-1" style={{ color: "#f59e0b" }}>Quick Response</p>
+                <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                  Our support team typically responds within <span className="font-semibold" style={{ color: "var(--text-primary)" }}>2–4 hours</span> during business hours.
+                </p>
+              </div>
 
-                  <button
-                    type="submit"
-                    disabled={status === "sending"}
-                    className="mt-1 w-full py-3.5 rounded-xl bg-amber-400 text-slate-900 text-sm font-bold hover:bg-amber-300 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-amber-400/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="pb-16 sm:pb-20">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+            <div className="text-center mb-8 sm:mb-10">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#f59e0b" }}>
+                <span className="glow-dot" /> Common Questions
+              </div>
+              <h2 className="playfair text-3xl sm:text-4xl font-black" style={{ color: "var(--text-primary)" }}>FAQ</h2>
+            </div>
+            <div className="flex flex-col gap-3">
+              {faqs.map((faq) => (
+                <FaqItem key={faq.q} q={faq.q} a={faq.a} />
+              ))}
+            </div>
+            <p className="text-center text-sm mt-8" style={{ color: "var(--text-light)" }}>
+              Still have questions?{" "}
+              <a href="mailto:hello@trendaura.in" className="font-semibold transition-colors duration-150" style={{ color: "#f59e0b" }}>
+                Email us directly →
+              </a>
+            </p>
+          </div>
+        </section>
+
+        {/* ── BOTTOM CTA ── */}
+        <section className="pb-16 sm:pb-20">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <div className="relative overflow-hidden rounded-3xl border p-8 sm:p-12 text-center grain"
+              style={{ borderColor: "rgba(245,158,11,0.2)", backgroundColor: "var(--card-bg)" }}>
+              <div className="absolute top-0 left-0 w-48 sm:w-64 h-48 sm:h-64 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.07)" }} />
+              <div className="absolute bottom-0 right-0 w-48 sm:w-64 h-48 sm:h-64 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" style={{ backgroundColor: "rgba(245,158,11,0.07)" }} />
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 h-64 sm:h-80 rounded-full border border-dashed spin-slow pointer-events-none" style={{ borderColor: "rgba(245,158,11,0.08)" }} />
+
+              <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-5">
+                <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "#f59e0b" }}>
+                  <span className="glow-dot" /> Not sure where to start?
+                </div>
+                <h2 className="playfair text-2xl sm:text-3xl lg:text-4xl font-black max-w-lg leading-tight" style={{ color: "var(--text-primary)" }}>
+                  Explore our collection while we get back to you.
+                </h2>
+                <div className="flex flex-wrap justify-center gap-3 pt-1">
+                  <Link
+                    to="/products"
+                    className="px-6 sm:px-7 py-3 rounded-xl text-sm font-bold transition-colors duration-200"
+                    style={{ backgroundColor: "#f59e0b", color: "#0f172a", boxShadow: "0 8px 24px rgba(245,158,11,0.2)" }}
                   >
-                    {status === "sending" ? (
-                      <>
-                        <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                        </svg>
-                        Sending…
-                      </>
-                    ) : (
-                      <>
-                        Send Message
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-
-          {/* ── SIDEBAR (2/5) ── */}
-          <div className="lg:col-span-2 flex flex-col gap-5">
-
-            {/* Business hours */}
-            <div className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-white font-bold text-sm">Business Hours</p>
-                  <p className="text-slate-500 text-xs">IST (UTC +5:30)</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2.5">
-                {[
-                  { day: "Mon – Fri", time: "10:00 AM – 7:00 PM", active: true },
-                  { day: "Saturday", time: "11:00 AM – 5:00 PM", active: true },
-                  { day: "Sunday", time: "Closed", active: false },
-                ].map((row) => (
-                  <div key={row.day} className="flex items-center justify-between">
-                    <span className="text-slate-400 text-sm">{row.day}</span>
-                    <span className={`text-sm font-semibold ${row.active ? "text-white" : "text-slate-600"}`}>
-                      {row.time}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Social links */}
-            <div className="p-6 rounded-2xl bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm">
-              <p className="text-white font-bold text-sm mb-4">Follow TrendAura</p>
-              <div className="flex flex-col gap-2">
-                {socials.map((s) => (
-                  <a
-                    key={s.name}
-                    href={s.href}
-                    className="flex items-center gap-3 px-4 py-2.5 rounded-xl border border-slate-700/50 hover:border-amber-400/30 hover:bg-slate-700/30 text-slate-400 hover:text-amber-400 transition-all duration-150 group"
+                    Browse Products
+                  </Link>
+                  <Link
+                    to="/about-us"
+                    className="px-6 sm:px-7 py-3 rounded-xl border text-sm font-medium transition-all duration-200"
+                    style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
                   >
-                    <span className="text-current">{s.icon}</span>
-                    <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors duration-150">{s.name}</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-150">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick response badge */}
-            <div className="relative p-5 rounded-2xl border border-amber-400/20 bg-amber-400/5 overflow-hidden grain">
-              <div className="absolute top-3 right-3">
-                <div className="relative w-8 h-8 flex items-center justify-center">
-                  <div className="pulse-ring absolute inset-0 rounded-full border border-amber-400/40" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                    About TrendAura
+                  </Link>
                 </div>
               </div>
-              <p className="text-amber-400 font-bold text-sm mb-1">Quick Response</p>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Our support team typically responds within <span className="text-white font-semibold">2–4 hours</span> during business hours.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── FAQ ── */}
-      <section className="pb-20">
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest mb-3">
-              <span className="glow-dot" /> Common Questions
-            </div>
-            <h2 className="playfair text-4xl font-black">FAQ</h2>
-          </div>
-          <div className="flex flex-col gap-3">
-            {faqs.map((faq) => (
-              <FaqItem key={faq.q} q={faq.q} a={faq.a} />
-            ))}
-          </div>
-          <p className="text-center text-slate-500 text-sm mt-8">
-            Still have questions?{" "}
-            <a href="mailto:hello@trendaura.in" className="text-amber-400 hover:text-amber-300 font-semibold transition-colors duration-150">
-              Email us directly →
-            </a>
-          </p>
-        </div>
-      </section>
-
-      {/* ── BOTTOM CTA ── */}
-      <section className="pb-20">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="relative overflow-hidden rounded-3xl border border-amber-400/20 bg-gradient-to-br from-slate-800 to-slate-900 p-12 text-center grain">
-            <div className="absolute top-0 left-0 w-64 h-64 bg-amber-400/8 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-64 h-64 bg-amber-400/8 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
-
-            {/* decorative spinning ring */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border border-dashed border-amber-400/8 spin-slow pointer-events-none" />
-
-            <div className="relative z-10 flex flex-col items-center gap-5">
-              <div className="inline-flex items-center gap-2 text-amber-400 text-xs font-semibold uppercase tracking-widest">
-                <span className="glow-dot" /> Not sure where to start?
-              </div>
-              <h2 className="playfair text-3xl lg:text-4xl font-black max-w-lg leading-tight">
-                Explore our collection while we get back to you.
-              </h2>
-              <div className="flex flex-wrap justify-center gap-3 pt-1">
-                <Link
-                  to="/products"
-                  className="px-7 py-3 rounded-xl bg-amber-400 text-slate-900 text-sm font-bold hover:bg-amber-300 transition-colors duration-200 shadow-lg shadow-amber-400/20"
-                >
-                  Browse Products
-                </Link>
-                <Link
-                  to="/about-us"
-                  className="px-7 py-3 rounded-xl border border-slate-600 text-slate-300 text-sm font-medium hover:border-amber-400/50 hover:text-white transition-all duration-200"
-                >
-                  About TrendAura
-                </Link>
-              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-    </div>
+      </div>
     </>
   );
 }

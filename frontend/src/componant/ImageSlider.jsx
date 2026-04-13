@@ -55,7 +55,7 @@ function ImageSlider() {
         onClick={() => setCurrentIndx(i)}
         className={`cursor-pointer transition-all duration-300 rounded-full
           ${i === currentIndex
-            ? "w-6 h-2 bg-amber-400 shadow-lg shadow-amber-400/40"
+            ? "w-6 h-2 bg-amber-500 shadow-lg shadow-amber-500/40"
             : "w-2 h-2 bg-slate-500 hover:bg-slate-300"
           }`}
       />

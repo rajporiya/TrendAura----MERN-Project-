@@ -31,7 +31,7 @@ function Payment() {
           key, // Replace with your Razorpay key_id
           amount: order.amount, // Amount is in currency subunits.
           currency: 'INR',
-          name: "TremdAura",
+          name: "TrendAura",
           description: 'E-commerce',
           order_id: order.id, // This is the order_id created in the backend
           // callback_url: '/api/v1/paymentVerification', // Your success URL
@@ -81,7 +81,7 @@ function Payment() {
 
         {/* Header */}
         <div className="px-6 py-5 border-b border-slate-700/50 flex items-center gap-2">
-          <div className="w-1 h-5 rounded-full bg-amber-400" />
+          <div className="w-1 h-5 rounded-full bg-amber-500" />
           <h2 className="text-lg font-bold text-white tracking-tight">Payment</h2>
         </div>
 
@@ -91,13 +91,13 @@ function Payment() {
           {/* Total Amount Display */}
           <div className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-5 py-4 flex items-center justify-between">
             <span className="text-sm text-slate-400 font-medium">Amount to Pay</span>
-            <span className="text-2xl font-extrabold text-amber-400">₹{OrderItem?.total}</span>
+            <span className="text-2xl font-extrabold text-amber-500">₹{OrderItem?.total}</span>
           </div>
 
           {/* Pay Button */}
           <button
             onClick={() => compltePayment(OrderItem?.total)}
-            className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+            className="w-full py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
           >
             Pay ₹{OrderItem?.total}
           </button>

@@ -1,1 +1,99 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  
+  --color-background: var(--background);
+  --color-background-light: var(--background-light);
+  --color-section: var(--section-bg);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-light: var(--text-light);
+  
+  --color-border: var(--border);
+  --color-card: var(--card-bg);
+  --shadow-custom: 0 4px 6px -1px var(--shadow);
+  
+  --color-btn-bg: var(--btn-bg);
+  --color-btn-hover: var(--btn-hover);
+  --color-btn-text: var(--btn-text);
+}
+:root {
+	/* Primary Colors (Amber Focus) */
+	--primary: #f59e0b;
+	--primary-dark: #d97706;
+	--primary-light: #fef3c7;
+
+	/* Background Colors (White Mode) */
+	--background: #ffffff;
+	--background-light: #f8fafc;
+	--section-bg: #f0f9ff;
+
+	/* Text Colors */
+	--text-primary: #0f172a;
+	--text-secondary: #475569;
+	--text-light: #94a3b8;
+
+	/* Border & UI Elements */
+	--border: #e2e8f0;
+	--card-bg: #ffffff;
+	--shadow: rgba(0, 0, 0, 0.05);
+
+	/* Button Styles */
+	--btn-bg: #f59e0b;
+	--btn-hover: #d97706;
+	--btn-text: #ffffff;
+
+	/* Navbar Theme Tokens */
+	--navbar-bg: rgba(255, 255, 255, 0.62);
+	--navbar-bg-strong: rgba(255, 255, 255, 0.84);
+	--navbar-text: var(--text-primary);
+	--navbar-muted: var(--text-secondary);
+	--navbar-border: rgba(245, 158, 11, 0.25);
+	--navbar-icon-bg-hover: rgba(245, 158, 11, 0.12);
+	--overlay-bg: rgba(15, 23, 42, 0.32);
+}
+
+[data-theme="dark"] {
+	--background: #020617;
+	--background-light: #0f172a;
+	--section-bg: #082f49;
+	--text-primary: #e2e8f0;
+	--text-secondary: #cbd5e1;
+	--text-light: #94a3b8;
+	--border: #1e293b;
+	--card-bg: #0f172a;
+	--shadow: rgba(2, 6, 23, 0.45);
+
+	--navbar-bg: rgba(2, 6, 23, 0.62);
+	--navbar-bg-strong: rgba(15, 23, 42, 0.9);
+	--navbar-text: #e2e8f0;
+	--navbar-muted: #cbd5e1;
+	--navbar-border: rgba(245, 158, 11, 0.22);
+	--navbar-icon-bg-hover: rgba(245, 158, 11, 0.2);
+	--overlay-bg: rgba(2, 6, 23, 0.62);
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: var(--background);
+	color: var(--text-primary);
+	font-family: Arial, sans-serif;
+	transition: background-color 220ms ease, color 220ms ease;
+}
+
+button {
+	transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+}

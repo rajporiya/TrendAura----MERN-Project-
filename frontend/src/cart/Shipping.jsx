@@ -41,7 +41,7 @@ function Shipping() {
 
           {/* Heading */}
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 rounded-full bg-amber-400" />
+            <div className="w-1 h-6 rounded-full bg-amber-500" />
             <h1 className="text-2xl font-bold text-white tracking-tight">Shipping Details</h1>
           </div>
 
@@ -64,7 +64,7 @@ function Shipping() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="Enter Your Address"
-                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                   />
                 </div>
 
@@ -78,7 +78,7 @@ function Shipping() {
                     value={pincode}
                     onChange={(e) => setPincode(e.target.value)}
                     placeholder="Enter Your Pincode"
-                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                   />
                 </div>
 
@@ -92,7 +92,7 @@ function Shipping() {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="Enter Your Phone Number"
-                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200"
+                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200"
                   />
                 </div>
 
@@ -112,7 +112,7 @@ function Shipping() {
                   <select
                     name="country" id="country" value={country}
                     onChange={(e) => { setCountry(e.target.value); setState(""); setCity(""); }}
-                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer"
+                    className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer"
                   >
                     <option value="">Select a Country</option>
                     {Country && Country.getAllCountries().map((c) => (
@@ -128,7 +128,7 @@ function Shipping() {
                     <select
                       name="state" id="state" value={state}
                       onChange={(e) => { setState(e.target.value); setCity(""); }}
-                      className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer"
+                      className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer"
                     >
                       <option value="">Select a State</option>
                       {State && State.getStatesOfCountry(country).map((s) => (
@@ -145,7 +145,7 @@ function Shipping() {
                     <select
                       name="city" id="city" value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-all duration-200 cursor-pointer"
+                      className="bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all duration-200 cursor-pointer"
                     >
                       <option value="">Select a City</option>
                       {City && City.getCitiesOfState(country, state).map((c) => (
@@ -162,7 +162,7 @@ function Shipping() {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="px-10 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+                className="px-10 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
               >
                 Continue
               </button>

@@ -44,7 +44,7 @@ function OrderConfirm() {
 
           {/* Page Heading */}
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 rounded-full bg-amber-400" />
+            <div className="w-1 h-6 rounded-full bg-amber-500" />
             <h1 className="text-2xl font-bold text-white tracking-tight">Order Confirmation</h1>
           </div>
 
@@ -108,7 +108,7 @@ function OrderConfirm() {
                       <td className="px-6 py-4 text-white font-medium">{item.name}</td>
                       <td className="px-6 py-4 text-slate-300">₹{Number(item.price).toFixed(2)}</td>
                       <td className="px-6 py-4 text-slate-300">{item.quantity}</td>
-                      <td className="px-6 py-4 text-amber-400 font-bold">₹{(Number(item.price) * item.quantity).toFixed(2)}</td>
+                      <td className="px-6 py-4 text-amber-500 font-bold">₹{(Number(item.price) * item.quantity).toFixed(2)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,7 +136,7 @@ function OrderConfirm() {
                     <td className="px-6 py-4 text-slate-300">₹{subTotal.toFixed(2)}</td>
                     <td className="px-6 py-4 text-slate-300">₹{shippingCharges.toFixed(2)}</td>
                     <td className="px-6 py-4 text-slate-300">₹{tax.toFixed(2)}</td>
-                    <td className="px-6 py-4 text-amber-400 font-extrabold text-base">₹{total.toFixed(2)}</td>
+                    <td className="px-6 py-4 text-amber-500 font-extrabold text-base">₹{total.toFixed(2)}</td>
                   </tr>
                 </tbody>
               </table>
@@ -147,7 +147,7 @@ function OrderConfirm() {
           <div className="flex justify-end">
             <button
               onClick={proceedToPayment}
-              className="px-10 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+              className="px-10 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
             >
               Proceed To Payment
             </button>

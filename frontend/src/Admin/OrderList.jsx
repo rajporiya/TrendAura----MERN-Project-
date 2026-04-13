@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../AdminStyles/OrdersList.css";
-import Navbar from "../componant/Navbar";
 import PageTitle from "../componant/PageTitle";
 import Footer from "../componant/Footer";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -152,7 +151,6 @@ function OrderList() {
         <Loader />
       ) : (
         <>
-          <Navbar />
           <PageTitle title="All Orders" />
 
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
@@ -160,7 +158,7 @@ function OrderList() {
 
               {/* Heading */}
               <div className="flex items-center gap-2">
-                <div className="w-1 h-6 rounded-full bg-amber-400" />
+                <div className="w-1 h-6 rounded-full bg-amber-500" />
                 <h1 className="text-2xl font-bold text-white tracking-tight">All Orders</h1>
               </div>
 
@@ -171,7 +169,7 @@ function OrderList() {
                     onClick={() => handleChangeTab("all")}
                     className={`px-4 py-3 text-sm font-bold uppercase tracking-widest transition-all duration-200 border-b-2 ${
                       activeTab === "all"
-                        ? "border-amber-400 text-amber-400"
+                        ? "border-amber-500 text-amber-500"
                         : "border-transparent text-slate-400 hover:text-slate-300"
                     }`}
                   >
@@ -244,14 +242,14 @@ function OrderList() {
                                 ${order.orderStatus.toLowerCase() === 'delivered'
                                   ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400'
                                   : order.orderStatus.toLowerCase() === 'processing'
-                                    ? 'bg-amber-400/10 border border-amber-400/20 text-amber-400'
+                                    ? 'bg-amber-500/10 border border-amber-500/20 text-amber-500'
                                     : order.orderStatus.toLowerCase() === 'shipped'
                                       ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
                                       : 'bg-red-500/10 border border-red-500/20 text-red-400'
                                 }`}>
                                 <span className={`w-1.5 h-1.5 rounded-full
                                   ${order.orderStatus.toLowerCase() === 'delivered' ? 'bg-emerald-400'
-                                    : order.orderStatus.toLowerCase() === 'processing' ? 'bg-amber-400 animate-pulse'
+                                    : order.orderStatus.toLowerCase() === 'processing' ? 'bg-amber-500 animate-pulse'
                                     : order.orderStatus.toLowerCase() === 'shipped' ? 'bg-blue-400'
                                     : 'bg-red-400'}`}
                                 />
@@ -271,7 +269,7 @@ function OrderList() {
                               </td>
                             )}
 
-                            <td className="px-6 py-4 text-amber-400 font-bold">₹{order.totalPrice.toFixed(2)}</td>
+                            <td className="px-6 py-4 text-amber-500 font-bold">₹{order.totalPrice.toFixed(2)}</td>
 
                             <td className="px-6 py-4 text-slate-300">{order.orderItem.length}</td>
 

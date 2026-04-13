@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import "../AdminStyles/ProductsList.css";
-import Navbar from "../componant/Navbar";
 import PageTitle from "../componant/PageTitle";
 import Footer from "../componant/Footer";
 import { Delete, Edit } from "@mui/icons-material";
@@ -62,7 +61,6 @@ function ProductList() {
         <Loader />
       ) : (
         <>
-          <Navbar />
           <PageTitle title="All Products" />
 
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
@@ -70,7 +68,7 @@ function ProductList() {
 
               {/* Heading */}
               <div className="flex items-center gap-2">
-                <div className="w-1 h-6 rounded-full bg-amber-400" />
+                <div className="w-1 h-6 rounded-full bg-amber-500" />
                 <h1 className="text-2xl font-bold text-white tracking-tight">All Products</h1>
               </div>
 
@@ -109,7 +107,7 @@ function ProductList() {
 
                             <td className="px-6 py-4 text-white font-medium">{product.name}</td>
 
-                            <td className="px-6 py-4 text-amber-400 font-bold">₹{product.price}</td>
+                            <td className="px-6 py-4 text-amber-500 font-bold">₹{product.price}</td>
 
                             <td className="px-6 py-4">
                               <span className="px-3 py-1 rounded-full text-xs font-bold bg-slate-700/50 border border-slate-600/50 text-slate-300">

@@ -5,6 +5,8 @@ import Products from "./Pages/Products";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { loadUser } from "./feature/user/userSlice";
+import { useSelector } from "react-redux";
+import { clearWishlistState, getWishlist } from "./feature/wishlist/wishlistSlice";
 import Profile from "./User/Profile";
 import ProtectedRoutes from "./componant/ProtectedRoutes";
 import UpdateProfile from "./User/UpdateProfile";
@@ -32,14 +34,24 @@ import UpdateOrder from "./Admin/UpdateOrder";
 import ReviewsList from "./Admin/ReviewsList";
 import AboutUs from "./componant/AboutU";
 import ContactUs from "./componant/ContactUs";
+import Wishlist from "./Pages/Wishlist";
 
 
 function App() {
   const dispatch=useDispatch();
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   useEffect(()=>{
     dispatch(loadUser())
   },[dispatch])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getWishlist());
+      return;
+    }
+    dispatch(clearWishlistState());
+  }, [dispatch, isAuthenticated]);
   
   
   return (
@@ -62,6 +74,7 @@ function App() {
         <Route path="/password/update" element={<ProtectedRoutes element={<UpdatePassword />}  />}/>
         <Route path="/reset/:token" element={<ResetPassword />}/>
         <Route path="/cart" element={<Cart />}/>
+        <Route path="/wishlist" element={<ProtectedRoutes element={<Wishlist />}  />}/>
         <Route path="/shipping" element={<ProtectedRoutes element={<Shipping />}  />}/>
         <Route path="/order/confirm" element={<ProtectedRoutes element={<OrderConfirm />}  />}/>
         <Route path="/process/payment" element={<ProtectedRoutes element={<Payment />}  />}/>

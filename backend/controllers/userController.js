@@ -5,6 +5,7 @@ import { sendToken } from "../utils/jwtToken.js";
 import { sendMail } from "../utils/sendEmail.js";
 import crypto from "crypto";
 import { v2 as cloudinary} from 'cloudinary'
+import Products from "../model/product.models.js";
 // import {generateResetPassordToken} from  '../model/user.models.js'
 // register user
 export const registerUser = handleAsyncError(async (req, res, next) => {
@@ -312,3 +313,83 @@ export const deleteUser = handleAsyncError(async (req, res, next) => {
     message : " profile deleted successfully"
   })
 }); 
+
+// Get current user's wishlist
+export const getWishlist = handleAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id).populate({
+    path: "wishlist",
+    select: "name price image stock ratting numOfReview",
+  });
+
+  if (!user) {
+    return next(new HandleErroe("User does not exist", 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    wishlist: user.wishlist || [],
+  });
+});
+
+// Add product to wishlist
+export const addToWishlist = handleAsyncError(async (req, res, next) => {
+  const { productId } = req.params;
+
+  const product = await Products.findById(productId);
+  if (!product) {
+    return next(new HandleErroe("Product does not exist", 404));
+  }
+
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new HandleErroe("User does not exist", 404));
+  }
+
+  const alreadyExist = user.wishlist.some(
+    (item) => item.toString() === productId.toString(),
+  );
+
+  if (!alreadyExist) {
+    user.wishlist.push(productId);
+    await user.save({ validateBeforeSave: false });
+  }
+
+  await user.populate({
+    path: "wishlist",
+    select: "name price image stock ratting numOfReview",
+  });
+
+  res.status(200).json({
+    success: true,
+    message: alreadyExist
+      ? "Product already in wishlist"
+      : "Product added to wishlist",
+    wishlist: user.wishlist || [],
+  });
+});
+
+// Remove product from wishlist
+export const removeFromWishlist = handleAsyncError(async (req, res, next) => {
+  const { productId } = req.params;
+
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    return next(new HandleErroe("User does not exist", 404));
+  }
+
+  user.wishlist = user.wishlist.filter(
+    (item) => item.toString() !== productId.toString(),
+  );
+
+  await user.save({ validateBeforeSave: false });
+  await user.populate({
+    path: "wishlist",
+    select: "name price image stock ratting numOfReview",
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Product removed from wishlist",
+    wishlist: user.wishlist || [],
+  });
+});

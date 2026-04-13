@@ -37,7 +37,7 @@ function Cart() {
           <p className="text-slate-400 text-lg font-medium">Your cart is empty</p>
           <Link
             to="/products"
-            className="px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-sm tracking-widest uppercase transition-all duration-200 shadow-lg shadow-amber-400/20"
+            className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-300 text-slate-900 font-bold text-sm tracking-widest uppercase transition-all duration-200 shadow-lg shadow-amber-500/20"
           >
             Go To Products
           </Link>
@@ -51,7 +51,7 @@ function Cart() {
 
               {/* Heading */}
               <div className="px-6 py-5 border-b border-slate-700/50 flex items-center gap-2">
-                <div className="w-1 h-5 rounded-full bg-amber-400" />
+                <div className="w-1 h-5 rounded-full bg-amber-500" />
                 <h2 className="text-lg font-bold text-white tracking-tight">Your Cart</h2>
               </div>
 
@@ -76,7 +76,7 @@ function Cart() {
 
               {/* Heading */}
               <div className="px-6 py-5 border-b border-slate-700/50 flex items-center gap-2">
-                <div className="w-1 h-5 rounded-full bg-amber-400" />
+                <div className="w-1 h-5 rounded-full bg-amber-500" />
                 <h3 className="text-lg font-bold text-white tracking-tight">Price Summary</h3>
               </div>
 
@@ -106,13 +106,13 @@ function Cart() {
                 {/* Total */}
                 <div className="flex items-center justify-between">
                   <span className="text-white font-bold text-base">Total</span>
-                  <span className="text-amber-400 font-extrabold text-xl">₹{total.toFixed(2)}</span>
+                  <span className="text-amber-500 font-extrabold text-xl">₹{total.toFixed(2)}</span>
                 </div>
 
                 {/* Checkout Button */}
                 <button
                   onClick={checkOutHandlier}
-                  className="w-full mt-2 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-400 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-400/20 hover:shadow-amber-400/40 active:scale-[0.98]"
+                  className="w-full mt-2 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-200 bg-amber-500 hover:bg-amber-300 text-slate-900 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 active:scale-[0.98]"
                 >
                   Proceed to Checkout
                 </button>

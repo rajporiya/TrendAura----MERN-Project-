@@ -25,7 +25,7 @@ function CheckoutPath({activePath}) {
             {/* Icon Circle */}
             <div className={`w-11 h-11 rounded-full flex items-center justify-center text-lg border-2 transition-all duration-300
               ${activePath === index
-                ? 'bg-amber-400 border-amber-400 text-slate-900 shadow-lg shadow-amber-400/30'
+                ? 'bg-amber-500 border-amber-500 text-slate-900 shadow-lg shadow-amber-500/30'
                 : activePath > index
                   ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400'
                   : 'bg-slate-800 border-slate-600 text-slate-500'
@@ -37,7 +37,7 @@ function CheckoutPath({activePath}) {
             {/* Label */}
             <p className={`text-xs font-semibold tracking-wide transition-all duration-300
               ${activePath === index
-                ? 'text-amber-400'
+                ? 'text-amber-500'
                 : activePath > index
                   ? 'text-emerald-400'
                   : 'text-slate-500'

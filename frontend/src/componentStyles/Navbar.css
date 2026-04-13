@@ -1,4 +1,19 @@
 
+.glass-navbar {
+  background: linear-gradient(120deg, var(--navbar-bg) 0%, var(--navbar-bg-strong) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--navbar-border);
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+.glass-panel {
+  background: linear-gradient(120deg, var(--navbar-bg) 0%, var(--navbar-bg-strong) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--navbar-border);
+}
+
 .navbar {
     position: fixed;
     top: 0;

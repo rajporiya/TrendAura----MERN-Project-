@@ -35,13 +35,13 @@ function Pagination({
   {currentPage > 1 && (
     <>
       <button 
-        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200" 
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600" 
         onClick={() => onPageChange(1)}
       >
         {firstPageText}
       </button>
       <button 
-        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
         onClick={() => onPageChange(currentPage - 1)}
       >
         {prevPageText}
@@ -52,7 +52,7 @@ function Pagination({
   {/* Page Number */}
   {getPageNumbers().map((number) => (
     <button
-      className={`flex items-center justify-center min-w-[2.5rem] h-10 px-2 rounded-xl font-bold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 ${
+      className={`flex items-center justify-center min-w-[2.5rem] h-10 px-2 rounded-xl font-bold text-sm transition-all duration-200 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 ${
         currentPage === number ? ' ' + activeClass : ''
       }`}
       key={number}
@@ -66,13 +66,13 @@ function Pagination({
   {currentPage < totalPages && (
     <>
       <button 
-        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
         onClick={() => onPageChange(currentPage + 1)}
       >
         {nextPageteText}
       </button>
       <button
-        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 bg-white text-gray-600 hover:bg-gray-100 hover:text-gray-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200"
+        className="flex items-center justify-center h-10 px-4 rounded-xl font-semibold text-sm transition-all duration-200 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600"
         onClick={() => onPageChange(totalPages)}
       >
         {lastPageText}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../AdminStyles/ReviewsList.css";
-import Navbar from "../componant/Navbar";
 import PageTitle from "../componant/PageTitle";
 import Footer from "../componant/Footer";
 import { Delete } from "@mui/icons-material";
@@ -56,7 +55,6 @@ function ReviewsList() {
   if (!products || products.length === 0) {
     return (
       <>
-        <Navbar />
         <PageTitle title="All Reviews" />
         <div className="reviews-list-container">
           <h1 className="reviews-list-title">Admin Reviews</h1>
@@ -77,7 +75,6 @@ function ReviewsList() {
         <Loader />
       ) : (
         <>
-          <Navbar />
           <PageTitle title="All Reviews" />
 
           <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-6 pt-6 pb-12">
@@ -85,7 +82,7 @@ function ReviewsList() {
 
               {/* Heading */}
               <div className="flex items-center gap-2">
-                <div className="w-1 h-6 rounded-full bg-amber-400" />
+                <div className="w-1 h-6 rounded-full bg-amber-500" />
                 <h1 className="text-2xl font-bold text-white tracking-tight">Product Reviews</h1>
               </div>
 
@@ -181,7 +178,7 @@ function ReviewsList() {
                               </td>
 
                               <td className="px-6 py-4">
-                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-400/10 border border-amber-400/20 text-amber-400">
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500">
                                   ★ {review.rating}
                                 </span>
                               </td>
